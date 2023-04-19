@@ -1,48 +1,11 @@
 <html>
 <body style="background-color:aquamarine;">
    <h1>HTML Articles</h1>
+   
 </body>
+<iframe src="test.html" width="800" height="600" title="parallel coordinate chart with plotly" style="border:none"></iframe>
+
 </html>
-
-<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-<script defer src="https://pyscript.net/latest/pyscript.js"></script>
-
-<py-config>
-    plugins = [
-      "https://pyscript.net/latest/plugins/python/py_tutor.py"
-    ]
-</py-config>
-
-<section class="pyscript">
-    Hello world! <br>
-    This is the current date and time, as computed by Python:
-    <py-script>
-        from datetime import datetime
-        now = datetime.now()
-        display(now.strftime("%m/%d/%Y, %H:%M:%S"))
-       # Import the library
-      import plotly.express as px
-
-      # Load the iris dataset provided by the library
-      df = px.data.iris()
-
-      # Create the chart:
-      fig = px.parallel_coordinates(
-          df, 
-          color="species_id", 
-          labels={"species_id": "Species","sepal_width": "Sepal Width", "sepal_length": "Sepal Length", "petal_width": "Petal Width", "petal_length": "Petal Length", },
-          color_continuous_scale=px.colors.diverging.Tealrose,
-          color_continuous_midpoint=2)
-
-      # Hide the color scale that is useless in this case
-      fig.update_layout(coloraxis_showscale=False)
-
-      # Show the plot
-      fig.show()
-       display(now.strftime("%m/%d/%Y, %H:%M:%S"))
-
-    </py-script>
-</section>
 
     
 
