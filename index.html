@@ -1,54 +1,22 @@
 <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
 <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-Hello World
 
+            <py-config>
+                plugins = [
+                  "https://pyscript.net/latest/plugins/python/py_tutor.py"
+                ]
+            </py-config>
+
+            <section class="pyscript">
+                Hello world! <br>
+                This is the current date and time, as computed by Python:
+                <py-script>
+                    from datetime import datetime
+                    now = datetime.now()
+                    display(now.strftime("%m/%d/%Y, %H:%M:%S"))
+                </py-script>
+            </section>
         
-<py-config>
-    plugins = [
-      "https://pyscript.net/latest/plugins/python/py_tutor.py"
-    ]
-    [[fetch]]
-    files = ["./utils.py"]
-</py-config>
-<py-script>
-    import utils
-    display(utils.now())
-</py-script>
-
-<py-script>
-    from utils import now
-    import asyncio
-
-    async def foo():
-      while True:
-        await asyncio.sleep(1)
-        output = now()
-        Element("outputDiv2").write(output)
-
-        out3 = Element("outputDiv3")
-        if output[-1] in ["0", "4", "8"]:
-          out3.write("It's espresso time!")
-        else:
-          out3.clear()
-
-    pyscript.run_until_complete(foo())
-</py-script>
-from datetime import datetime as dt
-
-
-def format_date(dt_, fmt="%m/%d/%Y, %H:%M:%S"):
-    return f"{dt_:{fmt}}"
-
-
-def now(fmt="%m/%d/%Y, %H:%M:%S"):
-    return format_date(dt.now(), fmt)
-
-
-def remove_class(element, class_name):
-    element.element.classList.remove(class_name)
-
-
-def add_class(element, class_name):
-    element.element.classList.add(class_name)
+    
 
     
