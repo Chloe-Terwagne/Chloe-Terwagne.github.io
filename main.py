@@ -6,15 +6,18 @@ import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
 from dash import dcc, html, Output, Input
-import plotly.graph_objects as go
+from protein_folding import create_style
+import dash_bio as dashbio
+from dash import html
+from dash_bio.utils import PdbParser
 
-
-pd.set_option('display.width', 600)
+pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
 pd.set_option("display.max_rows", None)
 
 
-def adding_cols(df,exons, intron):
+def adding_cols(df, exons):
+    print(df.head(50))
     df = df.sort_values("position")
     df = df.rename(columns={"position": "genomic position"})
     df['var_index'] = [x for x in range(len(df['genomic position']))]
@@ -55,10 +58,19 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
               (43074522, 43076487), (43071239, 43074330), (43067696, 43070927), (43063952, 43067607),
               (43063374, 43063873), (43057136, 43063332), (43051118, 43057051), (43049195, 43051062),
               (43047704, 43049120), (43045803, 43047642)]
-df = adding_cols(df, exon_list, intron_list)
+df = adding_cols(df, exon_list)
 
-# Build your components--------------------------------------------------------------------------------------------------
+# Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
+#3D parser
+parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
+# from https://alphafold.ebi.ac.uk/entry/P38398
+data = parser.mol3d_data()
+
+styles = create_style(
+    df, data['atoms'], visualization_type='cartoon', color_element='residue_score'
+) # TODO add the column of score we want to add
+print("---------------")
 
 overview_title = dcc.Markdown(children='')
 overview_display = dcc.RadioItems(options=["collapsed\t", "expand nucleotide type"], value='collapsed\t')
@@ -74,15 +86,17 @@ overview_graph = dcc.Graph(figure={}, config={
                       'watermark': False,
                       # 'modeBarButtonsToRemove': ['pan2d','select2d'],
                         }, selectedData=None)
+
 # select Graph
 three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
 #
-clinvar_hist_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
+clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
+clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
+clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
+
 # rna_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 # shankley_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
-
-
 
 # Customize your own Layout--------------------------------------------------------------------------------------------------
 app.layout = html.Div([
@@ -95,8 +109,38 @@ app.layout = html.Div([
     overview_graph,
     html.Br(),
     three_d_graph,
-    clinvar_hist_graph
+
+    html.Div([
+        dashbio.Molecule3dViewer(
+            id='dashbio-default-molecule3d',
+            modelData=data,
+            styles=styles,
+            selectionType='residue',
+        ),
+        "Selection data",
+        html.Hr(),
+        html.Div(id='default-molecule3d-output')
+    ]),
+
+    clinvar_hist_graph_sge,
+    clinvar_hist_graph_ac,
+    clinvar_hist_graph_cadd
 ])
+
+def histogram(x_axis):
+    fig = px.histogram(df, x=x_axis, color="clinvar_simple", marginal="rug")
+    fig.update_layout(barmode='overlay')
+    fig.update_traces(opacity=0.75)
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
+    )
+    return fig
+
+# AUTO GENERATED FILE - DO NOT EDIT
+
+
 
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
@@ -183,32 +227,47 @@ def update_overview_graph(column_name,
 
     return fig, '## Overview BRCA1 variant ' + column_name + " annotated"  # returned objects are assigned to the component property of the Output
 
+
+@app.callback(
+    Output('default-molecule3d-output', 'children'),
+    Input('dashbio-default-molecule3d', 'selectedAtomIds')
+)
+def show_selected_atoms(atom_ids):
+    if atom_ids is None or len(atom_ids) == 0:
+        return 'No atom has been selected. Click somewhere on the molecular \
+        structure to select an atom.'
+    return [html.Div([ #TODO change format to show fct score
+        #html.Div('Element: {}'.format(data['atoms'][atm]['elem'])),
+        #html.Div('Chain: {}'.format(data['atoms'][atm]['chain'])),
+        html.Div('Residue name: {}'.format(data['atoms'][atm]['residue_name'])),
+        html.Div('Residue name: {}'.format(df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index'], 'func_score'])),
+
+        html.Br()
+    ]) for atm in atom_ids]
+
 @app.callback(
     Output(component_id=three_d_graph, component_property='figure'),
-    Output(component_id=clinvar_hist_graph, component_property='figure'),
+    Output(component_id=clinvar_hist_graph_sge, component_property='figure'),
+    Output(component_id=clinvar_hist_graph_ac, component_property='figure'),
+    Output(component_id=clinvar_hist_graph_cadd, component_property='figure'),
     Input(component_id=overview_graph, component_property="selectedData")
-#Input(component_id=overview_dropdown, component_property='selectedData')
 )
 
 
 
 def update_3d_graph(slct_data):
-    fig3 = px.histogram(df, x="minmax_neg_func_score", color="clinvar_simple", marginal="rug")
-    fig3.update_layout(barmode='overlay')
-    fig3.update_traces(opacity=0.75)
-    fig3.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
-    )
+    fig3 = histogram("minmax_neg_func_score")
+    fig4 = histogram("cadd_score")
+    fig5 = histogram("1/AC")
+
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
                             color='exon', custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
                                                        'cohort_allele_count', 'var_name'], title="Rareness vs function score vs computational score for all var")
-        return fig2, fig3
+        return fig2, fig3, fig4, fig5
     if slct_data['points'] == []:
         fig2 = px.scatter_3d(title="Please select at least one variant")
-        return fig2, fig3
+        return fig2, fig3, fig4, fig5
     else:
         # print(hov_data['points'][0]['customdata'][0])
         print(f'selected data: {slct_data}')
@@ -223,7 +282,7 @@ def update_3d_graph(slct_data):
                              custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
                                           'cohort_allele_count', 'var_name'],
                              title="Rareness vs function score vs computational score for var in "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
-        return fig2, fig3
+        return fig2, fig3, fig4, fig5
 
 
 
