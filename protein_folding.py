@@ -99,8 +99,8 @@ AMINO_ACID_CLASSES = {
 }
 
 
-def create_style(
-    df, atoms, visualization_type="stick", color_element="atom", color_scheme=None
+def create_style_3d(
+    df,colname_score, atoms, visualization_type="stick", color_element="atom", color_scheme=None
 ):
     """Function to create styles input for Molecule3dViewer
     @param atoms
@@ -148,29 +148,15 @@ Should be: 'atom' | 'residue' | 'residue_type' | 'chain'| residue_score.")
                 print(aa)
                 residue_type_colors_map[aa] = color_scheme.get(aa_class_name, default_color)
         color_scheme = residue_type_colors_map
-        print(color_scheme)
-
-    # if color_element == 'residue_score':
-    #     residue_type_colors_map = {}
-    #     for aa_class_name, aa_class_members in AMINO_ACID_CLASSES.items():
-    #         for aa in aa_class_members:
-    #             residue_type_colors_map[aa] = color_scheme.get(aa_class_name, default_color)
-    #     color_scheme = residue_type_colors_map
 
     atom_styles = []
-    i=0
-    # create gradient color depending on score
 
+    # create gradient color depending on score
     # define a white to red gradient
     colors = ['#FFFFFF', '#FF0000']
     cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', colors)
-    # calculate the normalized values between 0 and 1 for the color column
-    max_value = df['func_score'].max()
-    min_value = df['func_score'].min()
-    df['norm_value'] = (df['func_score'] - min_value) / (max_value - min_value)
-
     # convert the normalized values to HEX codes and add a new column
-    df['color'] = df['norm_value'].apply(lambda x: mcolors.to_hex(cmap(x)))
+    df['color'] = df[colname_score].apply(lambda x: mcolors.to_hex(cmap(x)))
 
     for a in atoms:
         if color_element == 'atom':
@@ -180,15 +166,10 @@ Should be: 'atom' | 'residue' | 'residue_type' | 'chain'| residue_score.")
         if color_element == 'chain':
             atom_color = color_scheme.get(a['chain'], default_color)
         if color_element == 'residue_score':
-
             if a["residue_index"] in list(df['aa_pos']):
-                max_score = max(df.loc[df['aa_pos'] == 1, 'func_score'])
-
-                print(a["residue_index"])
-                print(df.loc[df['aa_pos'] == a["residue_index"], 'func_score'])
-                print(max(df.loc[df['aa_pos'] == a["residue_index"], 'func_score']))
-                print(max(df.loc[df['aa_pos'] == a["residue_index"], 'color']))
-                atom_color=max(df.loc[df['aa_pos'] == a["residue_index"], 'color'])
+                subset_df = df.loc[df['aa_pos'] == a["residue_index"]]
+                subset_df = subset_df.sort_values(colname_score, ascending=False)
+                atom_color=subset_df['color'].to_list()[0]
             else:
                 atom_color="#8098A4"
 
@@ -197,9 +178,6 @@ Should be: 'atom' | 'residue' | 'residue_type' | 'chain'| residue_score.")
             'visualization_type': visualization_type,
             'color': atom_color
         })
-        #print(atom_color)
-
-    print("a", a)
     return atom_styles
 
 

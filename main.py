@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
 from dash import dcc, html, Output, Input
-from protein_folding import create_style
+from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
 from dash_bio.utils import PdbParser
@@ -17,7 +17,6 @@ pd.set_option("display.max_rows", None)
 
 
 def adding_cols(df, exons):
-    print(df.head(50))
     df = df.sort_values("position")
     df = df.rename(columns={"position": "genomic position"})
     df['var_index'] = [x for x in range(len(df['genomic position']))]
@@ -67,10 +66,9 @@ parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.
 # from https://alphafold.ebi.ac.uk/entry/P38398
 data = parser.mol3d_data()
 
-styles = create_style(
-    df, data['atoms'], visualization_type='cartoon', color_element='residue_score'
-) # TODO add the column of score we want to add
-print("---------------")
+styles = create_style_3d(
+    df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score'
+)
 
 overview_title = dcc.Markdown(children='')
 overview_display = dcc.RadioItems(options=["collapsed\t", "expand nucleotide type"], value='collapsed\t')
@@ -236,14 +234,34 @@ def show_selected_atoms(atom_ids):
     if atom_ids is None or len(atom_ids) == 0:
         return 'No atom has been selected. Click somewhere on the molecular \
         structure to select an atom.'
-    return [html.Div([ #TODO change format to show fct score
+    for atm in atom_ids:
+        print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
+
+    aa_name = 'Amino acid: '+data['atoms'][atm]['residue_name']+'\n'
+    subset_df=df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index']]
+    print(subset_df)
+    if len(list(subset_df['var_name'])) < 1:
+        aa_name = aa_name + '     No variant in for this amino acid'
+        variant_nb, variant_list ='', ''
+    else:
+        if len(list(subset_df['var_name'])) == 1:
+            variant_nb = str(len(list(subset_df['var_name']))) + 'variant at this position.' +'\n'
+        if len(list(subset_df['var_name'])) > 1:
+            variant_nb = str(len(list(subset_df['var_name']))) + 'variants at this position.'+'\n'
+        variant_list=''
+        for i in range(len(list(subset_df['var_name']))):
+            variant_list+='\t'+str(list(subset_df['var_name'])[i])+'\t SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+"\n"
+
+
+
+    return html.Div([ #TODO change format to show fct score
+
         #html.Div('Element: {}'.format(data['atoms'][atm]['elem'])),
         #html.Div('Chain: {}'.format(data['atoms'][atm]['chain'])),
-        html.Div('Residue name: {}'.format(data['atoms'][atm]['residue_name'])),
-        html.Div('Residue name: {}'.format(df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index'], 'func_score'])),
-
-        html.Br()
-    ]) for atm in atom_ids]
+        html.Div(aa_name),
+        html.Div(variant_nb),
+        html.Div(variant_list) ,
+        html.Br()])
 
 @app.callback(
     Output(component_id=three_d_graph, component_property='figure'),
