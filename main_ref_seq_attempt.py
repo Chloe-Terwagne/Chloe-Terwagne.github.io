@@ -18,33 +18,28 @@ pd.set_option("display.max_rows", None)
 
 def adding_cols(df, exons):
     df = df.sort_values("position")
-    df = df.rename(columns={"position": "Genomic position", "consequence_ukb":"Variant consequence","clinvar": "Clinvar annotation", "func_class_ukb":"UKB function classification", "func_class_sge":"SGE function classification"})
-    df = df.replace({"UKB function classification": {"neutral":"Neutral", "lof":"Loss of Function"}})
-    df = df.replace({"SGE function classification": {"neutral":"Neutral", "lof":"Loss of Function", "intermediate":"Intermediate"}})
-    df = df.replace({"Variant consequence": {"synonymous":"Synonymous", "missense":"Missense",
-                                             "stop_gained":"Stop gained", "splice_region":"Splice region", "intron":"Intron", "splice_acceptor":"Splice acceptor", "splice_donor":"Splice donor", "start_lost":"Start lost", "5_utr":"5' UTR"}})
-    df["Clinvar annotation"] = df["Clinvar annotation"].replace('absent', 'Absent')
-    print(df.head())
-    df['var_index'] = [x for x in range(len(df['Genomic position']))]
+    df = df.rename(columns={"position": "genomic position"})
+    df['var_index'] = [x for x in range(len(df['genomic position']))]
     # normalize function score
     df['minmax_neg_func_score'] = [-a for a in df['func_score'].to_list()]
     df['minmax_neg_func_score'] = (df['minmax_neg_func_score'] - df[
         'minmax_neg_func_score'].min()) / (df['minmax_neg_func_score'].max() - df[
         'minmax_neg_func_score'].min())
-    df['clinvar_simple'] = "Absent / no clear interpretation"
-    df['clinvar_simple']=df['Clinvar annotation'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
+    df['clinvar_simple'] = "absent / no clear interpretation"
+    df['clinvar_simple']=df['clinvar'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
 
     # Get size depend on AC
     df['1/AC'] = [1 / x for x in df['cohort_allele_count'].to_list()]
     # Get Y axis based alt nucleotide var
-    df['alt_pos'] = [x for x in df['alt'].map({"A": 1.25, "C": 1, "G": 0.75, "T": 0.5})]
-    df['ref_pos'] = [x for x in df['ref'].map({"A": 1.25, "C": 1, "G": 0.75, "T": 0.5})]
-    df['var_name'] = "chr" + df['chr'].astype(str) + " " + df['Genomic position'].astype(str) + " " + df['ref'].astype(
+    df['alt_pos'] = [x for x in df['alt'].map({"A": 2, "C": 1.5, "G": 1, "T": 0.5})]
+    df['ref_pos'] = [x for x in df['ref'].map({"A": 2, "C": 1.5, "G": 1, "T": 0.5})]
+    df['var_name'] = "chr" + df['chr'].astype(str) + " " + df['genomic position'].astype(str) + " " + df['ref'].astype(
         str) + ">" + df['alt'].astype(str)
-    df["Exon"]= "Intron"
+    df["exon"]= "intron"
     for i in range(len(exons)):
-        df["Exon"] = np.where((df["Genomic position"]> exons[i][1]) & (df["Genomic position"]<exons[i][0]), "Exon "+str(i+1), df["Exon"])
+        df["exon"] = np.where((df["genomic position"]> exons[i][1]) & (df["genomic position"]<exons[i][0]), "exon "+str(i+1), df["exon"])
 
+    print(df.head())
     return df
 
 
@@ -63,7 +58,7 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
               (43063374, 43063873), (43057136, 43063332), (43051118, 43057051), (43049195, 43051062),
               (43047704, 43049120), (43045803, 43047642)]
 df = adding_cols(df, exon_list)
-
+df_refseq= pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/brca1_refseq.csv")
 # Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
 
@@ -75,23 +70,22 @@ styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
 
 overview_title = dcc.Markdown(children='')
-overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position')
-overview_dropdown = dcc.Dropdown(options=['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"],
-                                 value='Variant consequence',  # initial value displayed when page first loads
+overview_display = dcc.RadioItems(options=["collapsed\t", "expand nucleotide type"], value='collapsed\t')
+overview_dropdown = dcc.Dropdown(options=['clinvar', 'consequence_ukb', "func_class_sge", "func_class_ukb"],
+                                 value='consequence_ukb',  # initial value displayed when page first loads
                                  clearable=False)
 overview_graph = dcc.Graph(figure={}, config={
                       'staticPlot': False,     # True, False
                       'scrollZoom': False,      # True, False
                       'doubleClick': 'reset',  # 'reset', 'autosize' or 'reset+autosize', False
                       'showTips': True,       # True, False
-                      'displayModeBar': 'hover',  # True, False, 'hover'
-                      #'watermark': False,
-                      'displaylogo': False,
-                      'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
-                        }, selectedData=None)
+                      'displayModeBar': True,  # True, False, 'hover'
+                      'watermark': False,
+                      # 'modeBarButtonsToRemove': ['pan2d','select2d'],
+                        }, selectedData=None, relayoutData={'autosize': False})
 
 # select Graph
-three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
+three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
 #
 clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
@@ -153,76 +147,85 @@ def histogram(x_axis):
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
 )
-def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments come from the component property of the Input
+def update_overview_graph(column_name,
+                          y_axis_nucleotide):  # function arguments come from the component property of the Input
     print(column_name)
     print(y_axis_nucleotide)
     print(type(column_name))
-    size_marker, height_grph, marker_symb = 8, 340, "square"
-    limit = (0.5, 1.25)
-    y_axis = [limit[0] + (limit[1]- limit[0])/2 for x in df['Genomic position']]
+    size_marker, height_grph, marker_symb = 12, 200, "line-ns-open"
+    y_axis = [2 for x in df['genomic position']]
+    limit = (1.5, 2.5)
     yaxis_dict = dict(showgrid=False, visible=False)
 
-    if y_axis_nucleotide == "Variants expanded by nucleotide type":
-        marker_symb, size_marker, y_axis, height_grph = "square", 8, 'alt_pos', 340
-        yaxis_dict = dict(showgrid=False, visible=True, title='Nucleotide', tickvals=[0.5, 0.75, 1, 1.25],
+    print(limit[0] + (limit[1] - limit[0]) / 2)
+    if y_axis_nucleotide == "expand nucleotide type":
+        marker_symb, size_marker, y_axis, height_grph = "square", 8, 'alt_pos', 300
+        limit = (0, 2.5)
+        yaxis_dict = dict(showgrid=False, visible=True, title='Nucleotide', tickvals=[0.5, 1, 1.5, 2],
                           ticktext=['T', 'G', 'C', 'A'])
     fig = px.scatter(data_frame=df,
-                     x=df['Genomic position'],
+                     x=df['genomic position'],
                      y=y_axis,
                      height=height_grph,
                      # size="1/AC",
                      color=column_name,
-                     custom_data=["SGE function classification",
-                     "UKB function classification", 'Variant consequence', 'Clinvar annotation',
-                                  'cohort_allele_count', 'var_name', 'Exon'],
+                     custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
+                                  'cohort_allele_count', 'var_name', 'exon'],
                      )
 
     fig.update_traces(marker=dict(size=size_marker, symbol=marker_symb), selector=dict(mode="markers"),
                       hovertemplate="<br>".join([
                           "<b>%{customdata[5]}</b>",
+                          #"Genomic position: %{x}",
                           "SGE classification: %{customdata[0]}",
                           "UKB classification: %{customdata[1]}",
                           "Clinvar classication: %{customdata[3]}",
                           "Consequence: %{customdata[2]}",
-                          "Number of allele count in UKB: %{customdata[4]}",
+                          "UKB allele count: %{customdata[4]}",
                       ]))
 
     # add reference variant
-    if y_axis_nucleotide == "Variants expanded by nucleotide type":
+    if y_axis_nucleotide == "expand nucleotide type":
         ref_plot = px.scatter(data_frame=df,
-                              x=df['Genomic position'],
+                              x=df['genomic position'],
                               y=df['ref_pos'],
                               height=height_grph,
-                              custom_data=["Genomic position", "ref", "Exon"])
+                              hover_name=["Reference allele" for var in df["variant_id"]],
+                              custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
+                                           'cohort_allele_count', 'var_name', 'exon'])
         ref_plot.update_traces(marker=dict(size=size_marker, symbol="square-open"), selector=dict(mode="markers"),
-                               name='ref', hovertemplate="<br>".join([
-                          "<b>Reference allele</b>",
-                          "Position: %{customdata[0]}",
-                            "Nucleotide: %{customdata[1]}"
-            ]))
+                               name='ref')
+        # fig.update_yaxes(range=[limit[0]-1, limit[1]])
         fig.add_trace(ref_plot.data[0])
 
     # add exon
     for i in range(len(exon_list)):
         start, end = exon_list[i][1] - 0.5, exon_list[i][0] + 0.5
-        enlarge=0.4
-        texex="Exon" + str(i + 1)
-        pos_xanchor = 'center'
-        if i + 1 in [1,2,3,4,5,6,7,8,9]:
-            texex = texex+"   "
         fig.add_shape(type="rect",
-                      x0=start, y0=limit[0]-enlarge, x1=end, y1= limit[1]+enlarge,
+                      x0=start, y0=limit[0], x1=end, y1=limit[1],
                       line=dict(color='rgba(0,0,255, 0.5)', width=2),
                       fillcolor='rgba(0,0,255,0.15)', layer='below')
-        if i + 1 in [23,10]:
-            start = start +250
-        if i + 1 in [ 17]:
-            start = start +150
-        fig.add_annotation(x=start, y=limit[1]+0.1,
-                           text=texex,
+        fig.add_annotation(x=start, y=limit[1],
+                           text="exon" + str(i + 1),
                            showarrow=False,
-                           font=dict(color='blue', size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor="white", opacity=1)
-
+                           font=dict(color='blue', size=8), textangle=290, xanchor='left', yanchor='bottom')
+        # if i==17:
+        #     print("adding annotation")
+        #     subset_df_refseq = df_refseq[(df_refseq['position'] > start) & (df_refseq['position'] < end)]
+        #     print(subset_df_refseq.shape)
+        #     print(subset_df_refseq)
+        #     for i, row in subset_df_refseq.iterrows():
+        #         fig.add_annotation(
+        #             x=row['position'],
+        #             y=limit[0] + (limit[1] - limit[0]) / 2,
+        #             text=row['nucleotide'],
+        #             showarrow=False,
+        #             font=dict(
+        #                 size=12,
+        #                 color='black'
+        #             )
+        #         )
+        #     print("adding annotation end")
     # add intron
     for i in range(len(intron_list)):
         start, end = intron_list[i][0] - 0.5, intron_list[i][1] + 0.5
@@ -237,7 +240,32 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
         yaxis=yaxis_dict,
     )
 
-    return fig, '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
+
+    #Add zoom-in annotation functionality only if no expand
+    # if relayout_data is not None and 'xaxis.range[0]' in relayout_data and y_axis_nucleotide != "expand nucleotide type":
+    #     x_range = [relayout_data['xaxis.range[0]'], relayout_data['xaxis.range[1]']]
+    #     print(x_range)
+    #     if x_range[1]-x_range[0] <= 100:
+    #         print("adding annotation")
+    #         # add annotations
+    #         subset_df_refseq = df_refseq[(df_refseq['position']>x_range[0]) & (df_refseq['position']<x_range[1])]
+    #         print(subset_df_refseq.shape)
+    #         for i, row in subset_df_refseq.iterrows():
+    #             fig.add_annotation(
+    #                 x=row['position'],
+    #                 y=limit[0] + (limit[1] - limit[0]) / 2,
+    #                 text=row['nucleotide'],
+    #                 showarrow=False,
+    #                 font=dict(
+    #                     size=19,
+    #                     color='black'
+    #                 )
+    #             )
+    #         print("adding annotation end")
+    #
+    # else:
+    #     "not in the range"
+    return fig, '## Overview BRCA1 variant ' + column_name + " annotated"  # returned objects are assigned to the component property of the Output
 
 
 @app.callback(
@@ -292,33 +320,10 @@ def update_3d_graph(slct_data):
     fig4 = histogram("cadd_score")
     fig5 = histogram("1/AC")
 
-
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                            color='Exon', custom_data=["var_name",'Exon',
-                                  'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'], title="Comparison between UKB allele count, CADD and SGE function score for all variants in BRCA1")
-        fig2.update_traces(hovertemplate = "<br>".join([
-            "<b>%{customdata[0]}</b>",
-            "Exon: %{customdata[1]}",
-            "SGE function score: %{customdata[4]}",
-            "CADD score: %{customdata[3]}",
-            "Number of allele count in UKB: %{customdata[2]}",
-        ]))
-        fig2.update_layout(scene=dict(
-            xaxis_title='CADD score',
-            yaxis_title='SGE fct score',
-            zaxis_title='1/UKB_ac',
-            bgcolor='rgba(0,0,0,0)',
-            xaxis_backgroundcolor= 'rgba(0,0,0,0)',
-            yaxis_backgroundcolor='rgba(0,0,0,0)',
-            zaxis_backgroundcolor='rgba(0,0,0,0)',
-            xaxis_color='blue',
-            xaxis_gridcolor='blue',
-            yaxis_gridcolor='blue',
-            zaxis_gridcolor='blue',
-            xaxis=dict(showgrid=True),
-            yaxis=dict(showgrid=True),
-            zaxis=dict(showgrid=True)))
+                            color='exon', custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
+                                                       'cohort_allele_count', 'var_name'], title="Rareness vs function score vs computational score for all var")
         return fig2, fig3, fig4, fig5
     if slct_data['points'] == []:
         fig2 = px.scatter_3d(title="Please select at least one variant")
@@ -333,22 +338,10 @@ def update_3d_graph(slct_data):
         print(set(exons))
         dff2 = df[df.var_name.isin(var)]
         fig2 = px.scatter_3d(dff2, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                             color='Exon',
-                             custom_data=["var_name", 'Exon',
-                                          'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
-                             title="Comparison between UKB allele count, CADD and SGE function score for variant in "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
-        fig2.update_traces(hovertemplate = "<br>".join([
-            "<b>%{customdata[0]}</b>",
-            "Exon: %{customdata[1]}",
-            "SGE function score: %{customdata[4]}",
-            "CADD score: %{customdata[3]}",
-            "Number of allele count in UKB: %{customdata[2]}",
-        ]))
-        fig2.update_layout(scene=dict(
-            xaxis_title='CADD score',
-            yaxis_title='SGE fct score',
-            zaxis_title='1/UKB_ac'))
-
+                             color='exon',
+                             custom_data=['func_class_sge', 'func_class_ukb', 'consequence_sge', 'clinvar',
+                                          'cohort_allele_count', 'var_name'],
+                             title="Rareness vs function score vs computational score for var in "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
         return fig2, fig3, fig4, fig5
 
 
