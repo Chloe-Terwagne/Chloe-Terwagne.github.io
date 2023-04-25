@@ -43,7 +43,8 @@ def adding_cols(df, exons):
     df["Exon"]= "Intron"
     for i in range(len(exons)):
         df["Exon"] = np.where((df["Genomic position"]> exons[i][1]) & (df["Genomic position"]<exons[i][0]), "Exon "+str(i+1), df["Exon"])
-
+    print(df.head())
+    print(df.shape)
     return df
 
 
@@ -72,7 +73,7 @@ parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.
 data = parser.mol3d_data()
 styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
-
+#------------------------------------------------------------
 overview_title = dcc.Markdown(children='')
 overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position')
 overview_dropdown = dcc.Dropdown(options=['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"],
@@ -93,51 +94,148 @@ overview_graph = dcc.Graph(figure={}, config={
 three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
 #
-clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
-clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
-clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
+clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
+clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
+clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
 
 mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False,'showTips': False,'displayModeBar': False,'watermark': False})
+text_area =dcc.Tabs(id='my-tabs', value='tab-1', children=[
+        dcc.Tab(label='About', value='tab-1', children=[
+            dcc.Textarea(
+                value='This is the About tab.',
+                contentEditable = False,
+                style={'width': '100%', 'height': '100%', 'resize': 'none'}
+            )
+        ]),
+        dcc.Tab(label='Glossary', value='tab-2', children=[
+            dcc.Textarea(
+                value='This is the Glossary tab.',
+                style={'width': '100%', 'height': '300px'},
+                contentEditable=False
+            )
+        ]),
+    dcc.Tabs(id='mol3d-tabs', value='what-is', children=[
+        dcc.Tab(
+            label='About',
+            value='what-is',
+            children=html.Div(className='control-tab', children=[
+                html.H4(className='what-is', children='What is Molecule3D?'),
+                html.P('Molecule3D is a visualizer that allows you '
+                       'to view biomolecules in multiple representations: '
+                       'sticks, spheres, and cartoons.'),
+                html.P('You can select a preloaded structure, or upload your own, '
+                       'in the "Data" tab. A sample structure is also '
+                       'available to download.'),
+                html.P('In the "View" tab, you can change the style and '
+                       'coloring of the various components of your molecule.')
+            ])
+        ),
 
-# rna_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
-# shankley_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
-
+    ]),
+        dcc.Tab(label='Other', value='tab-4', children=[
+            dcc.Textarea(
+                value='This is the Other tab.',
+                style={'width': '100%', 'height': '300px'},
+                contentEditable=False
+            )
+        ])
+    ])
+text_abreviation= dcc.Tab(
+            label='Legen',
+            value='what-is',
+            children=html.Div(className='control-tab', children=[
+                html.H4(className='what-is', children='What is Molecule3D?'),
+                html.P('Molecule3D is a visualizer that allows you '
+                       'to view biomolecules in multiple representations: '
+                       'sticks, spheres, and cartoons.')
+            ]))
 # Customize your own Layout--------------------------------------------------------------------------------------------------
 app.layout = html.Div([
-
     html.H1("Exploration of BRCA1", style={'text-align': 'center'}),
+    html.Label('Grid Layout'),
+        dbc.Row([dbc.Col([
+                            dbc.Card([
+                                dbc.CardHeader(overview_title),
+                                dbc.CardBody([
+                                    html.Div([
+                                        dbc.Row([
+                                            dbc.Col(overview_display, width=6),
+                                            dbc.Col(overview_dropdown, width=6)
+                                        ]),
+                                        dbc.Row([
+                                            dbc.Col(overview_graph, width=12)
+                                        ])
+                                    ])
+                                ])
+                            ])
+                        ], width=12)
+                    ]),
+        dbc.Row([
+            dbc.Col(text_area, width=3),
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader('Clinvar Histograms'),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col(clinvar_hist_graph_sge),
+                        ]),
+                        dbc.Row([
+                            dbc.Col(clinvar_hist_graph_ac),
+                        ]),
+                        dbc.Row([
+                            dbc.Col(clinvar_hist_graph_cadd),
+                        ])
+                    ])
+                ])
+            ], width=3),
 
-    overview_title,
-    overview_display,
-    overview_dropdown,
-    overview_graph,
-    html.Br(),
-    three_d_graph,
+            dbc.Col(three_d_graph, width=6)
 
-    html.Div([
-        dashbio.Molecule3dViewer(
-            id='dashbio-default-molecule3d',
-            modelData=data,
-            styles=styles,
-            selectionType='residue',
-            backgroundColor='#FF0000',
-            backgroundOpacity=0.2
-                ),
-        "Selection data",
-        html.Hr(),
-        html.Div(id='default-molecule3d-output')
-    ]),
-    mol_viewer_colorbar,
-    clinvar_hist_graph_sge,
-    clinvar_hist_graph_ac,
-    clinvar_hist_graph_cadd
-])
+        ]),
+        dbc.Row([
+        #dbc.Col(dbc.Alert('Another component', color='info'), width=3),
+        dbc.Col(html.Div([
+                        dashbio.Molecule3dViewer(
+                            id='dashbio-default-molecule3d',
+                            modelData=data,
+                            styles=styles,
+                            backgroundOpacity=0,
+                            selectionType='residue',
+                            backgroundColor="blue",
+                         ),
+                        "Selection data",
+                        html.Hr(),
+                        html.Div(id='default-molecule3d-output')
+                    ]), width=4),
+        dbc.Col(mol_viewer_colorbar, width=4),
+        dbc.Col(dbc.Card([dbc.CardBody(text_abreviation)
+                    ]), width=4
+            )
+
+                ])
+            ])
+
+
+
+# app.layout = \
+#     dbc.Row([dbc.Col(html.Div(html.B('text'), style={'height': '190px'},
+#                 className='bg-danger'), width=4),
+#              dbc.Col(html.Div([
+#                 dbc.Row(dbc.Col(html.Div(html.B('overview'), className='bg-success')),
+#                 dbc.Row([dbc.Col(html.Div(html.B('hist'), className='bg-success')),
+#                          dbc.Col(html.Div(html.B('3dscatter'), className='bg-success'))]),
+#                 dbc.Row([dbc.Col(html.Div([html.B('3D prot'), className='bg-success'])),
+#                          dbc.Col(html.Div(html.B('rna'), className='bg-success')),
+#                          dbc.Col(html.Div(html.B('text'), className='bg-success'))])
+#                         )], width=8))])
+
 
 def histogram(x_axis):
     fig = px.histogram(df, x=x_axis, color="clinvar_simple", marginal="rug")
     fig.update_layout(barmode='overlay')
     fig.update_traces(opacity=0.75)
     fig.update_layout(
+        height=250,
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
@@ -249,19 +347,35 @@ cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', colors)
 )
 def show_selected_atoms(atom_ids):
     # Get a color bar
-    fig=px.scatter(df, x='minmax_neg_func_score', y='minmax_neg_func_score', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', '#FF0000'],
-               title="lol")
-    fig.update_traces(opacity=0)
+    fig=px.scatter(df, x='rna.score.1', y='rna.score.2', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', '#FF0000'],
+               title="                  Comparison of RNA replicates")
+
+    fig.update_traces(opacity=1)
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
-        # xaxis=dict(showgrid=False, visible=False, linecolor="rgba(0,0,0,0)", linewidth=5),
-        # yaxis=dict(showgrid=False, visible=False, linecolor="rgba(0,0,0,0)", linewidth=5),
-        legend=dict(orientation='v', yanchor='top', y=0.5, xanchor='left', x=0, title="SGE funtion score"))
+        xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
+        yaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
+        height=450, width=550,
+        title_font_size= 12,
+        title_x=0.95,
+        coloraxis_colorbar=dict(
+            title="SGE fct score\n\n",
+            # thicknessmode="pixels", thickness=50,
+             lenmode="pixels", len=390,
+            yanchor="top", y=1.3,x=-1.5,
+            tickvals=[0,1],
+            tickmode='array',
+            ticktext=["Neutral", "LoF"],
+            # ticks="outside", ticksuffix=" bills",
+            # dtick=5
+        ))
 
     if atom_ids is None or len(atom_ids) == 0:
-        return 'No amino acid selected has been selected. Click somewhere on the protein \
-        structure to select an amino acid.', fig
+        phr1='No amino acid has been selected. Click somewhere on the protein \
+        structure to select an amino acid.'
+
+        return 'No amino acid selected', fig
     for atm in atom_ids:
         print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
 
@@ -278,7 +392,7 @@ def show_selected_atoms(atom_ids):
             variant_nb = str(len(list(subset_df['var_name']))) + ' variants at this position.'+'\n'
         variant_list=[]
         for i in range(len(list(subset_df['var_name']))):
-            variant_list.append(str(list(subset_df['var_name'])[i])+'        (SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+')')
+            variant_list.append(str(list(subset_df['var_name'])[i])+' (SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+')')
         return html.Div([html.Br(), html.Div(aa_name),
             html.Div(variant_nb)]+
             [html.Div(var) for var in variant_list]+
@@ -326,7 +440,8 @@ def update_3d_graph(slct_data):
             xaxis=dict(showgrid=True),
             yaxis=dict(showgrid=True),
             zaxis=dict(showgrid=True)),
-            legend=dict(orientation='v', yanchor='top', y=1.05, xanchor='left', x=0, title="Region"))
+            legend=dict(orientation='v', yanchor='top', y=1.05, xanchor='left', x=0, title="Region"),
+        height=800)
 
         return fig2, fig3, fig4, fig5
 
