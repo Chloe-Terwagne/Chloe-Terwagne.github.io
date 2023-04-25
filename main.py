@@ -6,6 +6,8 @@ import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
 from dash import dcc, html, Output, Input
+from plotly.subplots import make_subplots
+
 from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
@@ -190,7 +192,6 @@ app.layout = html.Div([
             ], width=3),
 
             dbc.Col(three_d_graph, width=6)
-
         ]),
         dbc.Row([
         #dbc.Col(dbc.Alert('Another component', color='info'), width=3),
@@ -230,6 +231,7 @@ app.layout = html.Div([
 #                         )], width=8))])
 
 
+
 def histogram(x_axis):
     fig = px.histogram(df, x=x_axis, color="clinvar_simple", marginal="rug")
     fig.update_layout(barmode='overlay')
@@ -241,7 +243,6 @@ def histogram(x_axis):
         xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
     )
     return fig
-
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
 @app.callback(
