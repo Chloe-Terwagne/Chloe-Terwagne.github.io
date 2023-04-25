@@ -10,6 +10,7 @@ from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
 from dash_bio.utils import PdbParser
+import matplotlib.colors as mcolors
 
 pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
@@ -24,7 +25,6 @@ def adding_cols(df, exons):
     df = df.replace({"Variant consequence": {"synonymous":"Synonymous", "missense":"Missense",
                                              "stop_gained":"Stop gained", "splice_region":"Splice region", "intron":"Intron", "splice_acceptor":"Splice acceptor", "splice_donor":"Splice donor", "start_lost":"Start lost", "5_utr":"5' UTR"}})
     df["Clinvar annotation"] = df["Clinvar annotation"].replace('absent', 'Absent')
-    print(df.head())
     df['var_index'] = [x for x in range(len(df['Genomic position']))]
     # normalize function score
     df['minmax_neg_func_score'] = [-a for a in df['func_score'].to_list()]
@@ -33,7 +33,6 @@ def adding_cols(df, exons):
         'minmax_neg_func_score'].min())
     df['clinvar_simple'] = "Absent / no clear interpretation"
     df['clinvar_simple']=df['Clinvar annotation'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
-
     # Get size depend on AC
     df['1/AC'] = [1 / x for x in df['cohort_allele_count'].to_list()]
     # Get Y axis based alt nucleotide var
@@ -98,6 +97,8 @@ clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scro
 clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 
+mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False,'showTips': False,'displayModeBar': False,'watermark': False})
+
 # rna_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 # shankley_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': True,'watermark': False})
 
@@ -119,12 +120,14 @@ app.layout = html.Div([
             modelData=data,
             styles=styles,
             selectionType='residue',
-        ),
+            backgroundColor='#FF0000',
+            backgroundOpacity=0.2
+                ),
         "Selection data",
         html.Hr(),
         html.Div(id='default-molecule3d-output')
     ]),
-
+    mol_viewer_colorbar,
     clinvar_hist_graph_sge,
     clinvar_hist_graph_ac,
     clinvar_hist_graph_cadd
@@ -140,10 +143,6 @@ def histogram(x_axis):
         xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
     )
     return fig
-
-# AUTO GENERATED FILE - DO NOT EDIT
-
-
 
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
@@ -235,19 +234,34 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
         paper_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=5),
         yaxis=yaxis_dict,
-    )
+        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation"))
 
     return fig, '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
 
 
+# define a white to red gradient
+colors = ['#FFFFFF', '#FF0000']
+cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', colors)
 @app.callback(
     Output('default-molecule3d-output', 'children'),
+    Output(mol_viewer_colorbar, 'figure'),
     Input('dashbio-default-molecule3d', 'selectedAtomIds')
 )
 def show_selected_atoms(atom_ids):
+    # Get a color bar
+    fig=px.scatter(df, x='minmax_neg_func_score', y='minmax_neg_func_score', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', '#FF0000'],
+               title="lol")
+    fig.update_traces(opacity=0)
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        # xaxis=dict(showgrid=False, visible=False, linecolor="rgba(0,0,0,0)", linewidth=5),
+        # yaxis=dict(showgrid=False, visible=False, linecolor="rgba(0,0,0,0)", linewidth=5),
+        legend=dict(orientation='v', yanchor='top', y=0.5, xanchor='left', x=0, title="SGE funtion score"))
+
     if atom_ids is None or len(atom_ids) == 0:
-        return 'No atom has been selected. Click somewhere on the molecular \
-        structure to select an atom.'
+        return 'No amino acid selected has been selected. Click somewhere on the protein \
+        structure to select an amino acid.', fig
     for atm in atom_ids:
         print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
 
@@ -255,27 +269,20 @@ def show_selected_atoms(atom_ids):
     subset_df=df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index']]
     print(subset_df)
     if len(list(subset_df['var_name'])) < 1:
-        aa_name = aa_name + '     No variant in for this amino acid'
-        variant_nb, variant_list ='', ''
+        return html.Div([html.Br(), html.Div(aa_name),html.Div("No variant correspond to this amino acid"),html.Br()]), fig
+
     else:
         if len(list(subset_df['var_name'])) == 1:
-            variant_nb = str(len(list(subset_df['var_name']))) + 'variant at this position.' +'\n'
+            variant_nb = str(len(list(subset_df['var_name']))) + ' variant at this position.' +'\n'
         if len(list(subset_df['var_name'])) > 1:
-            variant_nb = str(len(list(subset_df['var_name']))) + 'variants at this position.'+'\n'
-        variant_list=''
+            variant_nb = str(len(list(subset_df['var_name']))) + ' variants at this position.'+'\n'
+        variant_list=[]
         for i in range(len(list(subset_df['var_name']))):
-            variant_list+='\t'+str(list(subset_df['var_name'])[i])+'\t SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+"\n"
-
-
-
-    return html.Div([ #TODO change format to show fct score
-
-        #html.Div('Element: {}'.format(data['atoms'][atm]['elem'])),
-        #html.Div('Chain: {}'.format(data['atoms'][atm]['chain'])),
-        html.Div(aa_name),
-        html.Div(variant_nb),
-        html.Div(variant_list) ,
-        html.Br()])
+            variant_list.append(str(list(subset_df['var_name'])[i])+'        (SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+')')
+        return html.Div([html.Br(), html.Div(aa_name),
+            html.Div(variant_nb)]+
+            [html.Div(var) for var in variant_list]+
+            [html.Br()]), fig
 
 @app.callback(
     Output(component_id=three_d_graph, component_property='figure'),
@@ -318,8 +325,11 @@ def update_3d_graph(slct_data):
             zaxis_gridcolor='blue',
             xaxis=dict(showgrid=True),
             yaxis=dict(showgrid=True),
-            zaxis=dict(showgrid=True)))
+            zaxis=dict(showgrid=True)),
+            legend=dict(orientation='v', yanchor='top', y=1.05, xanchor='left', x=0, title="Region"))
+
         return fig2, fig3, fig4, fig5
+
     if slct_data['points'] == []:
         fig2 = px.scatter_3d(title="Please select at least one variant")
         return fig2, fig3, fig4, fig5
