@@ -66,8 +66,18 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
               (43047704, 43049120), (43045803, 43047642)]
 df = adding_cols(df, exon_list)
 
+# Color Model
+light_gray='rgba(205,205,205,1)'
+dark_gray='rgba(41,41,41,1)' # background
+transparent='rgba(0,0,0,0) '
+blue='rgba(26,0,255,1)'
+yel="rgba(239,233,219,1)"
+yel_exon="rgba(239,233,219,0.5)"
+
 # Build your components------------------------------------------------------------------------------------------------
-app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY],suppress_callback_exceptions=True,
+           meta_tags=[{'name': 'viewport',
+                            'content': 'width=device-width, initial-scale=1.0'}] )
 
 # 3D parsing & styling
 parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
@@ -77,7 +87,7 @@ styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
 #------------------------------------------------------------
 overview_title = dcc.Markdown(children='')
-overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position')
+overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position', labelClassName='mr-5 bg-secondary text-white')
 overview_dropdown = dcc.Dropdown(options=['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"],
                                  value='Variant consequence',  # initial value displayed when page first loads
                                  clearable=False)
@@ -152,17 +162,16 @@ text_abreviation= dcc.Tab(
                        'sticks, spheres, and cartoons.')
             ]))
 # Customize your own Layout--------------------------------------------------------------------------------------------------
-app.layout = html.Div([
-    html.H1("Exploration of BRCA1", style={'text-align': 'center'}),
-    html.Label('Grid Layout'),
+app.layout = dbc.Container([
+
         dbc.Row([dbc.Col([
                             dbc.Card([
                                 dbc.CardHeader(overview_title),
                                 dbc.CardBody([
                                     html.Div([
                                         dbc.Row([
-                                            dbc.Col(overview_display, width=6),
-                                            dbc.Col(overview_dropdown, width=6)
+                                            dbc.Col(overview_display, width=7),
+                                            dbc.Col(overview_dropdown, width=4)
                                         ]),
                                         dbc.Row([
                                             dbc.Col(overview_graph, width=12)
@@ -240,7 +249,8 @@ def histogram(x_axis):
         height=250,
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=5),
+        xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=1),
+        font_color=yel
     )
     return fig
 
@@ -310,8 +320,8 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
             texex = texex+"   "
         fig.add_shape(type="rect",
                       x0=start, y0=limit[0]-enlarge, x1=end, y1= limit[1]+enlarge,
-                      line=dict(color='rgba(0,0,255, 0.5)', width=2),
-                      fillcolor='rgba(0,0,255,0.15)', layer='below')
+                      line=dict(color=yel_exon, width=2),
+                      fillcolor=yel_exon, layer='below')
         if i + 1 in [23,10]:
             start = start +250
         if i + 1 in [ 17]:
@@ -319,21 +329,23 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
         fig.add_annotation(x=start, y=limit[1]+0.1,
                            text=texex,
                            showarrow=False,
-                           font=dict(color='blue', size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor="white", opacity=1)
+                           font=dict(color=yel, size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
 
     # add intron
     for i in range(len(intron_list)):
         start, end = intron_list[i][0] - 0.5, intron_list[i][1] + 0.5
         fig.add_shape(type='line', x0=start, x1=end,
                       y0=limit[0] + (limit[1] - limit[0]) / 2, y1=limit[0] + (limit[1] - limit[0]) / 2,
-                      line=dict(color='rgba(0,0,255, 0.5)', width=2), layer='below')
+                      line=dict(color=yel_exon, width=2), layer='below')
 
     fig.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=5),
+        plot_bgcolor=transparent,
+        paper_bgcolor=transparent,
+        xaxis=dict(showgrid=False, visible=False, linecolor=None, linewidth=1),
         yaxis=yaxis_dict,
-        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation"))
+        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation"),
+        font_color = yel)
+
 
     return fig, '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
 
@@ -360,6 +372,7 @@ def show_selected_atoms(atom_ids):
         height=450, width=550,
         title_font_size= 12,
         title_x=0.95,
+        font_color=yel,
         coloraxis_colorbar=dict(
             title="SGE fct score\n\n",
             # thicknessmode="pixels", thickness=50,
@@ -413,12 +426,17 @@ def update_3d_graph(slct_data):
     fig3 = histogram("minmax_neg_func_score")
     fig4 = histogram("cadd_score")
     fig5 = histogram("1/AC")
-
+    black3dbg = dict(
+        showbackground=True,
+        backgroundcolor=transparent,
+        gridcolor=light_gray,
+        gridwidth=1.5,
+        zeroline=False)
 
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                            color='Exon', custom_data=["var_name",'Exon',
-                                  'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'], title="Comparison between UKB allele count, CADD and SGE function score for all variants in BRCA1")
+                             color='Exon', custom_data=["var_name", 'Exon',
+                                                        'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'])
         fig2.update_traces(hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
@@ -427,21 +445,21 @@ def update_3d_graph(slct_data):
             "Number of allele count in UKB: %{customdata[2]}",
         ]))
         fig2.update_layout(scene=dict(
-            xaxis_title='CADD score',
-            yaxis_title='SGE fct score',
-            zaxis_title='1/UKB_ac',
-            bgcolor='rgba(0,0,0,0)',
-            xaxis_backgroundcolor= 'rgba(0,0,0,0)',
-            yaxis_backgroundcolor='rgba(0,0,0,0)',
-            zaxis_backgroundcolor='rgba(0,0,0,0)',
-            xaxis_color='blue',
-            xaxis_gridcolor='blue',
-            yaxis_gridcolor='blue',
-            zaxis_gridcolor='blue',
-            xaxis=dict(showgrid=True),
-            yaxis=dict(showgrid=True),
-            zaxis=dict(showgrid=True)),
-            legend=dict(orientation='v', yanchor='top', y=1.05, xanchor='left', x=0, title="Region"),
+            xaxis_title=dict(text='CADD score', font=dict(color=yel)),
+            yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
+            zaxis_title=dict(text='1/UKB_ac', font=dict(color='rgba(248,255,24)')),
+            xaxis=black3dbg,
+            yaxis=black3dbg,
+            zaxis=black3dbg,
+            bgcolor=dark_gray),
+            paper_bgcolor='rgb(41,41,41)',
+
+            #font_family="Courier New",
+            font_color=yel,
+            #title_font_family="Times New Roman",
+            title_text= "Allele frequency, CADD and SGE function score for all variants",
+            title_font_color=yel,
+            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel )),
         height=800)
 
         return fig2, fig3, fig4, fig5
