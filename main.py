@@ -120,6 +120,7 @@ overview_graph = dcc.Graph(figure={}, config={
                       'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
                         }, selectedData=None)
 color_blind_option = daq.BooleanSwitch(on=False, color="#9B51E0", label="Color blind friendly", labelPosition="right")
+xrange=dcc.Store(id= 'xrange', data=None)
 #= dcc.Checklist(switch=True, options=[{'label': 'Color blind friendly', 'value': 'color_blind_mode'},],value=[], className='custom-control custom-switch')
 
 # select Graph
@@ -167,7 +168,7 @@ app.layout = \
         ]),
         dbc.Row([dbc.Col(overview_display, width=4),
                     dbc.Col(overview_dropdown, width=2),
-                    dbc.Col(color_blind_option, width=1, className="custom-control custom-switch"),
+                    dbc.Col(color_blind_option, width=2, className="custom-control custom-switch"),
                     ], justify='between'),
         dbc.Row([
                  dbc.Col(overview_graph, width=12)
@@ -291,6 +292,7 @@ app.layout = \
 
         # row buffer
         dbc.Row([html.Br()]),
+        dbc.Row(xrange),
 
         # row 3 ----------------------
         dbc.Row([
@@ -327,10 +329,12 @@ def histogram(x_axis):
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
     Input(color_blind_option, 'on'),
+    [Input(overview_graph, 'relayoutData')],
+    Input(xrange, 'data')
 
 )
-def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # function arguments come from the component property of the Input
-    print(column_name)
+def update_overview_graph(column_name, y_axis_nucleotide, color_blind, relayout_data, xrange):  # function arguments come from the component property of the Input
+    df_temp = df
     c_green_red = ['#488f31', '#7da84f', '#acc272', '#d7dc99', '#fff8c3', '#f8d192', '#f3a66e', '#ec785c', '#de425b']
     c_blind_friendly = ['#71915e', '#9bbf85', '#bbd4a6', '#e7f7d5', '#fcf2f8', '#f6d3e8', '#d091bb', '#b3589a',
                         '#a9398b']
@@ -349,10 +353,7 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
                         "Pathogenic": colors[8]}
 
     list_temp = [x for x in list(dict_color_consq.keys()) if x in list(df[column_name])]
-    print("list_temp = ", list_temp)
 
-    #order input data to have nce legend ordering
-    df_temp=df.sort_values(column_name)
     # Create a categorical variable with the desired order
     df_temp[column_name] = pd.Categorical(df[column_name], categories=list_temp, ordered=True)
     # Sort the dataframe based on the categorical variable
@@ -444,7 +445,9 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
         font_color = yel)
 
 
-    return fig, '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
+    return fig.update_layout(
+    uirevision=True
+), '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
 
 
 # define a white to red gradient
