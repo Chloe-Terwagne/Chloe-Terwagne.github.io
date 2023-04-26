@@ -12,7 +12,6 @@ from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
 from dash_bio.utils import PdbParser
-import matplotlib.colors as mcolors
 
 pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
@@ -69,6 +68,7 @@ df = adding_cols(df, exon_list)
 # Color Model
 light_gray='rgba(205,205,205,1)'
 dark_gray='rgba(41,41,41,1)' # background
+dark_gray_transp = 'rgba(41,41,41,0.85)'
 transparent='rgba(0,0,0,0) '
 blue='rgba(26,0,255,1)'
 yel="rgba(239,233,219,1)"
@@ -85,6 +85,19 @@ parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.
 data = parser.mol3d_data()
 styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
+
+brca1_3D=dashbio.Molecule3dViewer(
+                                id='dashbio-default-molecule3d',
+                                modelData=data,
+                                styles=styles,
+                                backgroundOpacity=0,
+                                selectionType='residue',
+                                backgroundColor="blue",
+                                height=500,
+                                width=1250, zoom=dict(
+        factor= 1.9, animationDuration= 30000, fixedPath=False))
+
+
 #------------------------------------------------------------
 overview_title = dcc.Markdown(children='')
 overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position', labelClassName='mr-5 bg-secondary text-white')
@@ -111,81 +124,145 @@ clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrol
 clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
 
 mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False,'showTips': False,'displayModeBar': False,'watermark': False})
-text_area =dcc.Tabs(id='my-tabs', value='tab-1', children=[
-        dcc.Tab(label='About', value='tab-1', children=[
-            dcc.Textarea(
-                value='This is the About tab.',
-                contentEditable = False,
-                style={'width': '100%', 'height': '100%', 'resize': 'none'}
-            )
-        ]),
-        dcc.Tab(label='Glossary', value='tab-2', children=[
-            dcc.Textarea(
-                value='This is the Glossary tab.',
-                style={'width': '100%', 'height': '300px'},
-                contentEditable=False
-            )
-        ]),
-    dcc.Tabs(id='mol3d-tabs', value='what-is', children=[
-        dcc.Tab(
-            label='About',
-            value='what-is',
-            children=html.Div(className='control-tab', children=[
-                html.H4(className='what-is', children='What is Molecule3D?'),
-                html.P('Molecule3D is a visualizer that allows you '
-                       'to view biomolecules in multiple representations: '
-                       'sticks, spheres, and cartoons.'),
-                html.P('You can select a preloaded structure, or upload your own, '
-                       'in the "Data" tab. A sample structure is also '
-                       'available to download.'),
-                html.P('In the "View" tab, you can change the style and '
-                       'coloring of the various components of your molecule.')
-            ])
+text_abreviation = dbc.Card(
+    [
+        dbc.CardBody(
+            [
+                html.H4("Card title", className="card-title"),
+                html.P(
+                    "This is the body of the card. You can put any text or HTML content here.",
+                    className="card-text",
+                ),
+            ]
+        )
+    ],
+    style={"height": "500px"}
+)
+# Customize your own Layout--------------------------------------------------------------------------------------------------
+row_style = {'display': 'flex', 'flex-wrap': 'wrap', 'align-items': 'stretch'}
+app.layout = \
+    dbc.Container([
+        # row buffer
+        dbc.Row([html.Br()]),
+        dbc.Row([html.Br()]),
+
+        dbc.Row(
+            dbc.Col(html.H1("Variant effect interpretation in BRCA1",
+                            className='text-center text-primary mb-4'),
+                    width=12)
         ),
 
-    ]),
-        dcc.Tab(label='Other', value='tab-4', children=[
-            dcc.Textarea(
-                value='This is the Other tab.',
-                style={'width': '100%', 'height': '300px'},
-                contentEditable=False
-            )
-        ])
-    ])
-text_abreviation= dcc.Tab(
-            label='Legen',
-            value='what-is',
-            children=html.Div(className='control-tab', children=[
-                html.H4(className='what-is', children='What is Molecule3D?'),
-                html.P('Molecule3D is a visualizer that allows you '
-                       'to view biomolecules in multiple representations: '
-                       'sticks, spheres, and cartoons.')
-            ]))
-# Customize your own Layout--------------------------------------------------------------------------------------------------
-app.layout = dbc.Container([
-
-        dbc.Row([dbc.Col([
-                            dbc.Card([
-                                dbc.CardHeader(overview_title),
-                                dbc.CardBody([
-                                    html.Div([
-                                        dbc.Row([
-                                            dbc.Col(overview_display, width=7),
-                                            dbc.Col(overview_dropdown, width=4)
-                                        ]),
-                                        dbc.Row([
-                                            dbc.Col(overview_graph, width=12)
-                                        ])
-                                    ])
-                                ])
-                            ])
-                        ], width=12)
-                    ]),
+        # Overview graph element ---
         dbc.Row([
-            dbc.Col(text_area, width=3),
+            dbc.Col(overview_title, width=12)
+        ]),
+        dbc.Row([dbc.Col(overview_display, width=7),
+                    dbc.Col(overview_dropdown, width=4)
+                    ], justify='around'),
+        dbc.Row([
+                 dbc.Col(overview_graph, width=12)
+                 ], justify='around'),
+
+        # row buffer
+        dbc.Row([html.Br()]),
+
+        # row 2 ----------------------
+        dbc.Row([
+            dbc.Col([
+                html.Div(
+                    id='body',
+                    className='app-body',
+                    children=[
+                        html.Div(
+                            id='desc-control-tabs',
+                            className='control-tabs',
+                            children=[
+                                dcc.Tabs(id='about-tabs', value='what-is', children=[
+                                    dcc.Tab(
+                                        label='About',
+                                        value='what-is',
+                                        children=html.Div(className='control-tab', children=[
+                                            html.H4(className='what-is', children='What is Molecule3D?'),
+                                            html.P('Molecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in multiple representations: '
+                                                   'sticks, spheres, and cartoons.'),
+                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                   'in the "Data" tab. A sample structure is also '
+                                                   'available to download.'),
+                                            html.P('In the "View" tab, you can change the style and '
+                                                   'coloring of the various components of your molecule.')
+                                        ])
+                                    ),
+                                        dcc.Tab(
+                                            label='Data',
+                                            value='upload-download',
+                                            children=html.Div(className='control-tab', children=[
+                                                html.H4(className='app-controls-block', children='How the Data come from'),
+                                                html.P('Molecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                               
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                             
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                             
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                       'to view biomolecules in multiple representations: '
+                                                       'sticks, spheres, and cartoons.'),
+                                                html.P('You can select a preloaded structure, or upload your own, '
+                                                       'in the "Data" tab. A sample structure is also '
+                                                       'available to download.'),
+                                                html.P('In the "View" tab, you can change the style and '
+                                                       'coloring of the various components of your molecule.')
+                                            ])
+                                    ),
+                                    dcc.Tab(
+                                        label='inter',
+                                        value='interpe',
+                                        children=html.Div(className='control-tab', children=[
+                                            html.H4(className='what-is', children='What is Molecule3D?'),
+                                            html.P('Molecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in multiple representations: '
+                                                   'sticks, spheres, and cartoons.'),
+                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                   'in the "Data" tab. A sample structure is also '
+                                                   'available to download.'),
+                                            html.P('In the "View" tab, you can change the style and '
+                                                   'coloring of the various components of your molecule.')
+                                        ])
+                                    ),
+                                ])
+                            ],
+                            style={'overflow-y': 'auto', 'max-height': '750px'}
+                        )])], xs=12, sm=12, md=6, lg=3, xl=3),
             dbc.Col([
                 dbc.Card([
-                    dbc.CardHeader('Clinvar Histograms'),
+                    #dbc.CardHeader('Clinvar Histograms'),
                     dbc.CardBody([
                         dbc.Row([
                             dbc.Col(clinvar_hist_graph_sge),
@@ -198,46 +275,25 @@ app.layout = dbc.Container([
                         ])
                     ])
                 ])
-            ], width=3),
+            ], xs=12, sm=12, md=6, lg=3, xl=3),
+            dbc.Col([three_d_graph], xs=12, sm=12, md=12, lg=5, xl=5)
+        ],style=row_style, justify='around'),
 
-            dbc.Col(three_d_graph, width=6)
-        ]),
+        # row buffer
+        dbc.Row([html.Br()]),
+
+        # row 3 ----------------------
         dbc.Row([
-        #dbc.Col(dbc.Alert('Another component', color='info'), width=3),
-        dbc.Col(html.Div([
-                        dashbio.Molecule3dViewer(
-                            id='dashbio-default-molecule3d',
-                            modelData=data,
-                            styles=styles,
-                            backgroundOpacity=0,
-                            selectionType='residue',
-                            backgroundColor="blue",
-                         ),
-                        "Selection data",
-                        html.Hr(),
-                        html.Div(id='default-molecule3d-output')
-                    ]), width=4),
-        dbc.Col(mol_viewer_colorbar, width=4),
-        dbc.Col(dbc.Card([dbc.CardBody(text_abreviation)
-                    ]), width=4
-            )
-
-                ])
-            ])
-
-
-
-# app.layout = \
-#     dbc.Row([dbc.Col(html.Div(html.B('text'), style={'height': '190px'},
-#                 className='bg-danger'), width=4),
-#              dbc.Col(html.Div([
-#                 dbc.Row(dbc.Col(html.Div(html.B('overview'), className='bg-success')),
-#                 dbc.Row([dbc.Col(html.Div(html.B('hist'), className='bg-success')),
-#                          dbc.Col(html.Div(html.B('3dscatter'), className='bg-success'))]),
-#                 dbc.Row([dbc.Col(html.Div([html.B('3D prot'), className='bg-success'])),
-#                          dbc.Col(html.Div(html.B('rna'), className='bg-success')),
-#                          dbc.Col(html.Div(html.B('text'), className='bg-success'))])
-#                         )], width=8))])
+            #3D protein
+            dbc.Col([html.Div([brca1_3D])],  xs=12, sm=12, md=6, lg=7, xl=6),
+            #color bar scatter plot
+            dbc.Col([html.Br(),html.Br(),mol_viewer_colorbar,html.Hr(),html.Div(id='default-molecule3d-output',  style={'background-color': dark_gray_transp,
+                                                                                                                        'position': 'relative',
+                                                                                                                        'z-index': '1'
+                                                                                                                        })],  xs=12, sm=12, md=5, lg=4, xl=4),
+            dbc.Col([text_abreviation],  xs=12, sm=2, md=3, lg=2, xl=2),
+        ],style=row_style, justify='around'),
+    ], fluid=True)
 
 
 
@@ -351,8 +407,8 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
 
 
 # define a white to red gradient
-colors = ['#FFFFFF', '#FF0000']
-cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', colors)
+#colors = ['#FFFFFF', '#FF0000']
+
 @app.callback(
     Output('default-molecule3d-output', 'children'),
     Output(mol_viewer_colorbar, 'figure'),
@@ -365,23 +421,26 @@ def show_selected_atoms(atom_ids):
 
     fig.update_traces(opacity=1)
     fig.update_layout(
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor=dark_gray,
+        paper_bgcolor=dark_gray_transp,
         xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
         yaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
-        height=450, width=550,
+        height=300,
         title_font_size= 12,
         title_x=0.95,
         font_color=yel,
         coloraxis_colorbar=dict(
-            title="SGE fct score\n\n",
+            title="SGE fct score",
             # thicknessmode="pixels", thickness=50,
-             lenmode="pixels", len=390,
-            yanchor="top", y=1.3,x=-1.5,
+            lenmode="pixels", len=200,
+            yanchor="top", y=1.5,x=-0.5,
             tickvals=[0,1],
             tickmode='array',
+            ticks="outside",
             ticktext=["Neutral", "LoF"],
-            # ticks="outside", ticksuffix=" bills",
+            #ticks="outside",
+            ticklabelposition='outside right'
+
             # dtick=5
         ))
 
@@ -389,7 +448,7 @@ def show_selected_atoms(atom_ids):
         phr1='No amino acid has been selected. Click somewhere on the protein \
         structure to select an amino acid.'
 
-        return 'No amino acid selected', fig
+        return phr1, fig
     for atm in atom_ids:
         print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
 
@@ -460,7 +519,7 @@ def update_3d_graph(slct_data):
             title_text= "Allele frequency, CADD and SGE function score for all variants",
             title_font_color=yel,
             legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel )),
-        height=800)
+            height=785)
 
         return fig2, fig3, fig4, fig5
 
