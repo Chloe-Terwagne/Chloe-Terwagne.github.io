@@ -6,12 +6,14 @@ import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
 from dash import dcc, html, Output, Input
-from plotly.subplots import make_subplots
-
+import dash_daq as daq
 from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
 from dash_bio.utils import PdbParser
+
+import plotly.io as pio
+templates='plotly_dark'
 
 pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
@@ -66,13 +68,16 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
 df = adding_cols(df, exon_list)
 
 # Color Model
+# color graph overview:  https://www.learnui.design/tools/data-color-picker.html#divergent
 light_gray='rgba(205,205,205,1)'
+medium_gray='rgba(64,64,64,1)'
 dark_gray='rgba(41,41,41,1)' # background
 dark_gray_transp = 'rgba(41,41,41,0.85)'
 transparent='rgba(0,0,0,0) '
 blue='rgba(26,0,255,1)'
 yel="rgba(239,233,219,1)"
 yel_exon="rgba(239,233,219,0.5)"
+
 
 # Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY],suppress_callback_exceptions=True,
@@ -114,6 +119,8 @@ overview_graph = dcc.Graph(figure={}, config={
                       'displaylogo': False,
                       'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
                         }, selectedData=None)
+color_blind_option = daq.BooleanSwitch(on=False, color="#9B51E0", label="Color blind friendly", labelPosition="right")
+#= dcc.Checklist(switch=True, options=[{'label': 'Color blind friendly', 'value': 'color_blind_mode'},],value=[], className='custom-control custom-switch')
 
 # select Graph
 three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
@@ -133,6 +140,8 @@ text_abreviation = dbc.Card(
                     "This is the body of the card. You can put any text or HTML content here.",
                     className="card-text",
                 ),
+                dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/", target="_blank"),
+                dbc.CardLink("UKBiobank initiative", href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank"),
             ]
         )
     ],
@@ -156,9 +165,10 @@ app.layout = \
         dbc.Row([
             dbc.Col(overview_title, width=12)
         ]),
-        dbc.Row([dbc.Col(overview_display, width=7),
-                    dbc.Col(overview_dropdown, width=4)
-                    ], justify='around'),
+        dbc.Row([dbc.Col(overview_display, width=4),
+                    dbc.Col(overview_dropdown, width=2),
+                    dbc.Col(color_blind_option, width=1, className="custom-control custom-switch"),
+                    ], justify='between'),
         dbc.Row([
                  dbc.Col(overview_graph, width=12)
                  ], justify='around'),
@@ -316,29 +326,58 @@ def histogram(x_axis):
     Output(overview_title, 'children'),
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
+    Input(color_blind_option, 'on'),
+
 )
-def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments come from the component property of the Input
+def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # function arguments come from the component property of the Input
     print(column_name)
-    print(y_axis_nucleotide)
-    print(type(column_name))
+    c_green_red = ['#488f31', '#7da84f', '#acc272', '#d7dc99', '#fff8c3', '#f8d192', '#f3a66e', '#ec785c', '#de425b']
+    c_blind_friendly = ['#71915e', '#9bbf85', '#bbd4a6', '#e7f7d5', '#fcf2f8', '#f6d3e8', '#d091bb', '#b3589a',
+                        '#a9398b']
+    if color_blind:
+        colors = c_blind_friendly
+    else:
+        colors = c_green_red
+    dict_color_consq = {"Neutral": colors[0], "Intermediate": colors[4], "Loss of Function": colors[-1],
+                        "Synonymous": colors[0], "Intron": colors[1], "5' UTR": colors[2],
+                        "Splice region": colors[3], "Missense": colors[4], "Splice acceptor": colors[5],
+                        "Splice donor": colors[6], "Start lost": colors[7], "Stop gained": colors[8],
+                        "Benign": colors[0], "Likely benign": colors[1],
+                        "Uncertain significance": colors[3], "Absent": colors[4],
+                        "Conflicting interpretations of pathogenicity": colors[5],
+                        "Likely pathogenic": colors[6], "Pathogenic/Likely pathogenic": colors[7],
+                        "Pathogenic": colors[8]}
+
+    list_temp = [x for x in list(dict_color_consq.keys()) if x in list(df[column_name])]
+    print("list_temp = ", list_temp)
+
+    #order input data to have nce legend ordering
+    df_temp=df.sort_values(column_name)
+    # Create a categorical variable with the desired order
+    df_temp[column_name] = pd.Categorical(df[column_name], categories=list_temp, ordered=True)
+    # Sort the dataframe based on the categorical variable
+    df_temp = df_temp.sort_values(column_name)
+
     size_marker, height_grph, marker_symb = 8, 340, "square"
     limit = (0.5, 1.25)
-    y_axis = [limit[0] + (limit[1]- limit[0])/2 for x in df['Genomic position']]
+    y_axis = [limit[0] + (limit[1]- limit[0])/2 for x in df_temp['Genomic position']]
     yaxis_dict = dict(showgrid=False, visible=False)
 
     if y_axis_nucleotide == "Variants expanded by nucleotide type":
         marker_symb, size_marker, y_axis, height_grph = "square", 8, 'alt_pos', 340
         yaxis_dict = dict(showgrid=False, visible=True, title='Nucleotide', tickvals=[0.5, 0.75, 1, 1.25],
                           ticktext=['T', 'G', 'C', 'A'])
-    fig = px.scatter(data_frame=df,
-                     x=df['Genomic position'],
+    fig = px.scatter(data_frame=df_temp,
+                     x=df_temp['Genomic position'],
                      y=y_axis,
                      height=height_grph,
+                     color_discrete_map=dict_color_consq,
                      # size="1/AC",
                      color=column_name,
                      custom_data=["SGE function classification",
                      "UKB function classification", 'Variant consequence', 'Clinvar annotation',
                                   'cohort_allele_count', 'var_name', 'Exon'],
+                     category_orders={'label': list(dict_color_consq.keys())}
                      )
 
     fig.update_traces(marker=dict(size=size_marker, symbol=marker_symb), selector=dict(mode="markers"),
@@ -353,11 +392,13 @@ def update_overview_graph(column_name, y_axis_nucleotide):  # function arguments
 
     # add reference variant
     if y_axis_nucleotide == "Variants expanded by nucleotide type":
-        ref_plot = px.scatter(data_frame=df,
-                              x=df['Genomic position'],
-                              y=df['ref_pos'],
+        ref_plot = px.scatter(data_frame=df_temp,
+                              x=df_temp['Genomic position'],
+                              y=df_temp['ref_pos'],
                               height=height_grph,
-                              custom_data=["Genomic position", "ref", "Exon"])
+                              custom_data=["Genomic position", "ref", "Exon"],
+                              category_orders={'label': list(dict_color_consq.keys())}
+                              )
         ref_plot.update_traces(marker=dict(size=size_marker, symbol="square-open"), selector=dict(mode="markers"),
                                name='ref', hovertemplate="<br>".join([
                           "<b>Reference allele</b>",
