@@ -11,6 +11,7 @@ from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html
 from dash_bio.utils import PdbParser
+import base64
 
 import plotly.io as pio
 templates='plotly_dark'
@@ -50,7 +51,7 @@ def adding_cols(df, exons):
     print(df.shape)
     return df
 
-
+font_list=["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One", "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
 # incorporate data into app
 df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
@@ -74,15 +75,19 @@ medium_gray='rgba(64,64,64,1)'
 dark_gray='rgba(41,41,41,1)' # background
 dark_gray_transp = 'rgba(41,41,41,0.85)'
 transparent='rgba(0,0,0,0) '
-blue='rgba(26,0,255,1)'
-yel="rgba(239,233,219,1)"
-yel_exon="rgba(239,233,219,0.5)"
 
-
+yel="rgb(214,210,196)" # UCL color
+mid_red= 'rgb(147,39,44)'# UCL color
+mid_green='rgb(143,153,62)'# UCL color
+mid_purple = 'rgb(80, 7, 120)'# UCL color
+yel_exon="rgba(214,210,196,0.1)" # UCL color
+exons_color_l1= ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)", "rgb(147,208,226)", "rgb(51,58,158)", "rgb(189,155,244)", "rgb(33,74,101)", "rgb(55,141,174)", "rgb(191,1,42)", "rgb(239,187,162)", "rgb(120,48,25)", "rgb(239,151,45)"]
+exons_color_l2=["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rgb(239,106,222)", "rgb(127,238,63)", "rgb(250,117,107)", "rgb(65,216,244)", "rgb(189,137,221)", "rgb(203,223,81)", "rgb(144,164,121)", "rgb(246,238,250)", "rgb(200,147,105)", "rgb(254,143,6)", "rgb(243,192,17)"]
+#exons_color_l1=["rgb(65,187,197)", "rgb(95,112,204)", "rgb(253,146,250)", "rgb(198,62,171)", "rgb(195,177,221)", "rgb(81,131,66)", "rgb(30,212,107)", "rgb(253,44,59)", "rgb(157,199,33)", "rgb(185,92,61)", "rgb(252,162,131)", "rgb(134,116,102)", "rgb(242,172,24)", "rgb(149,114,6)"]
 # Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY],suppress_callback_exceptions=True,
-           meta_tags=[{'name': 'viewport',
-                            'content': 'width=device-width, initial-scale=1.0'}] )
+           meta_tags=[{'name': 'viewport','content': 'width=device-width, initial-scale=1.0'}] )
+# app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
 # 3D parsing & styling
 parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
@@ -97,18 +102,17 @@ brca1_3D=dashbio.Molecule3dViewer(
                                 styles=styles,
                                 backgroundOpacity=0,
                                 selectionType='residue',
-                                backgroundColor="blue",
+                                backgroundColor="black",
                                 height=500,
                                 width=1250, zoom=dict(
         factor= 1.9, animationDuration= 30000, fixedPath=False))
-
-
+idx_font=6
 #------------------------------------------------------------
-overview_title = dcc.Markdown(children='')
-overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"], value='Variants aggregated by position', labelClassName='mr-5 bg-secondary text-white')
+overview_title = dcc.Markdown(children='', style=dict(font_family= font_list[idx_font],font_color=yel))
+overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],  value='Variants aggregated by position', labelClassName="custom-text p-3" )
+items = ['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"]
 overview_dropdown = dcc.Dropdown(options=['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"],
-                                 value='Variant consequence',  # initial value displayed when page first loads
-                                 clearable=False)
+                                value='Variant consequence', clearable=False, className='my-custom-dropdown')
 overview_graph = dcc.Graph(figure={}, config={
                       'staticPlot': False,     # True, False
                       'scrollZoom': False,      # True, False
@@ -119,9 +123,8 @@ overview_graph = dcc.Graph(figure={}, config={
                       'displaylogo': False,
                       'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
                         }, selectedData=None)
-color_blind_option = daq.BooleanSwitch(on=False, color="#9B51E0", label="Color blind friendly", labelPosition="right")
-xrange=dcc.Store(id= 'xrange', data=None)
-#= dcc.Checklist(switch=True, options=[{'label': 'Color blind friendly', 'value': 'color_blind_mode'},],value=[], className='custom-control custom-switch')
+color_blind_option = daq.BooleanSwitch(on=False, label=dict(label="Color blind friendly", style=dict(font_color=yel)),
+                                       color=mid_purple, labelPosition="right")
 
 # select Graph
 three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
@@ -132,6 +135,27 @@ clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrol
 clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
 
 mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False,'showTips': False,'displayModeBar': False,'watermark': False})
+
+github_link=html.Div([html.A(id='gh-link',
+                        children=[
+                            'View on GitHub'
+                        ],
+                        href="http://github.com/",
+                        style={'color': yel, 'border': yel}),
+                  html.Img(
+                      src='data:image/png;base64,{}'.format(
+                          base64.b64encode(
+                              open(
+                                  '/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/assets/GitHub-Mark-64px.png',
+                                  'rb'
+                              ).read()
+                          ).decode()
+                      ))],
+                 style={
+                     'background': dark_gray,
+                     'color': yel,
+                 })
+
 text_abreviation = dbc.Card(
     [
         dbc.CardBody(
@@ -141,6 +165,7 @@ text_abreviation = dbc.Card(
                     "This is the body of the card. You can put any text or HTML content here.",
                     className="card-text",
                 ),
+                github_link,
                 dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/", target="_blank"),
                 dbc.CardLink("UKBiobank initiative", href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank"),
             ]
@@ -148,27 +173,30 @@ text_abreviation = dbc.Card(
     ],
     style={"height": "500px"}
 )
+
+
+
 # Customize your own Layout--------------------------------------------------------------------------------------------------
 row_style = {'display': 'flex', 'flex-wrap': 'wrap', 'align-items': 'stretch'}
 app.layout = \
     dbc.Container([
+        dbc.Row([html.Br()]),
+
+        dbc.Row(
+            dbc.Col(html.H1("Variant effect interpretation in BRCA1 gene", className='custom-h1'),
+                    width=12)
+        ),
         # row buffer
         dbc.Row([html.Br()]),
         dbc.Row([html.Br()]),
 
-        dbc.Row(
-            dbc.Col(html.H1("Variant effect interpretation in BRCA1",
-                            className='text-center text-primary mb-4'),
-                    width=12)
-        ),
-
         # Overview graph element ---
         dbc.Row([
-            dbc.Col(overview_title, width=12)
+            dbc.Col(overview_title, width=12, className='my-custom-title' )
         ]),
-        dbc.Row([dbc.Col(overview_display, width=4),
-                    dbc.Col(overview_dropdown, width=2),
-                    dbc.Col(color_blind_option, width=2, className="custom-control custom-switch"),
+        dbc.Row([dbc.Col(overview_display, width=7),
+                    dbc.Col(overview_dropdown, width=2, className='my-custom-dropdown'),
+                    dbc.Col(color_blind_option, width=2, className="my-custom-switch"),
                     ], justify='between'),
         dbc.Row([
                  dbc.Col(overview_graph, width=12)
@@ -292,34 +320,58 @@ app.layout = \
 
         # row buffer
         dbc.Row([html.Br()]),
-        dbc.Row(xrange),
 
         # row 3 ----------------------
         dbc.Row([
             #3D protein
             dbc.Col([html.Div([brca1_3D])],  xs=12, sm=12, md=6, lg=7, xl=6),
             #color bar scatter plot
-            dbc.Col([html.Br(),html.Br(),mol_viewer_colorbar,html.Hr(),html.Div(id='default-molecule3d-output',  style={'background-color': dark_gray_transp,
+            dbc.Col([html.Div([html.Br(),html.Br(),mol_viewer_colorbar,html.Hr(),html.Div(id='default-molecule3d-output',  style={'background-color': dark_gray_transp,
                                                                                                                         'position': 'relative',
                                                                                                                         'z-index': '1'
-                                                                                                                        })],  xs=12, sm=12, md=5, lg=4, xl=4),
-            dbc.Col([text_abreviation],  xs=12, sm=2, md=3, lg=2, xl=2),
+                                                                                                                        })])], className='custom-text_left', xs=12, sm=12, md=3, lg=3, xl=4),
+            dbc.Col([text_abreviation],  xs=12, sm=4, md=3, lg=2, xl=2),
         ],style=row_style, justify='around'),
     ], fluid=True)
 
 
-
 def histogram(x_axis):
-    fig = px.histogram(df, x=x_axis, color="clinvar_simple", marginal="rug")
+    if x_axis=='minmax_neg_func_score':
+        axlis_label = 'SGE fct score'
+    elif x_axis=='cadd_score':
+        axlis_label = 'CADD score'
+    else:
+        axlis_label=x_axis
+    df_t=df
+    df_t = df_t.rename(columns={'clinvar_simple':"Clinvar high confidence", "minmax_neg_func_score":"SGE fct score", 'cadd_score':'CADD score' })
+    fig = px.histogram(df_t, x=axlis_label, color="Clinvar high confidence", color_discrete_map={'Benign':mid_green, 'Pathogenic':mid_red}, marginal="rug", hover_data = ["var_name", '1/AC', 'cohort_allele_count', 'CADD score', 'SGE fct score'], hover_name="var_name")
+    # fig.update_traces(hovertemplate="<br>".join([
+    #     "<b>%{hover_data[0]}</b>",
+    #     "Exon: %{hover_data[1]}",
+    #     "SGE function score: %{hover_data[4]}",
+    #     "CADD score: %{hover_data[3]}",
+    #     "Number of allele count in UKB: %{hover_data[2]}",
+    # ]))
+
     fig.update_layout(barmode='overlay')
     fig.update_traces(opacity=0.75)
     fig.update_layout(
-        height=250,
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=False, visible=True, linecolor="gray", linewidth=1),
-        font_color=yel
-    )
+        height=260,
+        plot_bgcolor=dark_gray,
+        paper_bgcolor=dark_gray,
+        font_family=font_list[idx_font],
+        xaxis=dict(showgrid=False, visible=True,  zeroline=True, title=axlis_label),
+        yaxis=dict(showgrid=False, visible=True, zeroline=True, title="variant number"),
+        font_color=yel)
+    if x_axis=='1/AC':
+        fig.update_layout(showlegend=True, legend=dict(title='Clinvar'))
+    else:
+        fig.update_layout(showlegend=False)
+    fig.update_yaxes(showgrid=False, row=2, col=1)
+    fig.update_xaxes(showgrid=False, row=2, col=1)
+    fig.update_yaxes(zeroline=False, row=2, col=1)
+    fig.update_xaxes(zeroline=False, row=2, col=1)
+
     return fig
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
@@ -328,16 +380,13 @@ def histogram(x_axis):
     Output(overview_title, 'children'),
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
-    Input(color_blind_option, 'on'),
-    [Input(overview_graph, 'relayoutData')],
-    Input(xrange, 'data')
-
+    Input(color_blind_option, 'on')
 )
-def update_overview_graph(column_name, y_axis_nucleotide, color_blind, relayout_data, xrange):  # function arguments come from the component property of the Input
+def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # function arguments come from the component property of the Input
     df_temp = df
     c_green_red = ['#488f31', '#7da84f', '#acc272', '#d7dc99', '#fff8c3', '#f8d192', '#f3a66e', '#ec785c', '#de425b']
     c_blind_friendly = ['#71915e', '#9bbf85', '#bbd4a6', '#e7f7d5', '#fcf2f8', '#f6d3e8', '#d091bb', '#b3589a',
-                        '#a9398b']
+                        mid_purple]
     if color_blind:
         colors = c_blind_friendly
     else:
@@ -427,7 +476,7 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind, relayout_
         fig.add_annotation(x=start, y=limit[1]+0.1,
                            text=texex,
                            showarrow=False,
-                           font=dict(color=yel, size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
+                           font=dict(color=yel,family=font_list[idx_font], size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
 
     # add intron
     for i in range(len(intron_list)):
@@ -439,15 +488,16 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind, relayout_
     fig.update_layout(
         plot_bgcolor=transparent,
         paper_bgcolor=transparent,
-        xaxis=dict(showgrid=False, visible=False, linecolor=None, linewidth=1),
+        xaxis=dict(showgrid=False, visible=False, linecolor=None, linewidth=1, title="Genomic position"),
         yaxis=yaxis_dict,
-        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation"),
+        font_family=font_list[idx_font],
+        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation", font_family=font_list[idx_font]),
         font_color = yel)
 
 
     return fig.update_layout(
     uirevision=True
-), '### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
+), '#### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
 
 
 # define a white to red gradient
@@ -460,8 +510,8 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind, relayout_
 )
 def show_selected_atoms(atom_ids):
     # Get a color bar
-    fig=px.scatter(df, x='rna.score.1', y='rna.score.2', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', '#FF0000'],
-               title="                  Comparison of RNA replicates")
+    fig=px.scatter(df, x='rna.score.1', y='rna.score.2', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', mid_red],
+                   title="Comparison of RNA replicates")
 
     fig.update_traces(opacity=1)
     fig.update_layout(
@@ -470,9 +520,12 @@ def show_selected_atoms(atom_ids):
         xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
         yaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
         height=300,
-        title_font_size= 12,
+        title_font_size= 18,
         title_x=0.95,
         font_color=yel,
+        font_family=font_list[idx_font],
+        xaxis_title="RNA score",
+        yaxis_title="RNA score",
         coloraxis_colorbar=dict(
             title="SGE fct score",
             # thicknessmode="pixels", thickness=50,
@@ -489,7 +542,7 @@ def show_selected_atoms(atom_ids):
         ))
 
     if atom_ids is None or len(atom_ids) == 0:
-        phr1='No amino acid has been selected. Click somewhere on the protein \
+        phr1='Click somewhere on the protein \
         structure to select an amino acid.'
 
         return phr1, fig
@@ -533,13 +586,14 @@ def update_3d_graph(slct_data):
         showbackground=True,
         backgroundcolor=transparent,
         gridcolor=light_gray,
-        gridwidth=1.5,
+        gridwidth=0.5,
         zeroline=False)
 
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                             color='Exon', custom_data=["var_name", 'Exon',
-                                                        'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'])
+                             color='Exon',
+                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
+                             color_discrete_sequence=exons_color_l1)
         fig2.update_traces(hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
@@ -550,30 +604,37 @@ def update_3d_graph(slct_data):
         fig2.update_layout(scene=dict(
             xaxis_title=dict(text='CADD score', font=dict(color=yel)),
             yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
-            zaxis_title=dict(text='1/UKB_ac', font=dict(color='rgba(248,255,24)')),
+            zaxis_title=dict(text='1/AC', font=dict(color='rgba(248,255,24)')),
             xaxis=black3dbg,
             yaxis=black3dbg,
             zaxis=black3dbg,
             bgcolor=dark_gray),
             paper_bgcolor='rgb(41,41,41)',
-
-            #font_family="Courier New",
+            font_family= font_list[idx_font],
             font_color=yel,
-            #title_font_family="Times New Roman",
+            title_font_family=font_list[idx_font],
             title_text= "Allele frequency, CADD and SGE function score for all variants",
             title_font_color=yel,
+            title_font_size=18,
             legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel )),
             height=785)
 
         return fig2, fig3, fig4, fig5
 
     if slct_data['points'] == []:
-        fig2 = px.scatter_3d(title="Please select at least one variant")
+        fig2 = px.scatter_3d(title= "Please select at least one variant")
+        fig2.update_layout(scene=dict(
+            bgcolor=dark_gray),
+            paper_bgcolor=dark_gray,
+            font_family= font_list[idx_font],
+            font_color=yel,
+            title_font_family=font_list[idx_font],
+            title_font_color=yel,
+            title_font_size=18,
+            height=785)
         return fig2, fig3, fig4, fig5
     else:
-        # print(hov_data['points'][0]['customdata'][0])
         print(f'selected data: {slct_data}')
-
         exons = [slct_data['points'][i]['customdata'][-1] for i in range(len(slct_data['points']))]
         var = [slct_data['points'][i]['customdata'][-2] for i in range(len(slct_data['points']))]
 
@@ -581,9 +642,8 @@ def update_3d_graph(slct_data):
         dff2 = df[df.var_name.isin(var)]
         fig2 = px.scatter_3d(dff2, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
                              color='Exon',
-                             custom_data=["var_name", 'Exon',
-                                          'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
-                             title="Comparison between UKB allele count, CADD and SGE function score for variant in "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
+                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
+                             color_discrete_sequence=exons_color_l1, title="Allele frequency, CADD and SGE function score for a subset of variants")# \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
         fig2.update_traces(hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
@@ -592,9 +652,22 @@ def update_3d_graph(slct_data):
             "Number of allele count in UKB: %{customdata[2]}",
         ]))
         fig2.update_layout(scene=dict(
-            xaxis_title='CADD score',
-            yaxis_title='SGE fct score',
-            zaxis_title='1/UKB_ac'))
+            xaxis_title=dict(text='CADD score', font=dict(color=yel)),
+            yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
+            zaxis_title=dict(text='1/AC', font=dict(color='rgba(248,255,24)')),
+            xaxis=black3dbg,
+            yaxis=black3dbg,
+            zaxis=black3dbg,
+            bgcolor=dark_gray),
+            paper_bgcolor='rgb(41,41,41)',
+            font_family= font_list[idx_font],
+            font_color=yel,
+            title_font_family=font_list[idx_font],
+            title_font_color=yel,
+            title_font_size=18,
+            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel )),
+            height=785)
+
 
         return fig2, fig3, fig4, fig5
 

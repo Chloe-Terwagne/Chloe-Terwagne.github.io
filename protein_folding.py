@@ -153,7 +153,7 @@ Should be: 'atom' | 'residue' | 'residue_type' | 'chain'| residue_score.")
 
     # create gradient color depending on score
     # define a white to red gradient
-    colors = ['#FFFFFF', '#FF0000']
+    colors = ['#FFFFFF', '#93272C']
     cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', colors)
     # convert the normalized values to HEX codes and add a new column
     df['color'] = df[colname_score].apply(lambda x: mcolors.to_hex(cmap(x)))

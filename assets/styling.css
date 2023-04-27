@@ -1,0 +1,58 @@
+.custom-h1 {
+    font-family: Gravitas One;
+    font-size: 50px;
+    color: rgb(214,210,196); /* yel */
+    text-align: center;
+    margin: 0 auto;
+}
+
+.my-custom-title{
+    color: rgb(214,210,196);
+    font-size: 15px !important;
+    font-weight: bold !important;
+    font-family: Gravitas One !important;
+    margin-left: 10px;
+}
+.custom-text {
+    font-family: Gravitas One !important;
+    font-size: 15px !important;
+    color: rgb(214,210,196) !important; /* yel */
+    text-align: center;
+}
+
+
+/* Change background color of the dropdown menu */
+.my-custom-dropdown .Select-menu-outer {
+  background-color: rgba(41,41,41,1); /* darkgray */
+}
+
+/* Change font color and background color of dropdown */
+.my-custom-dropdown .Select-control *{
+    color: rgba(41,41,41,1) !important;
+    font-size: 15px !important;
+    background-color: rgb(214,210,196);
+}
+
+/* Change font color of dropdown options */
+.my-custom-dropdown {
+    color: rgb(214,210,196);
+    font-size: 15px !important;
+    font-family: Gravitas One !important;
+}
+
+
+/* Style label of BooleanSwitch */
+.my-custom-switch *{
+    color: rgb(214,210,196);
+    font-size: 15px !important;
+    font-weight: bold !important;
+    font-family: Gravitas One !important;
+}
+
+.custom-text_left {
+    font-family: Gravitas One !important;
+    font-size: 15px !important;
+    color: rgb(214,210,196) !important; /* yel */
+}
+
+
