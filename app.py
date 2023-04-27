@@ -246,15 +246,7 @@ github_link = html.Div([
         href="http://github.com/",
         style={'color': yel, 'border': yel},
     ),
-    html.Img(
-        src='data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open(
-                    '/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/assets/GitHub-Mark-64px.png',
-                    'rb'
-                ).read()
-            ).decode()
-        ),
+    html.Img( src='/assets/GitHub-Mark-64px.png',
         style={'height': '50px', 'margin-left': '10px'},
     ),
 ], style={
@@ -324,97 +316,100 @@ app.layout = \
         # row 2 ----------------------
         dbc.Row([
             dbc.Col([
-                html.Div(
-                    id='body',
-                    className='app-body',
-                    children=[
-                        html.Div(
-                            id='desc-control-tabs',
-                            className='control-tabs',
-                            children=[
-                                dcc.Tabs(id='about-tabs', value='what-is', children=[
-                                    dcc.Tab(
-                                        label='About',
-                                        value='what-is',
-                                        children=html.Div(className='control-tab', children=[
-                                            html.H4(className='what-is', children='What is Molecule3D?'),
-                                            html.P('Molecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in multiple representations: '
-                                                   'sticks, spheres, and cartoons.'),
-                                            html.P('You can select a preloaded structure, or upload your own, '
-                                                   'in the "Data" tab. A sample structure is also '
-                                                   'available to download.'),
-                                            html.P('In the "View" tab, you can change the style and '
-                                                   'coloring of the various components of your molecule.')
-                                        ])
-                                    ),
-                                    dcc.Tab(
-                                        label='Data',
-                                        value='upload-download',
-                                        children=html.Div(className='control-tab', children=[
-                                            html.H4(className='app-controls-block', children='How the Data come from'),
-                                            html.P('Molecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in multiple representations: '
-                                                   'sticks, spheres, and cartoons.'),
-                                            html.P('You can select a preloaded structure, or upload your own, '
-                                                   'in the "Data" tab. A sample structure is also '
-                                                   'available to download.'),
-                                            html.P('In the "View" tab, you can change the style and '
-                                                   'coloring of the various components of your molecule.')
-                                        ])
-                                    ),
-                                    dcc.Tab(
-                                        label='inter',
-                                        value='interpe',
-                                        children=html.Div(className='control-tab', children=[
-                                            html.H4(className='what-is', children='What is Molecule3D?'),
-                                            html.P('Molecule3D is a visualizer that allows you '
-                                                   'to view biomolecules in multiple representations: '
-                                                   'sticks, spheres, and cartoons.'),
-                                            html.P('You can select a preloaded structure, or upload your own, '
-                                                   'in the "Data" tab. A sample structure is also '
-                                                   'available to download.'),
-                                            html.P('In the "View" tab, you can change the style and '
-                                                   'coloring of the various components of your molecule.')
-                                        ])
-                                    ),
-                                ])
-                            ],
-                            style={'overflow-y': 'auto', 'max-height': '750px'}
-                        )])], className='my-custom-background', xs=12, sm=12, md=6, lg=3, xl=3),
+                dbc.Card(
+                    [
+                                html.Div(
+                                    id='body',
+                                    className='app-body',
+                                    children=[
+                                        html.Div(
+                                            id='desc-control-tabs',
+                                            className='control-tabs',
+                                            children=[
+                                                dcc.Tabs(id='about-tabs', value='what-is', children=[
+                                                    dcc.Tab(
+                                                        label='About',
+                                                        value='what-is',
+                                                        children=html.Div(className='control-tab', children=[
+                                                            html.H4(className='what-is', children='What is Molecule3D?'),
+                                                            html.P('Molecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in multiple representations: '
+                                                                   'sticks, spheres, and cartoons.'),
+                                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                                   'in the "Data" tab. A sample structure is also '
+                                                                   'available to download.'),
+                                                            html.P('In the "View" tab, you can change the style and '
+                                                                   'coloring of the various components of your molecule.')
+                                                        ])
+                                                    ),
+                                                    dcc.Tab(
+                                                        label='Data',
+                                                        value='upload-download',
+                                                        children=html.Div(className='control-tab', children=[
+                                                            html.H4(className='app-controls-block', children='How the Data come from'),
+                                                            html.P('Molecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in multiple representations: '
+                                                                   'sticks, spheres, and cartoons.'),
+                                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                                   'in the "Data" tab. A sample structure is also '
+                                                                   'available to download.'),
+                                                            html.P('In the "View" tab, you can change the style and '
+                                                                   'coloring of the various components of your molecule.')
+                                                        ])
+                                                    ),
+                                                    dcc.Tab(
+                                                        label='inter',
+                                                        value='interpe',
+                                                        children=html.Div(className='control-tab', children=[
+                                                            html.H4(className='what-is', children='What is Molecule3D?'),
+                                                            html.P('Molecule3D is a visualizer that allows you '
+                                                                   'to view biomolecules in multiple representations: '
+                                                                   'sticks, spheres, and cartoons.'),
+                                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                                   'in the "Data" tab. A sample structure is also '
+                                                                   'available to download.'),
+                                                            html.P('In the "View" tab, you can change the style and '
+                                                                   'coloring of the various components of your molecule.')
+                                                        ])
+                                                    ),
+                                                ])
+                                            ],
+                                            style={'overflow-y': 'auto', 'max-height': '750px'}
+                                        )])])],style={'background-color': 'rgba(41,41,41,0)'}, xs=12, sm=12, md=6, lg=3, xl=3),
+
             dbc.Col([
                 dbc.Card([
                     # dbc.CardHeader('Clinvar Histograms'),
