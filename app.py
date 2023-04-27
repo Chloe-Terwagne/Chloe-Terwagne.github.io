@@ -20,15 +20,81 @@ pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
 pd.set_option("display.max_rows", None)
 
+from dash.development.base_component import Component, _explicitize_args
 
+# class BooleanSwitch2(Component) copy from https://github.com/plotly/dash-daq/blob/master/dash_daq/BooleanSwitch.py
+class BooleanSwitch2(Component):
+    """A BooleanSwitch component.
+A switch component that toggles
+between on and off.
+Keyword arguments:
+- id (string; optional):
+    The ID used to identify this component in Dash callbacks.
+- className (string; optional):
+    Class to apply to the root component element.
+- color (string; optional):
+    Color to highlight active switch background.
+- disabled (boolean; optional):
+    If True, switch cannot be clicked.
+- label (dict; optional):
+    Description to be displayed alongside the control. To control
+    styling, pass an object with label and style properties.
+    `label` is a string | dict with keys:
+    - label (string; optional)
+    - style (dict; optional)
+- labelPosition (a value equal to: 'top', 'bottom'; default 'top'):
+    Where the component label is positioned.
+- on (boolean; default False):
+    Whether or not the switch is on.
+- persisted_props (list of a value equal to: 'on's; default ['on']):
+    Properties whose user interactions will persist after refreshing
+    the component or the page. Since only `on` is allowed this prop
+    can normally be ignored.
+- persistence (boolean | string | number; optional):
+    Used to allow user interactions in this component to be persisted
+    when the component - or the page - is refreshed. If `persisted` is
+    truthy and hasn't changed from its previous value, a `value` that
+    the user has changed while using the app will keep that change, as
+    long as the new `value` also matches what was given originally.
+    Used in conjunction with `persistence_type`.
+- persistence_type (a value equal to: 'local', 'session', 'memory'; default 'local'):
+    Where persisted user changes will be stored: memory: only kept in
+    memory, reset on page refresh. local: window.localStorage, data is
+    kept after the browser quit. session: window.sessionStorage, data
+    is cleared once the browser quit.
+- size (number; optional):
+    size of the switch.
+- style (dict; optional):
+    Style to apply to the root object.
+- theme (dict; default light):
+    Theme configuration to be set by a ThemeProvider.
+- vertical (boolean; default False):
+    If True, switch will be vertical instead of horizontal."""
+    @_explicitize_args
+    def __init__(self, id=Component.UNDEFINED, on=Component.UNDEFINED, color=Component.UNDEFINED, vertical=Component.UNDEFINED, disabled=Component.UNDEFINED, theme=Component.UNDEFINED, label=Component.UNDEFINED, labelPosition=Component.UNDEFINED, className=Component.UNDEFINED, style=Component.UNDEFINED, persistence=Component.UNDEFINED, persisted_props=Component.UNDEFINED, persistence_type=Component.UNDEFINED, size=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'theme', 'vertical']
+        self._type = 'BooleanSwitch'
+        self._namespace = 'dash_daq'
+        self._valid_wildcard_attributes =            []
+        self.available_properties = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'theme', 'vertical']
+        self.available_wildcard_properties =            []
+        _explicit_args = kwargs.pop('_explicit_args')
+        _locals = locals()
+        _locals.update(kwargs)  # For wildcard attrs
+        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+        for k in []:
+            if k not in args:
+                raise TypeError(
+                    'Required argument `' + k + '` was not specified.')
+        super(BooleanSwitch2, self).__init__(**args)
 def adding_cols(df, exons):
     df = df.sort_values("position")
-    df = df.rename(columns={"position": "Genomic position", "consequence_ukb":"Variant consequence","clinvar": "Clinvar annotation", "func_class_ukb":"UKB function classification", "func_class_sge":"SGE function classification"})
-    df = df.replace({"UKB function classification": {"neutral":"Neutral", "lof":"Loss of Function"}})
-    df = df.replace({"SGE function classification": {"neutral":"Neutral", "lof":"Loss of Function", "intermediate":"Intermediate"}})
-    df = df.replace({"Variant consequence": {"synonymous":"Synonymous", "missense":"Missense",
+    df = df.rename(columns={"position": "Genomic position", "consequence_ukb":"Consequence","clinvar": "Clinvar", "func_class_ukb":"UKB", "func_class_sge":"SGE"})
+    df = df.replace({"UKB": {"neutral":"Neutral", "lof":"Loss of Function"}})
+    df = df.replace({"SGE": {"neutral":"Neutral", "lof":"Loss of Function", "intermediate":"Intermediate"}})
+    df = df.replace({"Consequence": {"synonymous":"Synonymous", "missense":"Missense",
                                              "stop_gained":"Stop gained", "splice_region":"Splice region", "intron":"Intron", "splice_acceptor":"Splice acceptor", "splice_donor":"Splice donor", "start_lost":"Start lost", "5_utr":"5' UTR"}})
-    df["Clinvar annotation"] = df["Clinvar annotation"].replace('absent', 'Absent')
+    df["Clinvar"] = df["Clinvar"].replace('absent', 'Absent')
     df['var_index'] = [x for x in range(len(df['Genomic position']))]
     # normalize function score
     df['minmax_neg_func_score'] = [-a for a in df['func_score'].to_list()]
@@ -36,7 +102,7 @@ def adding_cols(df, exons):
         'minmax_neg_func_score'].min()) / (df['minmax_neg_func_score'].max() - df[
         'minmax_neg_func_score'].min())
     df['clinvar_simple'] = "Absent / no clear interpretation"
-    df['clinvar_simple']=df['Clinvar annotation'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
+    df['clinvar_simple']=df['Clinvar'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
     # Get size depend on AC
     df['1/AC'] = [1 / x for x in df['cohort_allele_count'].to_list()]
     df['cadd_score'] =df['cadd_score']/50
@@ -113,9 +179,9 @@ brca1_3D=dashbio.Molecule3dViewer(
 #------------------------------------------------------------
 overview_title = dcc.Markdown(children='', style=dict(font_family= font_list[idx_font],font_color=yel))
 overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],  value='Variants aggregated by position', labelClassName="custom-text p-3" )
-items = ['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"]
-overview_dropdown = dcc.Dropdown(options=['Clinvar annotation', 'Variant consequence', "SGE function classification", "UKB function classification"],
-                                value='Variant consequence', clearable=False, className='my-custom-dropdown')
+items = ['Clinvar', 'Consequence', "SGE", "UKB"]
+overview_dropdown = dcc.Dropdown(options=['Clinvar', 'Consequence', "SGE", "UKB"],
+                                value='Consequence', clearable=False, className='my-custom-dropdown')
 overview_graph = dcc.Graph(figure={}, config={
                       'staticPlot': False,     # True, False
                       'scrollZoom': False,      # True, False
@@ -126,10 +192,10 @@ overview_graph = dcc.Graph(figure={}, config={
                       'displaylogo': False,
                       'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
                         }, selectedData=None)
-color_blind_option = daq.BooleanSwitch(on=False, label=dict(label="Color blind friendly", style=dict(font_color=yel)),
-                                       color=mid_purple, labelPosition="right")
-exon_option = daq.BooleanSwitch(on=False, label=dict(label="color by exon", style=dict(font_color=yel)),
-                                       color=yellow, labelPosition="right")
+color_blind_option = BooleanSwitch2(on=False,size=30, label=dict(label="color blind friendly", style=dict(font_color=yel)),
+                                       color=mid_purple, labelPosition="left")
+exon_option = BooleanSwitch2(on=False,size=30, label=dict(label="exon highlighting", style=dict(font_color=yel)),
+                                       color=yellow, labelPosition="left")
 # select Graph
 three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
@@ -186,22 +252,22 @@ app.layout = \
     dbc.Container([
         dbc.Row([html.Br()]),
 
-        dbc.Row(
-            dbc.Col(html.H1("Variant effect interpretation in BRCA1 gene", className='custom-h1'),
-                    width=12)
-        ),
+        dbc.Row([
+            dbc.Col(html.H1("Variant effect in BRCA1 gene", className='custom-h1'), width={'size':7, 'offset':2},),
+            dbc.Col([
+                dbc.Row(color_blind_option, className="my-custom-switch"),
+                dbc.Row(exon_option, className="my-custom-switch")], width={'size':2}, align='right')
+        ], justify='between'),
         # row buffer
         dbc.Row([html.Br()]),
         dbc.Row([html.Br()]),
 
         # Overview graph element ---
-        dbc.Row([
-            dbc.Col(overview_title, width=12, className='my-custom-title' )
-        ]),
-        dbc.Row([dbc.Col(overview_display, width=7),
-                    dbc.Col(overview_dropdown, width=2, className='my-custom-dropdown'),
-                    dbc.Col(color_blind_option, width=2, className="my-custom-switch"),
-                    dbc.Col(exon_option, width=2, className="my-custom-switch"),
+        # dbc.Row([
+        #     dbc.Col(overview_title, width=12, className='my-custom-title' )
+        # ]),
+        dbc.Row([dbc.Col(overview_display, width={'size':6}),
+                    dbc.Col([overview_dropdown], width={'size':2}, align='right', className='my-custom-dropdown'),
                  ], justify='between'),
         dbc.Row([
                  dbc.Col(overview_graph, width=12)
@@ -348,6 +414,7 @@ def histogram(x_axis, color_blind):
 
     if x_axis=='minmax_neg_func_score':
         axlis_label = 'SGE fct score'
+
     elif x_axis=='cadd_score':
         axlis_label = 'CADD score'
     else:
@@ -374,13 +441,19 @@ def histogram(x_axis, color_blind):
     fig.update_xaxes(showgrid=False, row=2, col=1)
     fig.update_yaxes(zeroline=False, row=2, col=1)
     fig.update_xaxes(zeroline=False, row=2, col=1)
+    if x_axis=="minmax_neg_func_score":
+        fig.update_layout(title_font_family = font_list[idx_font],
+        title_text = "Pathogenicity classifiers compared",
+        title_y = 0.925,
+        title_font_color = yel,
+        title_font_size = 18)
 
     return fig
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
 @app.callback(
     Output(component_id=overview_graph, component_property='figure'),
-    Output(overview_title, 'children'),
+    #Output(overview_title, 'children'),
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
     Input(color_blind_option, 'on')
@@ -427,8 +500,8 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
                      color_discrete_map=dict_color_consq,
                      # size="1/AC",
                      color=column_name,
-                     custom_data=["SGE function classification",
-                     "UKB function classification", 'Variant consequence', 'Clinvar annotation',
+                     custom_data=["SGE",
+                     "UKB", 'Consequence', 'Clinvar',
                                   'cohort_allele_count', 'var_name', 'Exon'],
                      category_orders={'label': list(dict_color_consq.keys())}
                      )
@@ -436,8 +509,8 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
     fig.update_traces(marker=dict(size=size_marker, symbol=marker_symb), selector=dict(mode="markers"),
                       hovertemplate="<br>".join([
                           "<b>%{customdata[5]}</b>",
-                          "SGE classification: %{customdata[0]}",
-                          "UKB classification: %{customdata[1]}",
+                          "SGE: %{customdata[0]}",
+                          "UKB: %{customdata[1]}",
                           "Clinvar classication: %{customdata[3]}",
                           "Consequence: %{customdata[2]}",
                           "Number of allele count in UKB: %{customdata[4]}",
@@ -479,8 +552,11 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
         fig.add_annotation(x=start, y=limit[1]+0.1,
                            text=texex,
                            showarrow=False,
-                           font=dict(color=yel,family=font_list[idx_font], size=8), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
-
+                           font=dict(color=yel,family=font_list[idx_font], size=10), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
+    fig.add_shape(type="rect",
+                  x0=start, y0=limit[0]-enlarge-0.2, x1=end, y1= limit[1]+enlarge,
+                  line=dict(color=transparent, width=2),
+                  fillcolor=transparent, layer='below')
     # add intron
     for i in range(len(intron_list)):
         start, end = intron_list[i][0] - 0.5, intron_list[i][1] + 0.5
@@ -491,16 +567,15 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
     fig.update_layout(
         plot_bgcolor=transparent,
         paper_bgcolor=transparent,
-        xaxis=dict(showgrid=False, visible=False, linecolor=None, linewidth=1, title="Genomic position"),
+        xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=1, title="Genomic position"),
         yaxis=yaxis_dict,
         font_family=font_list[idx_font],
-        legend=dict(orientation='h', yanchor='top', y=1.5, xanchor='left', x=0, title="Annotation", font_family=font_list[idx_font]),
+        legend=dict(orientation='h', yanchor='top', y=1.2, xanchor='left', x=0, title="<b>"+column_name+ ' annotation<b>', font_family=font_list[idx_font]),
         font_color = yel)
-
 
     return fig.update_layout(
     uirevision=True
-), '#### BRCA1 gene annotated with ' + column_name.lower()  # returned objects are assigned to the component property of the Output
+)  # returned objects are assigned to the component property of the Output
 
 
 
@@ -579,21 +654,17 @@ def update_3d_graph(slct_data, color_blind, exon_option):
     fig3 = histogram("minmax_neg_func_score", color_blind)
     fig4 = histogram("cadd_score", color_blind)
     fig5 = histogram("1/AC", color_blind)
-    black3dbg = dict(
-        showbackground=True,
-        backgroundcolor=transparent,
-        gridcolor=light_gray,
-        gridwidth=0.5,
-        zeroline=False)
+    black3dbg = dict(showbackground=True,backgroundcolor=transparent,gridcolor=light_gray,gridwidth=0.5, zeroline=False)
+
     if exon_option:
-        color_exons=exons_color_l1
+        color_exons = 'Exon'
         legend_showing=True
     else:
-        color_exons=[yellow]
+        color_exons='cumulative_score'
         legend_showing=False
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                             color='cumulative_score',
+                             color=color_exons, color_discrete_sequence=exons_color_l1,
                              custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'])#color_continuous_scale=[('rgb(246, 190, 0)'),(),()])
         fig2.update_traces(hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b>",
@@ -601,7 +672,11 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             "SGE function score: %{customdata[4]}",
             "CADD score: %{customdata[3]}",
             "Number of allele count in UKB: %{customdata[2]}",
-        ]), marker=dict(size = 4, autocolorscale= True, color=df['cumulative_score']))
+        ]))
+        if not exon_option:
+            fig2.update_traces(marker=dict(size = 4, autocolorscale= True, color=df['cumulative_score']))
+        else:
+            fig2.update_traces(marker=dict(size=4))
         fig2.update_layout(scene=dict(
             xaxis_title=dict(text='CADD score', font=dict(color=yel)),
             yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
@@ -615,9 +690,11 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             font_color=yel,
             title_font_family=font_list[idx_font],
             title_text= "Allele frequency, CADD and SGE function score for all variants",
+            title_y=0.955,
             title_font_color=yel,
             title_font_size=18,
-            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel )),
+            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region",
+                        font=dict(color=yel)),
             showlegend=legend_showing,
             height=785,         coloraxis_colorbar=dict(
             title="Cumulative score",
@@ -643,19 +720,22 @@ def update_3d_graph(slct_data, color_blind, exon_option):
         exons = [slct_data['points'][i]['customdata'][-1] for i in range(len(slct_data['points']))]
         var = [slct_data['points'][i]['customdata'][-2] for i in range(len(slct_data['points']))]
 
-        print(set(exons))
         dff2 = df[df.var_name.isin(var)]
         fig2 = px.scatter_3d(dff2, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
-                             color='Exon',
+                             color=color_exons,
                              custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
-                             color_discrete_sequence=color_exons,  title="Allele frequency, CADD and SGE function score for a subset of variants")# \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
+                             color_discrete_sequence=exons_color_l1,  title="Allele frequency, CADD and SGE function score for a subset of variants")# \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
         fig2.update_traces(hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
             "SGE function score: %{customdata[4]}",
             "CADD score: %{customdata[3]}",
             "Number of allele count in UKB: %{customdata[2]}",
-        ]), marker_size = 4)
+        ]))
+        if not exon_option:
+            fig2.update_traces(marker=dict(size = 4, autocolorscale= True, color=df['cumulative_score']))
+        else:
+            fig2.update_traces(marker=dict(size=4))
         fig2.update_layout(scene=dict(
             xaxis_title=dict(text='CADD score', font=dict(color=yel)),
             yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
