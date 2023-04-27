@@ -14,13 +14,15 @@ from dash_bio.utils import PdbParser
 import base64
 
 import plotly.io as pio
-templates='plotly_dark'
+
+templates = 'plotly_dark'
 
 pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
 pd.set_option("display.max_rows", None)
 
 from dash.development.base_component import Component, _explicitize_args
+
 
 # class BooleanSwitch2(Component) copy from https://github.com/plotly/dash-daq/blob/master/dash_daq/BooleanSwitch.py
 class BooleanSwitch2(Component):
@@ -70,14 +72,22 @@ Keyword arguments:
     Theme configuration to be set by a ThemeProvider.
 - vertical (boolean; default False):
     If True, switch will be vertical instead of horizontal."""
+
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, on=Component.UNDEFINED, color=Component.UNDEFINED, vertical=Component.UNDEFINED, disabled=Component.UNDEFINED, theme=Component.UNDEFINED, label=Component.UNDEFINED, labelPosition=Component.UNDEFINED, className=Component.UNDEFINED, style=Component.UNDEFINED, persistence=Component.UNDEFINED, persisted_props=Component.UNDEFINED, persistence_type=Component.UNDEFINED, size=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'theme', 'vertical']
+    def __init__(self, id=Component.UNDEFINED, on=Component.UNDEFINED, color=Component.UNDEFINED,
+                 vertical=Component.UNDEFINED, disabled=Component.UNDEFINED, theme=Component.UNDEFINED,
+                 label=Component.UNDEFINED, labelPosition=Component.UNDEFINED, className=Component.UNDEFINED,
+                 style=Component.UNDEFINED, persistence=Component.UNDEFINED, persisted_props=Component.UNDEFINED,
+                 persistence_type=Component.UNDEFINED, size=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on', 'persisted_props',
+                            'persistence', 'persistence_type', 'size', 'style', 'theme', 'vertical']
         self._type = 'BooleanSwitch'
         self._namespace = 'dash_daq'
-        self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on', 'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'theme', 'vertical']
-        self.available_wildcard_properties =            []
+        self._valid_wildcard_attributes = []
+        self.available_properties = ['id', 'className', 'color', 'disabled', 'label', 'labelPosition', 'on',
+                                     'persisted_props', 'persistence', 'persistence_type', 'size', 'style', 'theme',
+                                     'vertical']
+        self.available_wildcard_properties = []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
         _locals.update(kwargs)  # For wildcard attrs
@@ -87,13 +97,18 @@ Keyword arguments:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
         super(BooleanSwitch2, self).__init__(**args)
+
+
 def adding_cols(df, exons):
     df = df.sort_values("position")
-    df = df.rename(columns={"position": "Genomic position", "consequence_ukb":"Consequence","clinvar": "Clinvar", "func_class_ukb":"UKB", "func_class_sge":"SGE"})
-    df = df.replace({"UKB": {"neutral":"Neutral", "lof":"Loss of Function"}})
-    df = df.replace({"SGE": {"neutral":"Neutral", "lof":"Loss of Function", "intermediate":"Intermediate"}})
-    df = df.replace({"Consequence": {"synonymous":"Synonymous", "missense":"Missense",
-                                             "stop_gained":"Stop gained", "splice_region":"Splice region", "intron":"Intron", "splice_acceptor":"Splice acceptor", "splice_donor":"Splice donor", "start_lost":"Start lost", "5_utr":"5' UTR"}})
+    df = df.rename(columns={"position": "Genomic position", "consequence_ukb": "Consequence", "clinvar": "Clinvar",
+                            "func_class_ukb": "UKB", "func_class_sge": "SGE"})
+    df = df.replace({"UKB": {"neutral": "Neutral", "lof": "Loss of Function"}})
+    df = df.replace({"SGE": {"neutral": "Neutral", "lof": "Loss of Function", "intermediate": "Intermediate"}})
+    df = df.replace({"Consequence": {"synonymous": "Synonymous", "missense": "Missense",
+                                     "stop_gained": "Stop gained", "splice_region": "Splice region", "intron": "Intron",
+                                     "splice_acceptor": "Splice acceptor", "splice_donor": "Splice donor",
+                                     "start_lost": "Start lost", "5_utr": "5' UTR"}})
     df["Clinvar"] = df["Clinvar"].replace('absent', 'Absent')
     df['var_index'] = [x for x in range(len(df['Genomic position']))]
     # normalize function score
@@ -102,30 +117,36 @@ def adding_cols(df, exons):
         'minmax_neg_func_score'].min()) / (df['minmax_neg_func_score'].max() - df[
         'minmax_neg_func_score'].min())
     df['clinvar_simple'] = "Absent / no clear interpretation"
-    df['clinvar_simple']=df['Clinvar'].map({"Likely pathogenic":"Pathogenic", 'Pathogenic':'Pathogenic',"Pathogenic/Likely pathogenic":"Pathogenic", "Likely benign":"Benign","Benign":'Benign'})
+    df['clinvar_simple'] = df['Clinvar'].map(
+        {"Likely pathogenic": "Pathogenic", 'Pathogenic': 'Pathogenic', "Pathogenic/Likely pathogenic": "Pathogenic",
+         "Likely benign": "Benign", "Benign": 'Benign'})
     # Get size depend on AC
     df['1/AC'] = [1 / x for x in df['cohort_allele_count'].to_list()]
-    df['cadd_score'] =df['cadd_score']/50
+    df['cadd_score'] = df['cadd_score'] / 50
     # Get cumulative score
-    df["cumulative_score"] = (df['1/AC']+df['minmax_neg_func_score']+df['cadd_score'])/3
-    print("cumulative=", min(df["cumulative_score"]),max(df["cumulative_score"]))
+    df["cumulative_score"] = (df['1/AC'] + df['minmax_neg_func_score'] + df['cadd_score']) / 3
+    print("cumulative=", min(df["cumulative_score"]), max(df["cumulative_score"]))
     # Get Y axis based alt nucleotide var
     df['alt_pos'] = [x for x in df['alt'].map({"A": 1.25, "C": 1, "G": 0.75, "T": 0.5})]
     df['ref_pos'] = [x for x in df['ref'].map({"A": 1.25, "C": 1, "G": 0.75, "T": 0.5})]
     df['var_name'] = "chr" + df['chr'].astype(str) + " " + df['Genomic position'].astype(str) + " " + df['ref'].astype(
         str) + ">" + df['alt'].astype(str)
-    df["Exon"]= "Intron"
+    df["Exon"] = "Intron"
     for i in range(len(exons)):
-        df["Exon"] = np.where((df["Genomic position"]> exons[i][1]) & (df["Genomic position"]<exons[i][0]), "Exon "+str(i+1), df["Exon"])
+        df["Exon"] = np.where((df["Genomic position"] > exons[i][1]) & (df["Genomic position"] < exons[i][0]),
+                              "Exon " + str(i + 1), df["Exon"])
     print(df.head())
     print(df.shape)
     return df
 
-font_list=["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One", "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
-idx_font=0 # UCL font
+
+font_list = ["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One",
+             "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
+idx_font = 0  # UCL font
 
 # incorporate data into app
-df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
+df = pd.read_csv(
+    "/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
              (43104956, 43104868), (43104261, 43104122), (43099880, 43099775), (43097289, 43097244),
              (43095922, 43095846), (43094860, 43091435), (43091032, 43090944), (43082575, 43082404),
@@ -133,30 +154,34 @@ exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (
              (43063951, 43063874), (43063373, 43063333), (43057135, 43057052), (43051117, 43051063),
              (43049194, 43049121), (43047703, 43047643), (43045802, 43044295)]
 intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725), (43104957, 43106455),
-              (43104262, 43104867), (43099881, 43104121), (43097290, 43099774), (43095923, 43097243),
-              (43094861, 43095845), (43091033, 43091434), (43082576, 43090943), (43076615, 43082403),
-              (43074522, 43076487), (43071239, 43074330), (43067696, 43070927), (43063952, 43067607),
-              (43063374, 43063873), (43057136, 43063332), (43051118, 43057051), (43049195, 43051062),
-              (43047704, 43049120), (43045803, 43047642)]
+               (43104262, 43104867), (43099881, 43104121), (43097290, 43099774), (43095923, 43097243),
+               (43094861, 43095845), (43091033, 43091434), (43082576, 43090943), (43076615, 43082403),
+               (43074522, 43076487), (43071239, 43074330), (43067696, 43070927), (43063952, 43067607),
+               (43063374, 43063873), (43057136, 43063332), (43051118, 43057051), (43049195, 43051062),
+               (43047704, 43049120), (43045803, 43047642)]
 df = adding_cols(df, exon_list)
 
 # Color Model
-light_gray='rgb(140, 130, 121)' # UCL color
-yellow = 'rgb(246, 190, 0)' # UCL color
-yel="rgb(214,210,196)" # UCL color
-mid_red= 'rgb(147,39,44)'# UCL color
-mid_green='rgb(143,153,62)'# UCL color
-mid_purple = 'rgb(80, 7, 120)'# UCL color
-yel_exon="rgba(214,210,196,0.1)" # UCL color
-dark_gray='rgba(41,41,41,1)' # background
+light_gray = 'rgb(140, 130, 121)'  # UCL color
+yellow = 'rgb(246, 190, 0)'  # UCL color
+yel = "rgb(214,210,196)"  # UCL color
+mid_red = 'rgb(147,39,44)'  # UCL color
+mid_green = 'rgb(143,153,62)'  # UCL color
+mid_purple = 'rgb(80, 7, 120)'  # UCL color
+yel_exon = "rgba(214,210,196,0.1)"  # UCL color
+dark_gray = 'rgba(41,41,41,1)'  # background
 
 dark_gray_transp = 'rgba(41,41,41,0.85)'
-transparent='rgba(0,0,0,0) '
-exons_color_l1= ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)", "rgb(147,208,226)", "rgb(51,58,158)", "rgb(189,155,244)", "rgb(33,74,101)", "rgb(55,141,174)", "rgb(191,1,42)", "rgb(239,187,162)", "rgb(120,48,25)", "rgb(239,151,45)"]
-exons_color_l2=["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rgb(239,106,222)", "rgb(127,238,63)", "rgb(250,117,107)", "rgb(65,216,244)", "rgb(189,137,221)", "rgb(203,223,81)", "rgb(144,164,121)", "rgb(246,238,250)", "rgb(200,147,105)", "rgb(254,143,6)", "rgb(243,192,17)"]
+transparent = 'rgba(0,0,0,0) '
+exons_color_l1 = ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)",
+                  "rgb(147,208,226)", "rgb(51,58,158)", "rgb(189,155,244)", "rgb(33,74,101)", "rgb(55,141,174)",
+                  "rgb(191,1,42)", "rgb(239,187,162)", "rgb(120,48,25)", "rgb(239,151,45)"]
+exons_color_l2 = ["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rgb(239,106,222)", "rgb(127,238,63)",
+                  "rgb(250,117,107)", "rgb(65,216,244)", "rgb(189,137,221)", "rgb(203,223,81)", "rgb(144,164,121)",
+                  "rgb(246,238,250)", "rgb(200,147,105)", "rgb(254,143,6)", "rgb(243,192,17)"]
 # Build your components------------------------------------------------------------------------------------------------
-app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY],suppress_callback_exceptions=True,
-           meta_tags=[{'name': 'viewport','content': 'width=device-width, initial-scale=1.0'}] )
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], suppress_callback_exceptions=True,
+           meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0'}])
 # app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
 # 3D parsing & styling
@@ -166,68 +191,87 @@ data = parser.mol3d_data()
 styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
 
-brca1_3D=dashbio.Molecule3dViewer(
-                                id='dashbio-default-molecule3d',
-                                modelData=data,
-                                styles=styles,
-                                backgroundOpacity=0,
-                                selectionType='residue',
-                                backgroundColor="black",
-                                height=500,
-                                width=1250, zoom=dict(
-        factor= 1.9, animationDuration= 30000, fixedPath=False))
-#------------------------------------------------------------
-overview_title = dcc.Markdown(children='', style=dict(font_family= font_list[idx_font],font_color=yel))
-overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],  value='Variants aggregated by position', labelClassName="custom-text p-3" )
+brca1_3D = dashbio.Molecule3dViewer(
+    id='dashbio-default-molecule3d',
+    modelData=data,
+    styles=styles,
+    backgroundOpacity=0,
+    selectionType='residue',
+    backgroundColor="black",
+    height=500,
+    width=1250, zoom=dict(
+        factor=1.9, animationDuration=30000, fixedPath=False))
+# ------------------------------------------------------------
+overview_title = dcc.Markdown(children='', style=dict(font_family=font_list[idx_font], font_color=yel))
+overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],
+                                  value='Variants aggregated by position', labelClassName="custom-text p-3")
 items = ['Clinvar', 'Consequence', "SGE", "UKB"]
 overview_dropdown = dcc.Dropdown(options=['Clinvar', 'Consequence', "SGE", "UKB"],
-                                value='Consequence', clearable=False, className='my-custom-dropdown')
+                                 value='Consequence', clearable=False, className='my-custom-dropdown')
 overview_graph = dcc.Graph(figure={}, config={
-                      'staticPlot': False,     # True, False
-                      'scrollZoom': False,      # True, False
-                      'doubleClick': 'reset',  # 'reset', 'autosize' or 'reset+autosize', False
-                      'showTips': True,       # True, False
-                      'displayModeBar': 'hover',  # True, False, 'hover'
-                      #'watermark': False,
-                      'displaylogo': False,
-                      'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
-                        }, selectedData=None)
-color_blind_option = BooleanSwitch2(on=False,size=30, label=dict(label="color blind friendly", style=dict(font_color=yel)),
-                                       color=mid_purple, labelPosition="left")
-exon_option = BooleanSwitch2(on=False,size=30, label=dict(label="exon highlighting", style=dict(font_color=yel)),
-                                       color=yellow, labelPosition="left")
+    'staticPlot': False,  # True, False
+    'scrollZoom': False,  # True, False
+    'doubleClick': 'reset',  # 'reset', 'autosize' or 'reset+autosize', False
+    'showTips': True,  # True, False
+    'displayModeBar': 'hover',  # True, False, 'hover'
+    # 'watermark': False,
+    'displaylogo': False,
+    'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
+}, selectedData=None)
+color_blind_option = BooleanSwitch2(on=False, size=30,
+                                    label=dict(label="color blind friendly", style=dict(font_color=yel)),
+                                    color=mid_purple, labelPosition="left")
+exon_option = BooleanSwitch2(on=False, size=30, label=dict(label="exon highlighting", style=dict(font_color=yel)),
+                             color=yellow, labelPosition="left")
 # select Graph
-three_d_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': True,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
+three_d_graph = dcc.Graph(figure={},
+                          config={'staticPlot': False, 'scrollZoom': True, 'doubleClick': 'reset', 'showTips': True,
+                                  'displayModeBar': False, 'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
 #
-clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
-clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
-clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False,'doubleClick': 'reset','showTips': True,'displayModeBar': False,'watermark': False})
+clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
+                                                      'showTips': True, 'displayModeBar': False, 'watermark': False})
+clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
+                                                     'showTips': True, 'displayModeBar': False, 'watermark': False})
+clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
+                                                       'showTips': True, 'displayModeBar': False, 'watermark': False})
 
-mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False,'showTips': False,'displayModeBar': False,'watermark': False})
+mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False, 'showTips': False,
+                                                   'displayModeBar': False, 'watermark': False})
 
-github_link=html.Div([html.A(id='gh-link',
-                        children=[
-                            'View on GitHub'
-                        ],
-                        href="http://github.com/",
-                        style={'color': yel, 'border': yel}),
-                  html.Img(
-                      src='data:image/png;base64,{}'.format(
-                          base64.b64encode(
-                              open(
-                                  '/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/assets/GitHub-Mark-64px.png',
-                                  'rb'
-                              ).read()
-                          ).decode()
-                      ))],
-                 style={
-                     'background': dark_gray,
-                     'color': yel,
-                 })
+github_link = html.Div([
+    html.A(
+        id='gh-link',
+        children=['View on GitHub'],
+        href="http://github.com/",
+        style={'color': yel, 'border': yel},
+    ),
+    html.Img(
+        src='data:image/png;base64,{}'.format(
+            base64.b64encode(
+                open(
+                    '/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/assets/GitHub-Mark-64px.png',
+                    'rb'
+                ).read()
+            ).decode()
+        ),
+        style={'height': '50px', 'margin-left': '10px'},
+    ),
+], style={
+    'background': 'black',
+    'color': yel,
+    'height': '80px',
+    'width': '250px',
+    'border': 'solid 2px white',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'padding': '20px',
+})
 
 text_abreviation = dbc.Card(
     [
+        dbc.CardImg(src="/assets/ucl-banner-port-stone-rgb-lg.png", top=True),
         dbc.CardBody(
             [
                 html.H4("Card title", className="card-title"),
@@ -236,15 +280,16 @@ text_abreviation = dbc.Card(
                     className="card-text",
                 ),
                 github_link,
-                dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/", target="_blank"),
-                dbc.CardLink("UKBiobank initiative", href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank"),
-            ]
+
+                dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/",
+                             target="_blank"),
+                dbc.CardLink("UKBiobank initiative",
+                             href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank"),
+            ],className='my-custom-background'
         )
     ],
     style={"height": "500px"}
 )
-
-
 
 # Customize your own Layout--------------------------------------------------------------------------------------------------
 row_style = {'display': 'flex', 'flex-wrap': 'wrap', 'align-items': 'stretch'}
@@ -253,10 +298,10 @@ app.layout = \
         dbc.Row([html.Br()]),
 
         dbc.Row([
-            dbc.Col(html.H1("Variant effect in BRCA1 gene", className='custom-h1'), width={'size':7, 'offset':2},),
+            dbc.Col(html.H1("Variant effect in BRCA1 gene", className='custom-h1'), width={'size': 7, 'offset': 2}, ),
             dbc.Col([
                 dbc.Row(color_blind_option, className="my-custom-switch"),
-                dbc.Row(exon_option, className="my-custom-switch")], width={'size':2}, align='right')
+                dbc.Row(exon_option, className="my-custom-switch")], width={'size': 2}, align='right')
         ], justify='between'),
         # row buffer
         dbc.Row([html.Br()]),
@@ -266,12 +311,12 @@ app.layout = \
         # dbc.Row([
         #     dbc.Col(overview_title, width=12, className='my-custom-title' )
         # ]),
-        dbc.Row([dbc.Col(overview_display, width={'size':6}),
-                    dbc.Col([overview_dropdown], width={'size':2}, align='right', className='my-custom-dropdown'),
+        dbc.Row([dbc.Col(overview_display, width={'size': 6}),
+                 dbc.Col([overview_dropdown], width={'size': 2}, align='right', className='my-custom-dropdown'),
                  ], justify='between'),
         dbc.Row([
-                 dbc.Col(overview_graph, width=12)
-                 ], justify='around'),
+            dbc.Col(overview_graph, width=12)
+        ], justify='around'),
 
         # row buffer
         dbc.Row([html.Br()]),
@@ -303,53 +348,53 @@ app.layout = \
                                                    'coloring of the various components of your molecule.')
                                         ])
                                     ),
-                                        dcc.Tab(
-                                            label='Data',
-                                            value='upload-download',
-                                            children=html.Div(className='control-tab', children=[
-                                                html.H4(className='app-controls-block', children='How the Data come from'),
-                                                html.P('Molecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                               
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                             
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '                                             
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in muMolecule3D is a visualizer that allows you '
-                                                       'to view biomolecules in multiple representations: '
-                                                       'sticks, spheres, and cartoons.'),
-                                                html.P('You can select a preloaded structure, or upload your own, '
-                                                       'in the "Data" tab. A sample structure is also '
-                                                       'available to download.'),
-                                                html.P('In the "View" tab, you can change the style and '
-                                                       'coloring of the various components of your molecule.')
-                                            ])
+                                    dcc.Tab(
+                                        label='Data',
+                                        value='upload-download',
+                                        children=html.Div(className='control-tab', children=[
+                                            html.H4(className='app-controls-block', children='How the Data come from'),
+                                            html.P('Molecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in muMolecule3D is a visualizer that allows you '
+                                                   'to view biomolecules in multiple representations: '
+                                                   'sticks, spheres, and cartoons.'),
+                                            html.P('You can select a preloaded structure, or upload your own, '
+                                                   'in the "Data" tab. A sample structure is also '
+                                                   'available to download.'),
+                                            html.P('In the "View" tab, you can change the style and '
+                                                   'coloring of the various components of your molecule.')
+                                        ])
                                     ),
                                     dcc.Tab(
                                         label='inter',
@@ -369,10 +414,10 @@ app.layout = \
                                 ])
                             ],
                             style={'overflow-y': 'auto', 'max-height': '750px'}
-                        )])], xs=12, sm=12, md=6, lg=3, xl=3),
+                        )])], className='my-custom-background', xs=12, sm=12, md=6, lg=3, xl=3),
             dbc.Col([
                 dbc.Card([
-                    #dbc.CardHeader('Clinvar Histograms'),
+                    # dbc.CardHeader('Clinvar Histograms'),
                     dbc.CardBody([
                         dbc.Row([
                             dbc.Col(clinvar_hist_graph_sge),
@@ -383,45 +428,50 @@ app.layout = \
                         dbc.Row([
                             dbc.Col(clinvar_hist_graph_cadd),
                         ])
-                    ])
+                    ],className='my-custom-background')
                 ])
-            ], xs=12, sm=12, md=6, lg=3, xl=3),
+            ], className='my-custom-background', xs=12, sm=12, md=6, lg=3, xl=3),
             dbc.Col([three_d_graph], xs=12, sm=12, md=12, lg=5, xl=5)
-        ],style=row_style, justify='around'),
+        ], style=row_style, justify='around'),
 
         # row buffer
         dbc.Row([html.Br()]),
 
         # row 3 ----------------------
         dbc.Row([
-            #3D protein
-            dbc.Col([html.Div([brca1_3D])],  xs=12, sm=12, md=6, lg=7, xl=6),
-            #color bar scatter plot
-            dbc.Col([html.Div([html.Br(),html.Br(),mol_viewer_colorbar,html.Hr(),html.Div(id='default-molecule3d-output',  style={'background-color': dark_gray_transp,
-                                                                                                                        'position': 'relative',
-                                                                                                                        'z-index': '1'
-                                                                                                                        })])], className='custom-text_left', xs=12, sm=12, md=3, lg=3, xl=4),
-            dbc.Col([text_abreviation],  xs=12, sm=4, md=3, lg=2, xl=2),
-        ],style=row_style, justify='around'),
+            # 3D protein
+            dbc.Col([html.Div([brca1_3D])], xs=12, sm=12, md=6, lg=7, xl=6),
+            # color bar scatter plot
+            dbc.Col([html.Div([html.Br(), html.Br(), mol_viewer_colorbar, html.Hr(),
+                               html.Div(id='default-molecule3d-output', style={'background-color': dark_gray_transp,
+                                                                               'position': 'relative',
+                                                                               'z-index': '1'
+                                                                               })])], className='custom-text_left',
+                    xs=12, sm=12, md=3, lg=3, xl=4),
+            dbc.Col([text_abreviation], xs=12, sm=4, md=3, lg=2, xl=2),
+        ], style=row_style, justify='around'),
     ], fluid=True)
 
 
 def histogram(x_axis, color_blind):
     if color_blind:
-        colors = {'Benign':mid_green, 'Pathogenic':mid_purple}
+        colors = {'Benign': mid_green, 'Pathogenic': mid_purple}
     else:
-        colors = {'Benign':mid_green, 'Pathogenic':mid_red}
+        colors = {'Benign': mid_green, 'Pathogenic': mid_red}
 
-    if x_axis=='minmax_neg_func_score':
+    if x_axis == 'minmax_neg_func_score':
         axlis_label = 'SGE fct score'
 
-    elif x_axis=='cadd_score':
+    elif x_axis == 'cadd_score':
         axlis_label = 'CADD score'
     else:
-        axlis_label=x_axis
-    df_t=df
-    df_t = df_t.rename(columns={'clinvar_simple':"Clinvar high confidence", "minmax_neg_func_score":"SGE fct score", 'cadd_score':'CADD score' })
-    fig = px.histogram(df_t, x=axlis_label, color="Clinvar high confidence", color_discrete_map=colors, marginal="rug", hover_data = ["var_name", '1/AC', 'cohort_allele_count', 'CADD score', 'SGE fct score'], hover_name="var_name")
+        axlis_label = x_axis
+    df_t = df
+    df_t = df_t.rename(columns={'clinvar_simple': "Clinvar high confidence", "minmax_neg_func_score": "SGE fct score",
+                                'cadd_score': 'CADD score'})
+    fig = px.histogram(df_t, x=axlis_label, color="Clinvar high confidence", color_discrete_map=colors, marginal="rug",
+                       hover_data=["var_name", '1/AC', 'cohort_allele_count', 'CADD score', 'SGE fct score'],
+                       hover_name="var_name")
 
     fig.update_layout(barmode='overlay')
     fig.update_traces(opacity=0.75)
@@ -430,10 +480,10 @@ def histogram(x_axis, color_blind):
         plot_bgcolor=dark_gray,
         paper_bgcolor=dark_gray,
         font_family=font_list[idx_font],
-        xaxis=dict(showgrid=False, visible=True,  zeroline=True, title=axlis_label),
+        xaxis=dict(showgrid=False, visible=True, zeroline=True, title=axlis_label),
         yaxis=dict(showgrid=False, visible=True, zeroline=True, title="variant number"),
         font_color=yel)
-    if x_axis=='1/AC':
+    if x_axis == '1/AC':
         fig.update_layout(showlegend=True, legend=dict(title='Clinvar'))
     else:
         fig.update_layout(showlegend=False)
@@ -441,24 +491,26 @@ def histogram(x_axis, color_blind):
     fig.update_xaxes(showgrid=False, row=2, col=1)
     fig.update_yaxes(zeroline=False, row=2, col=1)
     fig.update_xaxes(zeroline=False, row=2, col=1)
-    if x_axis=="minmax_neg_func_score":
-        fig.update_layout(title_font_family = font_list[idx_font],
-        title_text = "Pathogenicity classifiers compared",
-        title_y = 0.925,
-        title_font_color = yel,
-        title_font_size = 18)
+    if x_axis == "minmax_neg_func_score":
+        fig.update_layout(title_font_family=font_list[idx_font],
+                          title_text="Pathogenicity classifiers compared",
+                          title_y=0.925,
+                          title_font_color=yel,
+                          title_font_size=18)
 
     return fig
+
 
 # Callback allows components to interact--------------------------------------------------------------------------------------------------
 @app.callback(
     Output(component_id=overview_graph, component_property='figure'),
-    #Output(overview_title, 'children'),
+    # Output(overview_title, 'children'),
     Input(overview_dropdown, 'value'),
     Input(overview_display, 'value'),
     Input(color_blind_option, 'on')
 )
-def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # function arguments come from the component property of the Input
+def update_overview_graph(column_name, y_axis_nucleotide,
+                          color_blind):  # function arguments come from the component property of the Input
     df_temp = df
     c_green_red = [mid_green, '#9bbf85', '#bbd4a6', '#d7dc99', '#fff8c3', '#f8d192', '#f3a66e', '#ec785c', mid_red]
     c_blind_friendly = [mid_green, '#9bbf85', '#bbd4a6', '#e7f7d5', '#fcf2f8', '#f6d3e8', '#d091bb', '#b3589a',
@@ -486,7 +538,7 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
 
     size_marker, height_grph, marker_symb = 8, 340, "square"
     limit = (0.5, 1.25)
-    y_axis = [limit[0] + (limit[1]- limit[0])/2 for x in df_temp['Genomic position']]
+    y_axis = [limit[0] + (limit[1] - limit[0]) / 2 for x in df_temp['Genomic position']]
     yaxis_dict = dict(showgrid=False, visible=False)
 
     if y_axis_nucleotide == "Variants expanded by nucleotide type":
@@ -501,7 +553,7 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
                      # size="1/AC",
                      color=column_name,
                      custom_data=["SGE",
-                     "UKB", 'Consequence', 'Clinvar',
+                                  "UKB", 'Consequence', 'Clinvar',
                                   'cohort_allele_count', 'var_name', 'Exon'],
                      category_orders={'label': list(dict_color_consq.keys())}
                      )
@@ -525,36 +577,38 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
                               custom_data=["Genomic position", "ref", "Exon"],
                               category_orders={'label': list(dict_color_consq.keys())}
                               )
-        ref_plot.update_traces(marker=dict(size=size_marker, symbol="square-open", color=yellow), selector=dict(mode="markers"),
+        ref_plot.update_traces(marker=dict(size=size_marker, symbol="square-open", color=yellow),
+                               selector=dict(mode="markers"),
                                name='ref', hovertemplate="<br>".join([
-                          "<b>Reference allele</b>",
-                          "Position: %{customdata[0]}",
-                            "Nucleotide: %{customdata[1]}"
+                "<b>Reference allele</b>",
+                "Position: %{customdata[0]}",
+                "Nucleotide: %{customdata[1]}"
             ]))
         fig.add_trace(ref_plot.data[0])
 
     # add exon
     for i in range(len(exon_list)):
         start, end = exon_list[i][1] - 0.5, exon_list[i][0] + 0.5
-        enlarge=0.4
-        texex="Exon" + str(i + 1)
+        enlarge = 0.4
+        texex = "Exon" + str(i + 1)
         pos_xanchor = 'center'
-        if i + 1 in [1,2,3,4,5,6,7,8,9]:
-            texex = texex+"   "
+        if i + 1 in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            texex = texex + "   "
         fig.add_shape(type="rect",
-                      x0=start, y0=limit[0]-enlarge, x1=end, y1= limit[1]+enlarge,
+                      x0=start, y0=limit[0] - enlarge, x1=end, y1=limit[1] + enlarge,
                       line=dict(color=yel_exon, width=2),
                       fillcolor=yel_exon, layer='below')
-        if i + 1 in [23,10]:
-            start = start +250
-        if i + 1 in [ 17]:
-            start = start +150
-        fig.add_annotation(x=start, y=limit[1]+0.1,
+        if i + 1 in [23, 10]:
+            start = start + 250
+        if i + 1 in [17]:
+            start = start + 150
+        fig.add_annotation(x=start, y=limit[1] + 0.1,
                            text=texex,
                            showarrow=False,
-                           font=dict(color=yel,family=font_list[idx_font], size=10), textangle=270, xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
+                           font=dict(color=yel, family=font_list[idx_font], size=10), textangle=270,
+                           xanchor=pos_xanchor, yanchor='bottom', bgcolor=dark_gray, opacity=1)
     fig.add_shape(type="rect",
-                  x0=start, y0=limit[0]-enlarge-0.2, x1=end, y1= limit[1]+enlarge,
+                  x0=start, y0=limit[0] - enlarge - 0.2, x1=end, y1=limit[1] + enlarge,
                   line=dict(color=transparent, width=2),
                   fillcolor=transparent, layer='below')
     # add intron
@@ -570,13 +624,13 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
         xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=1, title="Genomic position"),
         yaxis=yaxis_dict,
         font_family=font_list[idx_font],
-        legend=dict(orientation='h', yanchor='top', y=1.2, xanchor='left', x=0, title="<b>"+column_name+ ' annotation<b>', font_family=font_list[idx_font]),
-        font_color = yel)
+        legend=dict(orientation='h', yanchor='top', y=1.2, xanchor='left', x=0,
+                    title="<b>" + column_name + ' annotation<b>', font_family=font_list[idx_font]),
+        font_color=yel)
 
     return fig.update_layout(
-    uirevision=True
-)  # returned objects are assigned to the component property of the Output
-
+        uirevision=True
+    )  # returned objects are assigned to the component property of the Output
 
 
 @app.callback(
@@ -586,8 +640,9 @@ def update_overview_graph(column_name, y_axis_nucleotide, color_blind):  # funct
 )
 def show_selected_atoms(atom_ids):
     # Get a color bar
-    fig=px.scatter(df, x='rna.score.1', y='rna.score.2', color='minmax_neg_func_score', color_continuous_scale=['#FFFFFF', mid_red],
-                   title="Comparison of RNA replicates")
+    fig = px.scatter(df, x='rna.score.1', y='rna.score.2', color='minmax_neg_func_score',
+                     color_continuous_scale=['#FFFFFF', mid_red],
+                     title="Comparison of RNA replicates")
 
     fig.update_traces(opacity=1)
     fig.update_layout(
@@ -596,7 +651,7 @@ def show_selected_atoms(atom_ids):
         xaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
         yaxis=dict(showgrid=False, visible=True, linecolor=None, linewidth=2),
         height=300,
-        title_font_size= 18,
+        title_font_size=18,
         title_x=0.95,
         font_color=yel,
         font_family=font_list[idx_font],
@@ -605,8 +660,8 @@ def show_selected_atoms(atom_ids):
         coloraxis_colorbar=dict(
             title="SGE fct score",
             lenmode="pixels", len=200,
-            yanchor="top", y=1.5,x=-0.5,
-            tickvals=[0,1],
+            yanchor="top", y=1.5, x=-0.5,
+            tickvals=[0, 1],
             tickmode='array',
             ticks="outside",
             ticktext=["Neutral", "LoF"],
@@ -614,31 +669,34 @@ def show_selected_atoms(atom_ids):
         ))
 
     if atom_ids is None or len(atom_ids) == 0:
-        phr1='Click somewhere on the protein \
+        phr1 = 'Click somewhere on the protein \
         structure to select an amino acid.'
 
         return phr1, fig
     for atm in atom_ids:
         print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
 
-    aa_name = 'Amino acid: '+data['atoms'][atm]['residue_name']+'\n'
-    subset_df=df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index']]
+    aa_name = 'Amino acid: ' + data['atoms'][atm]['residue_name'] + '\n'
+    subset_df = df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index']]
     print(subset_df)
     if len(list(subset_df['var_name'])) < 1:
-        return html.Div([html.Br(), html.Div(aa_name),html.Div("No variant correspond to this amino acid"),html.Br()]), fig
+        return html.Div(
+            [html.Br(), html.Div(aa_name), html.Div("No variant correspond to this amino acid"), html.Br()]), fig
 
     else:
         if len(list(subset_df['var_name'])) == 1:
-            variant_nb = str(len(list(subset_df['var_name']))) + ' variant at this position.' +'\n'
+            variant_nb = str(len(list(subset_df['var_name']))) + ' variant at this position.' + '\n'
         if len(list(subset_df['var_name'])) > 1:
-            variant_nb = str(len(list(subset_df['var_name']))) + ' variants at this position.'+'\n'
-        variant_list=[]
+            variant_nb = str(len(list(subset_df['var_name']))) + ' variants at this position.' + '\n'
+        variant_list = []
         for i in range(len(list(subset_df['var_name']))):
-            variant_list.append(str(list(subset_df['var_name'])[i])+' (SGE function score:'+str(list(subset_df['minmax_neg_func_score'])[i])+')')
+            variant_list.append(str(list(subset_df['var_name'])[i]) + ' (SGE function score:' + str(
+                list(subset_df['minmax_neg_func_score'])[i]) + ')')
         return html.Div([html.Br(), html.Div(aa_name),
-            html.Div(variant_nb)]+
-            [html.Div(var) for var in variant_list]+
-            [html.Br()]), fig
+                         html.Div(variant_nb)] +
+                        [html.Div(var) for var in variant_list] +
+                        [html.Br()]), fig
+
 
 @app.callback(
     Output(component_id=three_d_graph, component_property='figure'),
@@ -649,24 +707,25 @@ def show_selected_atoms(atom_ids):
     Input(color_blind_option, 'on'),
     Input(exon_option, 'on')
 )
-
 def update_3d_graph(slct_data, color_blind, exon_option):
     fig3 = histogram("minmax_neg_func_score", color_blind)
     fig4 = histogram("cadd_score", color_blind)
     fig5 = histogram("1/AC", color_blind)
-    black3dbg = dict(showbackground=True,backgroundcolor=transparent,gridcolor=light_gray,gridwidth=0.5, zeroline=False)
+    black3dbg = dict(showbackground=True, backgroundcolor=transparent, gridcolor=light_gray, gridwidth=0.5,
+                     zeroline=False)
 
     if exon_option:
         color_exons = 'Exon'
-        legend_showing=True
+        legend_showing = True
     else:
-        color_exons='cumulative_score'
-        legend_showing=False
+        color_exons = 'cumulative_score'
+        legend_showing = False
     if slct_data is None or slct_data == {'points': []}:
         fig2 = px.scatter_3d(df, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
                              color=color_exons, color_discrete_sequence=exons_color_l1,
-                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'])#color_continuous_scale=[('rgb(246, 190, 0)'),(),()])
-        fig2.update_traces(hovertemplate = "<br>".join([
+                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score',
+                                          'minmax_neg_func_score'])  # color_continuous_scale=[('rgb(246, 190, 0)'),(),()])
+        fig2.update_traces(hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
             "SGE function score: %{customdata[4]}",
@@ -674,7 +733,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             "Number of allele count in UKB: %{customdata[2]}",
         ]))
         if not exon_option:
-            fig2.update_traces(marker=dict(size = 4, autocolorscale= True, color=df['cumulative_score']))
+            fig2.update_traces(marker=dict(size=4, autocolorscale=True, color=df['cumulative_score']))
         else:
             fig2.update_traces(marker=dict(size=4))
         fig2.update_layout(scene=dict(
@@ -686,29 +745,29 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             zaxis=black3dbg,
             bgcolor=dark_gray),
             paper_bgcolor='rgb(41,41,41)',
-            font_family= font_list[idx_font],
+            font_family=font_list[idx_font],
             font_color=yel,
             title_font_family=font_list[idx_font],
-            title_text= "Allele frequency, CADD and SGE function score for all variants",
+            title_text="Allele frequency, CADD and SGE function score for all variants",
             title_y=0.955,
             title_font_color=yel,
             title_font_size=18,
             legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region",
                         font=dict(color=yel)),
             showlegend=legend_showing,
-            height=785,         coloraxis_colorbar=dict(
-            title="Cumulative score",
-            lenmode="pixels", len=380, thickness=8
-        ))
+            height=785, coloraxis_colorbar=dict(
+                title="Cumulative score",
+                lenmode="pixels", len=380, thickness=8
+            ))
 
         return fig2, fig3, fig4, fig5
 
     if slct_data['points'] == []:
-        fig2 = px.scatter_3d(title= "Please select at least one variant")
+        fig2 = px.scatter_3d(title="Please select at least one variant")
         fig2.update_layout(scene=dict(
             bgcolor=dark_gray),
             paper_bgcolor=dark_gray,
-            font_family= font_list[idx_font],
+            font_family=font_list[idx_font],
             font_color=yel,
             title_font_family=font_list[idx_font],
             title_font_color=yel,
@@ -723,9 +782,11 @@ def update_3d_graph(slct_data, color_blind, exon_option):
         dff2 = df[df.var_name.isin(var)]
         fig2 = px.scatter_3d(dff2, x='cadd_score', y='minmax_neg_func_score', z='1/AC',
                              color=color_exons,
-                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score', 'minmax_neg_func_score'],
-                             color_discrete_sequence=exons_color_l1,  title="Allele frequency, CADD and SGE function score for a subset of variants")# \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
-        fig2.update_traces(hovertemplate = "<br>".join([
+                             custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score',
+                                          'minmax_neg_func_score'],
+                             color_discrete_sequence=exons_color_l1)  # \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
+
+        fig2.update_traces(hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
             "SGE function score: %{customdata[4]}",
@@ -733,9 +794,10 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             "Number of allele count in UKB: %{customdata[2]}",
         ]))
         if not exon_option:
-            fig2.update_traces(marker=dict(size = 4, autocolorscale= True, color=df['cumulative_score']))
+            fig2.update_traces(marker=dict(size=4, autocolorscale=True, color=df['cumulative_score']))
         else:
             fig2.update_traces(marker=dict(size=4))
+
         fig2.update_layout(scene=dict(
             xaxis_title=dict(text='CADD score', font=dict(color=yel)),
             yaxis_title=dict(text='SGE fct score', font=dict(color=yel)),
@@ -745,20 +807,22 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             zaxis=black3dbg,
             bgcolor=dark_gray),
             paper_bgcolor='rgb(41,41,41)',
-            font_family= font_list[idx_font],
+            font_family=font_list[idx_font],
             font_color=yel,
             title_font_family=font_list[idx_font],
+            title_text="Allele frequency, CADD and SGE function score for all variants",
+            title_y=0.955,
             title_font_color=yel,
             title_font_size=18,
-            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region", font=dict(color=yel)),
+            legend=dict(orientation='v', yanchor='top', y=0.9, xanchor='left', x=0, title="Region",
+                        font=dict(color=yel)),
             showlegend=legend_showing,
-            height=785)
-
+            height=785, coloraxis_colorbar=dict(
+                title="Cumulative score",
+                lenmode="pixels", len=380, thickness=8
+            ))
 
         return fig2.update_layout(uirevision=True), fig3, fig4, fig5
-
-
-
 
 
 # Run app

@@ -20,6 +20,10 @@
     text-align: center;
 }
 
+.my-custom-background {
+    background-color: blue !important;/* Change this value to your desired color */
+}
+
 
 /* Change background color of the dropdown menu */
 .my-custom-dropdown .Select-menu-outer {
