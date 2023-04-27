@@ -56,6 +56,8 @@ def adding_cols(df, exons):
     return df
 
 font_list=["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One", "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
+idx_font=0 # UCL font
+
 # incorporate data into app
 df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
@@ -108,7 +110,6 @@ brca1_3D=dashbio.Molecule3dViewer(
                                 height=500,
                                 width=1250, zoom=dict(
         factor= 1.9, animationDuration= 30000, fixedPath=False))
-idx_font=6
 #------------------------------------------------------------
 overview_title = dcc.Markdown(children='', style=dict(font_family= font_list[idx_font],font_color=yel))
 overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],  value='Variants aggregated by position', labelClassName="custom-text p-3" )
@@ -620,7 +621,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             showlegend=legend_showing,
             height=785,         coloraxis_colorbar=dict(
             title="Cumulative score",
-            lenmode="pixels", len=200
+            lenmode="pixels", len=380, thickness=8
         ))
 
         return fig2, fig3, fig4, fig5

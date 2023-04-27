@@ -1,5 +1,5 @@
 .custom-h1 {
-    font-family: Gravitas One;
+    font-family: Arial;
     font-size: 50px;
     color: rgb(214,210,196); /* yel */
     text-align: center;
@@ -10,11 +10,11 @@
     color: rgb(214,210,196);
     font-size: 15px !important;
     font-weight: bold !important;
-    font-family: Gravitas One !important;
+    font-family: Arial !important;
     margin-left: 10px;
 }
 .custom-text {
-    font-family: Gravitas One !important;
+    font-family: Arial !important;
     font-size: 15px !important;
     color: rgb(214,210,196) !important; /* yel */
     text-align: center;
@@ -37,7 +37,7 @@
 .my-custom-dropdown {
     color: rgb(214,210,196);
     font-size: 15px !important;
-    font-family: Gravitas One !important;
+    font-family: Arial !important;
 }
 
 
@@ -46,11 +46,11 @@
     color: rgb(214,210,196);
     font-size: 15px !important;
     font-weight: bold !important;
-    font-family: Gravitas One !important;
+    font-family: Arial !important;
 }
 
 .custom-text_left {
-    font-family: Gravitas One !important;
+    font-family: Arial !important;
     font-size: 15px !important;
     color: rgb(214,210,196) !important; /* yel */
 }
