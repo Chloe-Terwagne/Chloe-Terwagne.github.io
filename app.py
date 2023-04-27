@@ -259,9 +259,9 @@ github_link = html.Div([
     ),
 ], style={
     'background': 'black',
-    'color': yel,
+    'color': 'white',
     'height': '80px',
-    'width': '250px',
+    'width': '100%',
     'border': 'solid 2px white',
     'display': 'flex',
     'align-items': 'center',
