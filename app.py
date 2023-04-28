@@ -431,7 +431,7 @@ app.layout = \
                                                 ])
                                             ],
                                             style={'overflow-y': 'auto', 'max-height': '750px'}
-                                        )])])],style={'background-color': 'rgba(41,41,41,0)'}, xs=12, sm=12, md=6, lg=3, xl=3),
+                                        )])])],style={'background-color': 'rgba(41,41,41,0)'}, xs=12, sm=12, md=6, lg=4, xl=4),
 
             dbc.Col([
                 dbc.Card([
@@ -464,8 +464,7 @@ app.layout = \
                                html.Div(id='default-molecule3d-output', style={'background-color': dark_gray_transp,
                                                                                'position': 'relative',
                                                                                'z-index': '1'
-                                                                               })])], className='custom-text_left',
-                    xs=12, sm=12, md=3, lg=3, xl=4),
+                                                                               })])], className='custom-text_left',xs=12, sm=12, md=3, lg=3, xl=4),
             dbc.Col([text_abreviation], xs=12, sm=4, md=3, lg=2, xl=2),
         ], style=row_style, justify='around'),
     ], fluid=True)
