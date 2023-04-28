@@ -1,5 +1,3 @@
-# If you prefer to run the code online instead of on your computer click:
-# https://github.com/Coding-with-Adam/Dash-by-Plotly#execute-code-in-browser
 import numpy as np
 from dash import Dash, dcc, Output, Input  # pip install dash
 import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
@@ -776,7 +774,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
     fig5 = histogram("1/AC", color_blind)
     black3dbg = dict(showbackground=True, backgroundcolor=transparent, gridcolor=light_gray, gridwidth=0.5,
                      zeroline=False)
-
+    subtittle = "<br><sup>Choose the rectangle tool in the menu bar of the gene overview above to subset variants of interest.</sup>"
     if exon_option:
         color_exons = 'Exon'
         legend_showing = True
@@ -788,6 +786,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
                              color=color_exons, color_discrete_sequence=exons_color_l1,
                              custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score',
                                           'minmax_neg_func_score'])  # color_continuous_scale=[('rgb(246, 190, 0)'),(),()])
+
         fig2.update_traces(hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
             "Exon: %{customdata[1]}",
@@ -811,7 +810,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             font_family=font_list[idx_font],
             font_color=yel,
             title_font_family=font_list[idx_font],
-            title_text="Allele frequency, CADD and SGE function score for all variants",
+            title_text="Allele frequency, CADD and SGE function score for all variants"+subtittle,
             title_y=0.955,
             title_font_color=yel,
             title_font_size=18,
@@ -848,6 +847,8 @@ def update_3d_graph(slct_data, color_blind, exon_option):
                              custom_data=["var_name", 'Exon', 'cohort_allele_count', 'cadd_score',
                                           'minmax_neg_func_score'],
                              color_discrete_sequence=exons_color_l1)  # \nin "+str(set(exons)).replace("{", '').replace("'", '').replace("}", ''))
+
+        # add subptitkes
 
         fig2.update_traces(hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
