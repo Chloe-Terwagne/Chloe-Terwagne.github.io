@@ -64,46 +64,6 @@
 
 
 /* Tabs */
-#app-page-content .control-tabs {
-    width: 100%;
-    height: 550px;
-    margin: 50px;
-    margin-right: 0px;
-    font-size: 10pt;
-    float: left;
-    background-color: #ffffff; /* Change in individual app stylesheet */
-}
-
-
-#app-page-content .control-tabs .tab-content {
-    display: inline-block;
-    padding: 20px;
-}
-
-#app-page-content .control-tab {
-    height: 415px;
-    overflow-y: auto;
-    padding-right: 20px;
-    margin: 20px;
-    margin-right: 0px;
-}
-
-#app-page-content .control-tabs .tab {
-    font-weight: 200;
-    font-size: 9pt;
-    height: 50px;
-    padding: 15px;
-    background-color: red !important; /* Change in individual app stylesheet */
-    border: solid 1px #d3d3d3; /* Change in individual app stylesheet */
-}
-
-#app-page-content .control-tabs .tab--selected {
-    font-weight: bolder;
-    border: none;
-    border-top: solid 2px;
-    color: #119dff; /* Change in individual app stylesheet */
-}
-/* -------------------------------------------------------------------------------------------------------- */
 .control-tabs {
     background-color: rgba(41,41,41,1); /* darkgreent */
         width: 100%;
@@ -115,13 +75,16 @@
 .control-tabs .tab-content {
     display: inline-block;
     padding: 20px;
+
 }
 
 .control-tabs .tab {
     background-color: rgb(140, 130, 121) !important; /* light gray */
     font-size: 10pt!important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 
-    /* Change in individual app stylesheet */
+
 }
 
 .control-tabs .tab--selected {
@@ -130,6 +93,7 @@
     background-color: rgba(41,41,41,1) !important; /* ldarkgray */
     border-top: solid 3px rgb(246, 190, 0) !important;
     color: rgb(246, 190, 0) !important /* yellow */
+
 }
 
 /* Control names */
@@ -138,7 +102,7 @@
     margin-top: 20px;
     margin-bottom: 40px;
     font-family: Garamond;
-    font-size:25pt !important;
+    font-size:25pt;
 }
 .app-controls-name {
     display: inline-block;
@@ -149,6 +113,7 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
 .fullwidth-app-controls-name {
     display: inline-block;
     font-weight: 400;
@@ -169,11 +134,25 @@
 abbr {
   color: rgb(246, 190, 0) ; /*yellow;*/
   text-decoration: none !important;
-  color: rgb(214,210,196);
+  color: white;
+    font-size: 12pt;
 
 }
 
-abbr[title]:hover::after {
+abbr:hover::after {
   content: ' (' attr(title) ')';
-    color: rgb(246, 190, 0) ; /*yellow;*/
+  color: rgb(246, 190, 0) ; /*yellow;*/
+  font-size: 12pt;
+
+}
+
+/* style the links rgb(168,129,0)*/
+.custom-link{
+    font-size: 9pt;
+    color: rgb(246, 190, 0);
+
+}
+.custom-link:hover {
+    font-size: 10pt;
+    color: rgb(168,129,0) !important;
 }

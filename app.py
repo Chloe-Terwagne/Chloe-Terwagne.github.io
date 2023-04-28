@@ -176,10 +176,10 @@ cell_style = {'padding-bottom':'20px' , 'font-weight':'bold', 'color':yel} # mor
 bottom_style= {'padding-bottom':'15px'} # more cell type
 
 # Create abbreviation hover
-sge_abbr = html.Abbr('SGE', title='Saturation Genome Editing')
-ukb_abbr = html.Abbr('UKB', title='UKBiobank')
-cadd_abbr = html.Abbr('CADD', title='Combined Annotation Dependent Depletion')
-ac_abbr = html.Abbr('AC', title='Allele Count')
+sge_abbr = html.Abbr('SGE', title=' Saturation Genome Editing ')
+ukb_abbr = html.Abbr('UKB', title=' UKBiobank ')
+cadd_abbr = html.Abbr('CADD', title=' Combined Annotation Dependent Depletion ')
+ac_abbr = html.Abbr('AC', title=' Allele Count ')
 
 dark_gray_transp = 'rgba(41,41,41,0.85)'
 transparent = 'rgba(0,0,0,0) '
@@ -224,10 +224,8 @@ overview_graph = dcc.Graph(figure={}, config={
     'doubleClick': 'reset',  # 'reset', 'autosize' or 'reset+autosize', False
     'showTips': True,  # True, False
     'displayModeBar': 'hover',  # True, False, 'hover'
-    # 'watermark': False,
     'displaylogo': False,
-    'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', "zoom2d"]
-}, selectedData=None)
+    'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],}, selectedData=None)
 color_blind_option = BooleanSwitch2(on=False, size=30,
                                     label=dict(label="color blind friendly", style=dict(font_color=yel)),
                                     color=mid_purple, labelPosition="left")
@@ -244,7 +242,8 @@ clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scro
 clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
                                                      'showTips': True, 'displayModeBar': False, 'watermark': False})
 clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
-                                                       'showTips': True, 'displayModeBar': False, 'watermark': False})
+                                                       'showTips': True, 'displayModeBar': False, 'watermark': False,
+                                                    })
 
 mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False, 'showTips': False,
                                                    'displayModeBar': False, 'watermark': False})
@@ -254,7 +253,7 @@ github_link = html.Div([
         id='gh-link',
         children=['View on GitHub'],
         href="http://github.com/",
-        style={'color': yel, 'border': yel},
+        style={'color': yel, 'border': yel, "text-decoration":'none'},
     ),
     html.Img( src='/assets/GitHub-Mark-64px.png',
         style={'height': '50px', 'margin-left': '10px'},
@@ -269,6 +268,11 @@ github_link = html.Div([
     'align-items': 'center',
     'justify-content': 'center',
     'padding': '20px',
+    "margin-top": "180px",
+    "margin-bottom": "10px"
+
+# 'margin': '4px',
+
 })
 
 text_abreviation = dbc.Card(
@@ -276,22 +280,33 @@ text_abreviation = dbc.Card(
         dbc.CardImg(src="/assets/ucl-banner-port-stone-rgb-lg.png", top=True),
         dbc.CardBody(
             [
-                html.H4("Abbreviation", className="card-title"),
+                html.H4("Quick Resources", className="app-controls-block", style={"font-family": "Garamond",'margin-top': '10px','margin-bottom': '20px', 'font-size':'18pt'}),
                 html.P(
                     "Hover over the acronym to reveal the full name.",
-                    className="card-text"
+                    className="card-text", style={'font-size': '9pt'}
                 ),
-                sge_abbr, html.Br(),
-                ukb_abbr, html.Br(),
-                cadd_abbr,html.Br(),
-                ac_abbr,html.Br(),
+
+                html.Div([
+                    sge_abbr, html.Br(),
+                    ukb_abbr, html.Br()], style={'float': 'left', 'width': '50%'}),
+
+                html.Div([
+                    cadd_abbr,html.Br(),
+                    ac_abbr,html.Br()], style={'float': 'left','width': '50%'}),
 
                 github_link,
-
+                dbc.CardLink(["G.Findlay", html.Em(" et al."), ', 2018'], href="https://www.nature.com/articles/s41586-018-0461-z",
+                             target="_blank",className='custom-link'),
                 dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/",
-                             target="_blank"),
-                dbc.CardLink("UKBiobank initiative",
-                             href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank"),
+                             target="_blank",className='custom-link'),
+                dbc.CardLink("UKB initiative",
+                             href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank",className='custom-link'),
+                # dbc.CardLink("AlphaFold",
+                #              href="https://alphafold.ebi.ac.uk/entry/P38398", target="_blank",className='custom-link'),#https://www.ncbi.nlm.nih.gov/clinvar/intro/
+                # dbc.CardLink("CADD",
+                #              href="https://cadd.gs.washington.edu/info", target="_blank",className='custom-link'),
+                # dbc.CardLink("Clinvar",
+                #              href="https://www.ncbi.nlm.nih.gov/clinvar/intro/", target="_blank",className='custom-link'),
             ],className='my-custom-background'
         )
     ],
@@ -668,7 +683,13 @@ def update_overview_graph(column_name, y_axis_nucleotide,
         font_family=font_list[idx_font],
         legend=dict(orientation='h', yanchor='top', y=1.2, xanchor='left', x=0,
                     title="<b>" + column_name + ' annotation<b>', font_family=font_list[idx_font]),
-        font_color=yel)
+        font_color=yel,
+        modebar=dict(
+        # "bgcolor": yellow,'activecolor':dark_gray, 'color':yel, 'bordercolor':'blue',
+        bgcolor= transparent,
+        activecolor= yel,
+        color= yellow)
+    )
 
     return fig.update_layout(
         uirevision=True
