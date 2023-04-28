@@ -7,8 +7,6 @@ pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
 pd.set_option("display.max_rows", None)
 
-import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
 
 ATOM_COLORS = {
     "C": "#c8c8c8",
