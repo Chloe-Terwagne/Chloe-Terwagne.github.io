@@ -171,6 +171,16 @@ mid_purple = 'rgb(80, 7, 120)'  # UCL color
 yel_exon = "rgba(214,210,196,0.1)"  # UCL color
 dark_gray = 'rgba(41,41,41,1)'  # background
 
+#glossary padding
+cell_style = {'padding-bottom':'20px' , 'font-weight':'bold', 'color':yel} # more title type
+bottom_style= {'padding-bottom':'15px'} # more cell type
+
+# Create abbreviation hover
+sge_abbr = html.Abbr('SGE', title='Saturation Genome Editing')
+ukb_abbr = html.Abbr('UKB', title='UKBiobank')
+cadd_abbr = html.Abbr('CADD', title='Combined Annotation Dependent Depletion')
+ac_abbr = html.Abbr('AC', title='Allele Count')
+
 dark_gray_transp = 'rgba(41,41,41,0.85)'
 transparent = 'rgba(0,0,0,0) '
 exons_color_l1 = ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)",
@@ -266,11 +276,16 @@ text_abreviation = dbc.Card(
         dbc.CardImg(src="/assets/ucl-banner-port-stone-rgb-lg.png", top=True),
         dbc.CardBody(
             [
-                html.H4("Card title", className="card-title"),
+                html.H4("Abbreviation", className="card-title"),
                 html.P(
-                    "This is the body of the card. You can put any text or HTML content here.",
-                    className="card-text",
+                    "Hover over the acronym to reveal the full name.",
+                    className="card-text"
                 ),
+                sge_abbr, html.Br(),
+                ukb_abbr, html.Br(),
+                cadd_abbr,html.Br(),
+                ac_abbr,html.Br(),
+
                 github_link,
 
                 dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/",
@@ -359,18 +374,33 @@ app.layout = \
                                                         value='data-resource',
                                                         children=html.Div(className='control-tab', children=[
                                                             html.H4(className='app-controls-block', children='Data sources'),
-                                                            html.Li(
-                                                                "AlphaFold: A deep learning system developed by Google's DeepMind that predicts the 3D structure of a protein based on its amino acid sequence. The predicted structure can provide valuable information for variant interpretation, as variants can disrupt protein folding and binding, potentially affecting the function of the protein."),
-                                                            html.Li(
-                                                                "CADD: A tool that predicts the deleteriousness of genetic variants based on their similarity to known pathogenic and benign variants. The score takes into account various genomic annotations, such as conservation, functional genomics, and regulatory information, to provide a single score that reflects the likelihood of a variant being deleterious. The higher the CADD score, the more pathogenic the variant is predicted to be."),
-                                                            html.Li(
-                                                                "ClinVar: A public database of genetic variants and their clinical significance. ClinVar is considered a highly trusted, \"gold standard\" resource for variant interpretation, as it collects and curates variant data from multiple sources, including clinical laboratories, research studies, and expert panels. However, it's important to note that the majority of genetic variants have not yet been annotated in ClinVar, meaning that they are classified as \"unknown significance\" or \"absent from ClinVar\"."),
-                                                            html.Li(
-                                                                "Saturation Genome Editing: A lab technique for testing the effects of genetic variants on protein function in cells. It involves systematically introducing mutations into the DNA sequence of a gene using a genome editing tool such as CRISPR-Cas9, and then assessing the resulting changes in the function of the protein that the gene encodes."),
-                                                            html.Li(
-                                                                "Saturation Genome Editing function score: A score assigned to a genetic variant based on its effect on cell survival rates when the variant is introduced into a cell using the Saturation Genome Editing technique. The score reflects the degree to which the variant disrupts the normal function of the protein encoded by the gene. Saturation Genome Editing function scores are experimental measures of variant pathogenicity."),
-                                                            html.Li(
-                                                                "UK Biobank: The biggest human sequencing project to date, containing genetic and health-related data from over 500,000 participants in the United Kingdom. UK Biobank is a valuable resource for researchers studying the genetic basis of diseases, as it provides a large sample size and diverse set of genetic and health-related data.")
+                                                            html.P([
+                                                                "The variants featured in this visualisation board have been observed at least once in the UKBiobank cohort and have undergone experimental testing through saturation genome editing, as described in the ",
+                                                                html.Em("Nature"),
+                                                                " publication ",
+                                                                html.A(
+                                                                    "Accurate classification of BRCA1 variants with saturation genome editing",
+                                                                    href="https://www.nature.com/articles/s41586-018-0461-z",
+                                                                    target="_blank",
+                                                                    style={"font-family": "Garamond", "color": yel, "text-decoration": "none"}
+                                                                    ),
+                                                                " by Greg Findlay ",
+                                                                html.Em("et al."),
+                                                                " in 2018. Further information regarding the data's origin and implications can be found below."
+                                                            ]),
+                                                            html.P(
+                                                                "Saturation Genome Editing is a lab technique for testing the effects of genetic variants on protein function in cells. It involves systematically introducing mutations into the DNA sequence of a gene using a genome editing tool such as CRISPR-Cas9, and then assessing the resulting changes in the function of the protein that the gene encodes."),
+                                                            html.P(
+                                                                "Saturation Genome Editing function score is assigned to a genetic variant based on its effect on cell survival rates when the variant is introduced into a cell using the Saturation Genome Editing technique. The score reflects the degree to which the variant disrupts the normal function of the protein encoded by the gene. Saturation Genome Editing function scores are experimental measures of variant pathogenicity."),
+                                                            html.P(
+                                                                "UK Biobank is the biggest human sequencing project to date, containing genetic and health-related data from over 500,000 participants in the United Kingdom. UK Biobank is a valuable resource for researchers studying the genetic basis of diseases, as it provides a large sample size and diverse set of genetic and health-related data."),
+
+                                                            html.P(
+                                                                "A deep learning system developed by Google's DeepMind, AlphaFold, that predicts the 3D structure of a protein based on its amino acid sequence. The predicted structure can provide valuable information for variant interpretation, as variants can disrupt protein folding and binding, potentially affecting the function of the protein."),
+                                                            html.P(
+                                                                "CADD is a tool that predicts the deleteriousness of genetic variants based on their similarity to known pathogenic and benign variants. The score takes into account various genomic annotations, such as conservation, functional genomics, and regulatory information, to provide a single score that reflects the likelihood of a variant being deleterious. The higher the CADD score, the more pathogenic the variant is predicted to be."),
+                                                            html.P(
+                                                                "ClinVar is a public database of genetic variants and their clinical significance. ClinVar is considered a highly trusted, \"gold standard\" resource for variant interpretation, as it collects and curates variant data from multiple sources, including clinical laboratories, research studies, and expert panels. However, it's important to note that the majority of genetic variants have not yet been annotated in ClinVar, meaning that they are classified as \"unknown significance\" or \"absent from ClinVar\"."),
 
                                                         ])
                                                     ),
@@ -379,53 +409,46 @@ app.layout = \
                                                         label='Glossary',
                                                         value='interpe',
                                                         children=html.Div(className='control-tab', children=[
+                                                            html.Br(),
+                                                            html.Tr([html.Td('Term', style=cell_style), html.Td(
+                                                                'Definition', style=cell_style)]),
                                                             html.Tr([html.Td('BRCA1'), html.Td(
-                                                                'A gene that encodes a protein involved in DNA repair and maintenance of genomic stability. Mutations in the BRCA1 gene are associated with an increased risk of developing breast and ovarian cancer.')]),
+                                                                'A gene that encodes a protein involved in DNA repair and maintenance of genomic stability. Mutations in the BRCA1 gene are associated with an increased risk of developing breast and ovarian cancer.', style=bottom_style)]),
                                                             html.Tr([html.Td('Variant'), html.Td(
-                                                                'A genetic variation that occurs in an individual\'s DNA sequence. Variants can be benign or pathogenic and can affect various biological processes in the body.')]),
+                                                                'A genetic variation that occurs in an individual\'s DNA sequence. Variants can be benign or pathogenic and can affect various biological processes in the body.', style=bottom_style)]),
                                                             html.Tr([html.Td('DNA'), html.Td(
-                                                                'The molecule that carries genetic information and is present in almost all living organisms.')]),
+                                                                'The molecule that carries genetic information and is present in almost all living organisms.', style=bottom_style)]),
                                                             html.Tr([html.Td('Nucleotide'), html.Td(
-                                                                'The basic building block of DNA and RNA, consisting of a sugar molecule, a phosphate group, and one of four nitrogenous bases: adenine (A), cytosine (C), guanine (G), or thymine (T) in DNA (or uracil (U) in RNA). The sequence of nucleotides in DNA encodes genetic information, while the sequence of nucleotides in RNA is used to direct protein synthesis.')]),
+                                                                'The basic building block of DNA and RNA, consisting of a sugar molecule, a phosphate group, and one of four nitrogenous bases: adenine (A), cytosine (C), guanine (G), or thymine (T) in DNA (or uracil (U) in RNA). The sequence of nucleotides in DNA encodes genetic information, while the sequence of nucleotides in RNA is used to direct protein synthesis.', style=bottom_style)]),
                                                             html.Tr([html.Td('RNA'), html.Td(
-                                                                'A molecule that plays a critical role in the transfer of genetic information from DNA to proteins. RNA is involved in a variety of biological processes, including protein synthesis and regulation of gene expression.')]),
+                                                                'A molecule that plays a critical role in the transfer of genetic information from DNA to proteins. RNA is involved in a variety of biological processes, including protein synthesis and regulation of gene expression.', style=bottom_style)]),
                                                             html.Tr([html.Td('Amino acid'), html.Td(
-                                                                'The building blocks of proteins. Amino acids are linked together to form long chains that fold into specific three-dimensional shapes to carry out various biological functions.')]),
+                                                                'The building blocks of proteins. Amino acids are linked together to form long chains that fold into specific three-dimensional shapes to carry out various biological functions.', style=bottom_style)]),
                                                             html.Tr([html.Td('Reference genome'), html.Td(
-                                                                'A standard DNA sequence used as a reference for comparing genetic variation in different individuals. It provides a basis for identifying genetic differences that may contribute to disease or other traits.')]),
+                                                                'A standard DNA sequence used as a reference for comparing genetic variation in different individuals. It provides a basis for identifying genetic differences that may contribute to disease or other traits.', style=bottom_style)]),
                                                             html.Tr([html.Td('Exon'), html.Td(
-                                                                'A coding region of DNA that contains the instructions for making a protein.')]),
+                                                                'A coding region of DNA that contains the instructions for making a protein.', style=bottom_style)]),
                                                             html.Tr([html.Td('Intron'), html.Td(
-                                                                'A non-coding section of DNA that separates the coding regions (exons) of a gene. Introns are removed during the process of making RNA from DNA and do not encode proteins, but can play important regulatory roles in gene expression.')]),
+                                                                'A non-coding section of DNA that separates the coding regions (exons) of a gene. Introns are removed during the process of making RNA from DNA and do not encode proteins, but can play important regulatory roles in gene expression.', style=bottom_style)]),
                                                             html.Tr([html.Td('Allele count'), html.Td(
-                                                                'The number of copies of a particular variant in a given population.')]),
+                                                                'The number of copies of a particular variant in a given population.', style=bottom_style)]),
                                                             html.Tr([html.Td('Loss of Function'), html.Td(
-                                                                'A genetic variation that results in a partial or complete loss of the normal function of a protein. Such variants are often associated with pathogenicity and can lead to genetic diseases or an increased risk of disease.')]),
+                                                                'A genetic variation that results in a partial or complete loss of the normal function of a protein. Such variants are often associated with pathogenicity and can lead to genetic diseases or an increased risk of disease.', style=bottom_style)]),
                                                             html.Tr([html.Td('5\' UTR'), html.Td(
-                                                                'The non-coding region at the beginning of an mRNA molecule, upstream of the start codon, that plays a role in the regulation of gene expression.')]),
+                                                                'The non-coding region at the beginning of an mRNA molecule, upstream of the start codon, that plays a role in the regulation of gene expression.', style=bottom_style)]),
                                                             html.Tr([html.Td('Missense'), html.Td(
-                                                                'A genetic variation that results in a change in the amino acid sequence of a protein.')]),
+                                                                'A genetic variation that results in a change in the amino acid sequence of a protein.', style=bottom_style)]),
                                                             html.Tr([html.Td('Splice acceptor'), html.Td(
-                                                                'A region of DNA that signals the end of an exon and is necessary for proper splicing of the pre-mRNA.')]),
-                                                            html.Tr([html.Td("Splice donor"),
-                                                                                html.Td("A region of DNA that signals the start of an exon and is necessary for proper splicing of the pre-mRNA.")
-                                                                            ]),
-                                                                            html.Tr([
-                                                                                html.Td("Splice region"),
-                                                                                html.Td("A region of DNA that is important for the splicing of pre-mRNA.")
-                                                                            ]),
-                                                                            html.Tr([
-                                                                                html.Td("Start lost"),
-                                                                                html.Td("A genetic variation that causes the loss of the initiation codon in the coding sequence of a gene.")
-                                                                            ]),
-                                                                            html.Tr([
-                                                                                html.Td("Stop gained"),
-                                                                                html.Td("A genetic variation that creates a premature stop codon in the coding sequence of a gene.")
-                                                                            ]),
-                                                                            html.Tr([
-                                                                                html.Td("Synonymous"),
-                                                                                html.Td("A genetic variation that does not change the amino acid sequence of a protein.")
-                                                        ]),
+                                                                'A region of DNA that signals the end of an exon and is necessary for proper splicing of the pre-mRNA.', style=bottom_style)]),
+                                                            html.Tr([html.Td("Splice donor"),html.Td("A region of DNA that signals the start of an exon and is necessary for proper splicing of the pre-mRNA.", style=bottom_style)]),
+                                                            html.Tr([html.Td("Splice region"),html.Td(
+                                                                "A region of DNA that is important for the splicing of pre-mRNA.", style=bottom_style)]),
+                                                            html.Tr([html.Td("Start lost"),html.Td(
+                                                                "A genetic variation that causes the loss of the initiation codon in the coding sequence of a gene.", style=bottom_style)]),
+                                                            html.Tr([ html.Td("Stop gained"),html.Td(
+                                                                "A genetic variation that creates a premature stop codon in the coding sequence of a gene.", style=bottom_style)]),
+                                                            html.Tr([ html.Td("Synonymous"),
+                                                                html.Td("A genetic variation that does not change the amino acid sequence of a protein.", style=bottom_style)]),
                                                         ])
                                                     ),
                                                 ])

@@ -1,9 +1,10 @@
 .custom-h1 {
-    font-family: Arial;
-    font-size: 50px;
     color: rgb(214,210,196); /* yel */
     text-align: center;
-    margin: 0 auto;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    font-family: Garamond;
+    font-size:35pt !important;
 }
 
 .my-custom-title{
@@ -11,7 +12,6 @@
     font-size: 18pt !important;
     font-weight: bold !important;
     font-family: Arial !important;
-    margin-left: 10px;
 }
 .custom-text {
     font-family: Arial !important;
@@ -127,7 +127,7 @@
 .control-tabs .tab--selected {
     font-weight: bolder;
     border: none;
-    background-color: rgba(41,41,41,1) !important; /* ldarkgree */
+    background-color: rgba(41,41,41,1) !important; /* ldarkgray */
     border-top: solid 3px rgb(246, 190, 0) !important;
     color: rgb(246, 190, 0) !important /* yellow */
 }
@@ -137,6 +137,8 @@
     display: block;
     margin-top: 20px;
     margin-bottom: 40px;
+    font-family: Garamond;
+    font-size:25pt !important;
 }
 .app-controls-name {
     display: inline-block;
@@ -162,4 +164,16 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 5px;
+}
+
+abbr {
+  color: rgb(246, 190, 0) ; /*yellow;*/
+  text-decoration: none !important;
+  color: rgb(214,210,196);
+
+}
+
+abbr[title]:hover::after {
+  content: ' (' attr(title) ')';
+    color: rgb(246, 190, 0) ; /*yellow;*/
 }
