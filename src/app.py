@@ -138,8 +138,8 @@ font_list = ["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droi
 idx_font = 0  # UCL font
 
 # incorporate data into app
-df = pd.read_csv(
-    "/VarEffectViz/df/merged_brca1_sge_ukb_2023_04_21.csv")
+
+df = pd.read_csv("https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/df/merged_brca1_sge_ukb_2023_04_21.csv?raw=true")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
              (43104956, 43104868), (43104261, 43104122), (43099880, 43099775), (43097289, 43097244),
              (43095922, 43095846), (43094860, 43091435), (43091032, 43090944), (43082575, 43082404),
@@ -189,7 +189,7 @@ server = app.server
 # app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
 # 3D parsing & styling
-parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/AF-P38398-F1-model_v4.pdb')
+parser = PdbParser('https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/df/AF-P38398-F1-model_v4.pdb?raw=true')
 # from https://alphafold.ebi.ac.uk/entry/P38398
 data = parser.mol3d_data()
 styles = create_style_3d(
@@ -250,7 +250,7 @@ github_link = html.Div([
         style={'color': yel, 'border': yel, "text-decoration":'none'},
         target="_blank"
     ),
-    html.Img( src='/assets/GitHub-Mark-64px.png',
+    html.Img(src='https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/assets/GitHub-Mark-64px.png?raw=true',
         style={'height': '50px', 'margin-left': '10px'},
     ),
 ], style={
@@ -272,7 +272,7 @@ github_link = html.Div([
 
 text_abreviation = dbc.Card(
     [
-        dbc.CardImg(src="/assets/ucl-banner-port-stone-rgb-lg.png", top=True),
+        dbc.CardImg(src="https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/assets/ucl-banner-port-stone-rgb-lg.png?raw=true", top=True),
         dbc.CardBody(
             [
                 html.H4("Quick Resources", className="app-controls-block", style={"font-family": "Garamond",'margin-top': '10px','margin-bottom': '20px', 'font-size':'18pt'}),
