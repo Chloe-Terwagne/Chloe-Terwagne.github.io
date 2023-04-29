@@ -2,7 +2,7 @@ from Bio import SeqIO
 import pandas as pd
 
 # specify the path to your FASTA file
-fasta_file = "/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/BRCA1_38.fna"
+fasta_file = "/VarEffectViz/df/BRCA1_38.fna"
 
 # create an empty dataframe with the desired column names
 df = pd.DataFrame(columns=["chromosome", "position", "nucleotide"])
@@ -21,4 +21,4 @@ for record in SeqIO.parse(fasta_file, "fasta"):
         #print(df_new_row)
         df = pd.concat([df, df_new_row])
 print(df.head())
-df.to_csv( "/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/brca1_refseq.csv")
+df.to_csv( "/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/brca1_refseq.csv")

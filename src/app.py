@@ -1,17 +1,12 @@
 import numpy as np
-from dash import Dash, dcc, Output, Input  # pip install dash
+from dash import Dash, dcc, html, Output, Input
 import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
-from dash import dcc, html, Output, Input
-import dash_daq as daq
 from protein_folding import create_style_3d
 import dash_bio as dashbio
-from dash import html
 from dash_bio.utils import PdbParser
-import base64
 
-import plotly.io as pio
 
 templates = 'plotly_dark'
 
@@ -144,7 +139,7 @@ idx_font = 0  # UCL font
 
 # incorporate data into app
 df = pd.read_csv(
-    "/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
+    "/VarEffectViz/df/merged_brca1_sge_ukb_2023_04_21.csv")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
              (43104956, 43104868), (43104261, 43104122), (43099880, 43099775), (43097289, 43097244),
              (43095922, 43095846), (43094860, 43091435), (43091032, 43090944), (43082575, 43082404),
@@ -194,7 +189,7 @@ server = app.server
 # app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
 # 3D parsing & styling
-parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
+parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/AF-P38398-F1-model_v4.pdb')
 # from https://alphafold.ebi.ac.uk/entry/P38398
 data = parser.mol3d_data()
 styles = create_style_3d(

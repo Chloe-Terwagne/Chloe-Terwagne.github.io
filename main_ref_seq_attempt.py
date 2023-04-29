@@ -44,7 +44,7 @@ def adding_cols(df, exons):
 
 
 # incorporate data into app
-df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
+df = pd.read_csv("/VarEffectViz/df/merged_brca1_sge_ukb_2023_04_21.csv")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
              (43104956, 43104868), (43104261, 43104122), (43099880, 43099775), (43097289, 43097244),
              (43095922, 43095846), (43094860, 43091435), (43091032, 43090944), (43082575, 43082404),
@@ -58,12 +58,12 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
               (43063374, 43063873), (43057136, 43063332), (43051118, 43057051), (43049195, 43051062),
               (43047704, 43049120), (43045803, 43047642)]
 df = adding_cols(df, exon_list)
-df_refseq= pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/brca1_refseq.csv")
+df_refseq= pd.read_csv("/VarEffectViz/df/brca1_refseq.csv")
 # Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
 
 # 3D parsing & styling
-parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
+parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/AF-P38398-F1-model_v4.pdb')
 # from https://alphafold.ebi.ac.uk/entry/P38398
 data = parser.mol3d_data()
 styles = create_style_3d(

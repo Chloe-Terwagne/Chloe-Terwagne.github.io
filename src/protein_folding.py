@@ -181,8 +181,8 @@ Should be: 'atom' | 'residue' | 'residue_type' | 'chain'| residue_score.")
 
 
 #3D parser
-# parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/AF-P38398-F1-model_v4.pdb')
-# df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/Chloe-Terwagne.github.io/df/merged_brca1_sge_ukb_2023_04_21.csv")
+# parser = PdbParser('/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/AF-P38398-F1-model_v4.pdb')
+# df = pd.read_csv("/Users/terwagc/PycharmProjects/dataviz_brca1/VarEffectViz/df/merged_brca1_sge_ukb_2023_04_21.csv")
 # print(df.head())
 # # from https://alphafold.ebi.ac.uk/entry/P38398
 # data = parser.mol3d_data()
