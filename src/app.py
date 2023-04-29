@@ -888,4 +888,4 @@ def update_3d_graph(slct_data, color_blind, exon_option):
 
 # Run app
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8054)
+    app.run_server(debug=True)
