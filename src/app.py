@@ -250,7 +250,7 @@ github_link = html.Div([
         style={'color': yel, 'border': yel, "text-decoration":'none'},
         target="_blank"
     ),
-    html.Img(src='https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/assets/GitHub-Mark-64px.png?raw=true',
+    html.Img(src='https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/src/assets/GitHub-Mark-64px.png?raw=true',
         style={'height': '50px', 'margin-left': '10px'},
     ),
 ], style={
@@ -272,7 +272,7 @@ github_link = html.Div([
 
 text_abreviation = dbc.Card(
     [
-        dbc.CardImg(src="https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/assets/ucl-banner-port-stone-rgb-lg.png?raw=true", top=True),
+        dbc.CardImg(src="https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/src/assets/ucl-banner-port-stone-rgb-lg.png?raw=true", top=True),
         dbc.CardBody(
             [
                 html.H4("Quick Resources", className="app-controls-block", style={"font-family": "Garamond",'margin-top': '10px','margin-bottom': '20px', 'font-size':'18pt'}),
