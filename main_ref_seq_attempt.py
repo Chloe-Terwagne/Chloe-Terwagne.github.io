@@ -1,11 +1,11 @@
 # If you prefer to run the code online instead of on your computer click:
 # https://github.com/Coding-with-Adam/Dash-by-Plotly#execute-code-in-browser
 import numpy as np
-from dash import Dash, dcc, Output, Input  # pip install dash
+from dash import Dash  # pip install dash
 import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
 import plotly.express as px
 import pandas as pd  # pip install pandas
-from dash import dcc, html, Output, Input
+from dash import dcc, Output, Input
 from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash import html

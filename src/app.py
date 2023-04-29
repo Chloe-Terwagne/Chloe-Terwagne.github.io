@@ -190,6 +190,7 @@ exons_color_l2 = ["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rg
 # Build your components------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], suppress_callback_exceptions=True,
            meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0'}])
+server = app.server
 # app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
 # 3D parsing & styling
@@ -250,8 +251,9 @@ github_link = html.Div([
     html.A(
         id='gh-link',
         children=['View on GitHub'],
-        href="http://github.com/",
+        href="https://github.com/Chloe-Terwagne/VarEffectViz",
         style={'color': yel, 'border': yel, "text-decoration":'none'},
+        target="_blank"
     ),
     html.Img( src='/assets/GitHub-Mark-64px.png',
         style={'height': '50px', 'margin-left': '10px'},

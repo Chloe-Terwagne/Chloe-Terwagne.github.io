@@ -1,0 +1,349 @@
+variant_id,chr,position,ref,alt,func_score,func_class_sge,func_class_ukb,consequence_sge,consequence_ukb,func_conflict,consequence_conflict,double_conflict,clinvar,cohort_allele_count,cohort_af,rsid,cadd_score,phylop_mam,polyphen2,sift,bravo_AF,aa_pos,aa_ref,aa_alt,protein_variant,rna.score.1,rna.score.2
+17_43124118_T_C,17,43124118,T,C,-0.045313469,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,5,5.3212547944e-06,"[""rs273898669""]",3.686,1.552,,,0.00016724,,,,,,
+17_43124112_T_C,17,43124112,T,C,0.155764665,neutral,neutral,5_utr,5_utr,no,no,no,Likely benign,23,2.44777720544e-05,"[""rs777262055""]",10.44,1.613,,,3.19e-05,,,,,-0.441031473,-0.119201154
+17_43124106_T_G,17,43124106,T,G,-0.395016874,neutral,neutral,5_utr,5_utr,no,no,no,absent,7,7.4497567122e-06,"[""rs748057929""]",14.76,0.522,,,0.0,,,,,-0.292487301,0.481060375
+17_43124105_G_A,17,43124105,G,A,-0.17657165,neutral,neutral,5_utr,5_utr,no,no,no,absent,1,1.0642509588e-06,[],15.74,0.798,,,0.0,,,,,0.003007018,-0.451121283
+17_43124103_C_T,17,43124103,C,T,-0.477838805,neutral,neutral,5_utr,5_utr,no,no,no,absent,1,1.0642509588e-06,"[""rs1567823538""]",17.5,0.259,,,0.0,,,,,0.137485447,-0.405773776
+17_43124097_T_G,17,43124097,T,G,-0.181630501,neutral,neutral,5_utr,5_utr,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs587781565""]",20.7,0.102,,,0.0,,,,,-0.261170053,-0.223111859
+17_43124097_T_C,17,43124097,T,C,0.180609878,neutral,neutral,5_utr,5_utr,no,no,no,absent,6,6.3855057533e-06,"[""rs587781565""]",19.46,0.102,,,0.0,,,,,0.461750221,-0.710216325
+17_43124096_T_C,17,43124096,T,C,-2.025644729,lof,lof,missense,start_lost,no,yes,no,Conflicting interpretations of pathogenicity,3,3.1927528766e-06,"[""rs80357287""]",24.2,1.613,0.969,0.0,0.0,1.0,M,V,p.M1V,-0.282852324,-0.621071689
+17_43124094_C_A,17,43124094,C,A,-1.89730149,lof,lof,missense,start_lost,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80357475""]",27.7,1.981,0.979,0.0,0.0,1.0,M,I,p.M1I,-0.003516106,-0.791443981
+17_43124081_G_A,17,43124081,G,A,-0.180958273,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1315262605""]",16.94,0.836,0.029,0.04,7.96e-06,6.0,L,F,p.L6F,0.199066039,0.214452075
+17_43124078_G_A,17,43124078,G,A,-0.1488671,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,23,2.44777720544e-05,"[""rs80356994""]",26.1,1.981,0.528,0.0,1.59e-05,7.0,R,C,p.R7C,-0.086302067,-0.154013847
+17_43124077_C_A,17,43124077,C,A,-0.016458552,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs144792613""]",21.1,-0.641,0.09,0.03,0.0,7.0,R,L,p.R7L,-0.176889586,-0.091084504
+17_43124076_G_A,17,43124076,G,A,0.275561384,neutral,neutral,synonymous,synonymous,no,no,no,Benign,136,0.000144738130409,"[""rs149402012""]",14.36,-2.353,,,0.00168833,7.0,R,R,p.R7=,-0.037340488,-0.242084422
+17_43124075_C_T,17,43124075,C,T,-0.560918663,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,3,3.1927528766e-06,"[""rs528902306""]",5.759,-0.106,0.043,0.94,2.39e-05,8.0,V,I,p.V8I,-0.356397129,0.582593843
+17_43124063_G_T,17,43124063,G,T,0.078566622,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],24.0,1.981,0.898,0.08,0.0,12.0,Q,K,p.Q12K,-0.041615896,-0.544155525
+17_43124061_T_C,17,43124061,T,C,-0.113496939,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,10,1.06425095889e-05,"[""rs763230080""]",5.628,1.613,,,0.0,12.0,Q,Q,p.Q12=,-0.009878608,-0.085631822
+17_43124057_C_G,17,43124057,C,G,-0.548239955,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.4,0.82,0.36,0.0,0.0,14.0,V,L,p.V14L,-0.447517422,0.00745491
+17_43124057_C_A,17,43124057,C,A,-1.431762196,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],27.5,0.82,0.907,0.0,0.0,14.0,V,F,p.V14F,-0.058883416,-0.05697035
+17_43124055_G_A,17,43124055,G,A,-0.191276668,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,19,2.02207682189e-05,"[""rs80356827""]",13.3,0.313,,,0.0,14.0,V,V,p.V14=,-0.251131465,0.157506002
+17_43124054_T_G,17,43124054,T,G,0.082683159,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80357031""]",7.246,0.803,0.0,1.0,0.0,15.0,I,L,p.I15L,0.371644308,0.104140096
+17_43124054_T_C,17,43124054,T,C,-0.580415865,neutral,neutral,missense,missense,no,no,no,absent,9,9.57825863e-06,"[""rs80357031""]",16.73,0.803,0.001,0.0,0.0,15.0,I,V,p.I15V,-0.365614639,0.235901509
+17_43124053_A_G,17,43124053,A,G,-2.096972571,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,"[""rs80357316""]",23.0,1.613,0.031,0.0,0.0,15.0,I,T,p.I15T,-0.952039888,-1.616621952
+17_43124046_A_T,17,43124046,A,T,-0.054147018,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],0.723,1.613,,,0.0,17.0,A,A,p.A17=,-0.029195822,0.096620196
+17_43124046_A_C,17,43124046,A,C,-0.05103141,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],0.56,1.613,,,0.0,17.0,A,A,p.A17=,0.07395256,0.070602714
+17_43124044_A_G,17,43124044,A,G,-1.887430163,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,8,8.5140076711e-06,"[""rs80356929""]",25.0,1.613,0.866,0.0,0.0,18.0,M,T,p.M18T,-0.760426529,-1.455167083
+17_43124029_T_G,17,43124029,T,G,-0.608742916,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,"[""rs1597923307""]",26.3,1.613,0.896,0.0,0.0,23.0,E,A,p.E23A,-0.105224639,-0.118015215
+17_43124024_G_T,17,43124024,G,T,-0.194290415,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs397509313""]",25.0,1.981,0.981,0.0,0.0,25.0,P,T,p.P25T,0.142476153,-0.614840268
+17_43124020_A_G,17,43124020,A,G,-1.907673843,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],24.8,1.613,0.9,0.0,0.0,26.0,I,T,p.I26T,-0.067598155,-0.132068742
+17_43124019_G_A,17,43124019,G,A,0.368261302,neutral,neutral,splice_region,splice_region,no,no,no,absent,1,1.0642509588e-06,"[""rs1555600862""]",15.64,-0.272,,,0.0,26.0,I,I,p.I26=,-0.345784349,-0.185726304
+17_43115793_G_C,17,43115793,G,C,0.077067627,neutral,neutral,intron,intron,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs80358006""]",0.047,-2.58,,,1.59e-05,,,,,,
+17_43115793_G_A,17,43115793,G,A,0.203667345,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,792,0.0008428867594409,"[""rs80358006""]",0.275,-2.58,,,0.000517648,,,,,,
+17_43115792_G_T,17,43115792,G,T,-0.290890734,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,19,2.02207682189e-05,"[""rs56328013""]",0.996,-0.152,,,0.000159276,,,,,,
+17_43115792_G_C,17,43115792,G,C,0.124382573,neutral,neutral,intron,intron,no,no,no,Benign,91,9.6846837259e-05,"[""rs56328013""]",0.553,-0.152,,,0.00102733,,,,,,
+17_43115792_G_A,17,43115792,G,A,-0.178939587,neutral,neutral,intron,intron,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs56328013""]",2.9,-0.152,,,0.0,,,,,,
+17_43115791_G_C,17,43115791,G,C,-0.195741894,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,39,4.15057873967e-05,"[""rs80358055""]",0.653,0.248,,,0.000796381,,,,,,
+17_43115790_A_G,17,43115790,A,G,0.108894668,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,"[""rs767144634""]",2.18,-0.706,,,0.0,,,,,,
+17_43115789_T_C,17,43115789,T,C,-0.034011202,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],0.463,-1.873,,,0.0,,,,,,
+17_43115785_A_G,17,43115785,A,G,0.077869211,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,29,3.08632778078e-05,"[""rs80358179""]",1.012,0.122,,,7.17e-05,,,,,,
+17_43115779_A_G,17,43115779,A,G,0.003260381,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs587780805""]",11.74,1.076,,,0.0,27.0,C,C,p.C27=,0.239415654,0.169455447
+17_43115759_G_C,17,43115759,G,C,-2.043268182,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],27.1,2.833,0.98,0.0,0.0,34.0,P,R,p.P34R,-0.456210202,-0.721792366
+17_43115759_G_A,17,43115759,G,A,-1.867931438,lof,neutral,missense,missense,yes,no,no,Uncertain significance,5,5.3212547944e-06,"[""rs786203319""]",31.0,2.833,0.981,0.0,0.0,34.0,P,L,p.P34L,-0.333760937,-0.378308959
+17_43115750_G_C,17,43115750,G,C,-2.485527396,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80356880""]",27.7,2.833,0.974,0.0,7.96e-06,37.0,T,R,p.T37R,-0.497157589,-1.009833058
+17_43115750_G_A,17,43115750,G,A,-0.84183045,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,[],28.3,2.833,0.981,0.0,0.0,37.0,T,I,p.T37I,-0.289206708,-0.34974522
+17_43115746_C_T,17,43115746,C,T,-0.290726688,neutral,neutral,synonymous,synonymous,no,no,no,Benign,236,0.000251163226298,"[""rs1800062""]",15.75,-1.559,,,0.00339258,38.0,K,K,p.K38=,0.060749504,-0.202485854
+17_43115734_T_C,17,43115734,T,C,0.146633898,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,[],26.4,2.285,0.947,0.0,0.0,42.0,I,M,p.I42M,0.268358502,0.109587572
+17_43115729_C_A,17,43115729,C,A,-2.542188514,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs80357446""]",25.0,2.833,0.091,0.0,0.0,44.0,C,F,p.C44F,-0.959187555,-0.792540777
+17_43115727_T_G,17,43115727,T,G,-0.267722267,neutral,neutral,missense,missense,no,no,no,Benign,27,2.873477589e-05,"[""rs769650474""]",23.7,2.285,0.238,0.0,1.59e-05,45.0,K,Q,p.K45Q,-0.157473818,-0.141156242
+17_43115716_T_C,17,43115716,T,C,0.05310847,neutral,neutral,intron,intron,no,no,no,absent,2,2.1285019177e-06,[],15.62,1.092,,,0.0,,,,,,
+17_43115711_C_T,17,43115711,C,T,-0.090876558,neutral,neutral,intron,intron,no,no,no,Likely benign,2,2.1285019177e-06,"[""rs863224417""]",9.429,-0.308,,,7.96e-06,,,,,,
+17_43115707_A_G,17,43115707,A,G,0.376395405,neutral,neutral,intron,intron,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs1060504590""]",10.05,1.056,,,0.0,,,,,,
+17_43115706_C_T,17,43115706,C,T,-0.200243505,neutral,neutral,intron,intron,no,no,no,absent,6,6.3855057533e-06,[],10.65,-0.073,,,0.0,,,,,,
+17_43115706_C_G,17,43115706,C,G,-0.330688412,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],9.463,-0.073,,,0.0,,,,,,
+17_43115703_C_T,17,43115703,C,T,0.20718944,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,"[""rs781568696""]",8.076,-1.982,,,0.0,,,,,,
+17_43106533_T_C,17,43106533,T,C,-0.162758147,neutral,neutral,splice_region,splice_region,no,no,no,absent,2,2.1285019177e-06,"[""rs80356883""]",16.62,2.072,,,0.0,45.0,K,K,p.K45=,-0.044662392,-0.097726195
+17_43106528_C_T,17,43106528,C,T,-1.677983341,lof,neutral,missense,missense,yes,no,no,Pathogenic,5,5.3212547944e-06,"[""rs80357150""]",26.4,2.562,0.657,0.0,0.0,47.0,C,Y,p.C47Y,-0.087172713,-0.319422486
+17_43106527_G_A,17,43106527,G,A,-0.022871896,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs398122635""]",9.347,0.779,,,0.0,47.0,C,C,p.C47=,-0.012042874,0.277312999
+17_43106522_A_C,17,43106522,A,C,-0.696670079,neutral,neutral,missense,missense,no,no,no,absent,3,3.1927528766e-06,"[""rs273897660""]",26.6,2.072,0.956,0.0,7.96e-06,49.0,L,R,p.L49R,0.128647977,0.02194522
+17_43106514_G_A,17,43106514,G,A,-0.164703074,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,4,4.2570038355e-06,"[""rs80357084""]",28.3,2.562,0.999,0.0,0.0,52.0,L,F,p.L52F,-0.149270841,-0.114974847
+17_43106510_T_C,17,43106510,T,C,0.00786607,neutral,neutral,missense,missense,no,no,no,absent,4,4.2570038355e-06,"[""rs1438140067""]",17.68,0.916,0.947,0.26,0.0,53.0,N,S,p.N53S,-0.427912807,-0.39280178
+17_43106507_T_C,17,43106507,T,C,-0.122193843,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs397507189""]",23.1,2.072,0.306,0.01,0.0,54.0,Q,R,p.Q54R,0.107023739,-0.238397948
+17_43106496_G_T,17,43106496,G,T,-0.274594395,neutral,neutral,missense,missense,no,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs397508904""]",22.9,1.26,0.536,0.11,0.0,58.0,P,T,p.P58T,0.121804691,0.022312569
+17_43106496_G_C,17,43106496,G,C,-0.064303467,neutral,neutral,missense,missense,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs397508904""]",12.35,1.26,0.182,0.17,0.0,58.0,P,A,p.P58A,-0.138052329,0.227559675
+17_43106495_G_A,17,43106495,G,A,0.03365898,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.0,1.306,0.536,0.5,0.0,58.0,P,L,p.P58L,-0.015151692,-0.558563564
+17_43106492_G_A,17,43106492,G,A,-0.21669482,neutral,neutral,missense,missense,no,no,no,absent,7,7.4497567122e-06,"[""rs199522616""]",23.0,2.562,0.356,0.19,0.0,59.0,S,L,p.S59L,0.347361531,0.060594622
+17_43106487_A_C,17,43106487,A,C,-1.738348139,lof,neutral,missense,missense,yes,no,no,Pathogenic,4,4.2570038355e-06,"[""rs28897672""]",24.5,2.072,0.9,0.0,1.59e-05,61.0,C,G,p.C61G,-0.159231145,-0.370744689
+17_43106483_G_A,17,43106483,G,A,-0.530946091,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,[],24.2,2.562,0.09,0.0,0.0,62.0,P,L,p.P62L,0.421598099,-0.027016489
+17_43106479_T_A,17,43106479,T,A,-0.448007202,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80356956""]",26.2,1.314,0.948,0.0,0.0,63.0,L,F,p.L63F,-0.096907881,0.09946267
+17_43106470_A_T,17,43106470,A,T,0.331522622,neutral,neutral,missense,missense,no,no,no,absent,6,6.3855057533e-06,"[""rs878854936""]",25.0,0.378,0.691,0.0,0.0,66.0,N,K,p.N66K,-0.133522613,0.787021793
+17_43106470_A_G,17,43106470,A,G,0.191735962,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs878854936""]",8.463,0.378,,,0.0,66.0,N,N,p.N66=,0.698827044,-0.260313244
+17_43106469_C_A,17,43106469,C,A,-0.080995005,neutral,neutral,missense,missense,no,no,no,Benign,84,8.93970805467e-05,"[""rs80357102""]",18.3,-0.065,0.015,0.09,3.19e-05,67.0,D,Y,p.D67Y,0.067195772,-0.147568171
+17_43106466_T_C,17,43106466,T,C,0.061827305,neutral,neutral,missense,missense,no,no,no,Uncertain significance,5,5.3212547944e-06,"[""rs1555597195""]",9.557,0.916,0.117,0.35,0.0,68.0,I,V,p.I68V,0.437967098,-0.078855421
+17_43106465_A_G,17,43106465,A,G,-0.318205181,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.5,2.072,0.067,0.0,0.0,68.0,I,T,p.I68T,0.133257231,0.324804689
+17_43106462_G_A,17,43106462,G,A,-0.002860962,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs273898675""]",27.1,2.562,0.656,0.0,0.0,69.0,T,I,p.T69I,0.192887176,-0.126161135
+17_43106460_T_A,17,43106460,T,A,-2.018377083,lof,lof,nonsense,stop_gained,no,yes,no,absent,1,1.0642509588e-06,[],36.0,2.072,,,0.0,70.0,K,*,p.K70*,-2.584907963,-1.895282248
+17_43106457_T_C,17,43106457,T,C,-1.49271759,lof,neutral,missense,missense,yes,no,no,Pathogenic/Likely pathogenic,1,1.0642509588e-06,"[""rs80357382""]",23.5,2.072,0.382,0.0,0.0,71.0,R,G,p.R71G,-2.549414123,-3.051888373
+17_43106455_C_A,17,43106455,C,A,-1.221119016,intermediate,lof,canonical_splice,splice_donor,gray_zone,yes,yes,Pathogenic,1,1.0642509588e-06,"[""rs80358042""]",26.1,2.562,,,0.0,,,,,,
+17_43106453_T_C,17,43106453,T,C,-1.534756268,lof,neutral,splice_region,splice_region,yes,no,no,Pathogenic,2,2.1285019177e-06,"[""rs80358083""]",13.24,0.873,,,0.0,,,,,,
+17_43106451_T_A,17,43106451,T,A,0.16204435,neutral,neutral,splice_region,splice_region,no,no,no,absent,1,1.0642509588e-06,[],11.91,0.065,,,0.0,,,,,,
+17_43106450_A_G,17,43106450,A,G,0.218263512,neutral,neutral,splice_region,splice_region,no,no,no,absent,2,2.1285019177e-06,[],11.44,0.363,,,0.0,,,,,,
+17_43104956_C_A,17,43104956,C,A,-2.40516553,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],23.2,-0.463,0.04,0.0,0.0,71.0,R,S,p.R71S,-1.041484014,-1.700485082
+17_43104949_G_T,17,43104949,G,T,-0.776106134,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,"[""rs80357234""]",23.3,1.448,0.572,0.31,0.0,74.0,Q,K,p.Q74K,-0.33967932,0.550643614
+17_43104939_G_A,17,43104939,G,A,-0.480636069,neutral,neutral,missense,missense,no,no,no,Uncertain significance,3,3.1927528766e-06,"[""rs80357209""]",32.0,2.753,0.942,0.0,3.19e-05,77.0,T,M,p.T77M,-0.49958472,-0.547560433
+17_43104926_T_C,17,43104926,T,C,0.664720742,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs863224418""]",3.355,-0.355,,,0.0,81.0,Q,Q,p.Q81=,-0.597436347,-0.214411384
+17_43104922_C_T,17,43104922,C,T,-0.093432181,neutral,neutral,missense,missense,no,no,no,absent,5,5.3212547944e-06,"[""rs1060502343""]",24.3,2.753,0.879,0.29,0.0,83.0,V,I,p.V83I,-0.248473641,-0.150760795
+17_43104920_A_C,17,43104920,A,C,0.196945031,neutral,neutral,synonymous,synonymous,no,no,no,absent,2,2.1285019177e-06,[],2.964,1.029,,,0.0,83.0,V,V,p.V83=,-0.681779294,0.573567973
+17_43104914_C_T,17,43104914,C,T,0.165827387,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs756499058""]",11.67,0.396,,,0.0,85.0,E,E,p.E85=,-0.596269115,0.341146024
+17_43104911_T_C,17,43104911,T,C,-0.357514832,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs777491912""]",9.775,-2.13,,,0.0,86.0,L,L,p.L86=,0.44289505,0.657711377
+17_43104911_T_A,17,43104911,T,A,0.170430125,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,7,7.4497567122e-06,"[""rs777491912""]",16.7,-2.13,,,7.96e-06,86.0,L,L,p.L86=,0.173946532,-0.14514775
+17_43104903_A_G,17,43104903,A,G,0.53056219,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80357097""]",16.22,0.489,0.43,0.24,0.0,89.0,I,T,p.I89T,-0.166229877,-0.101652387
+17_43104884_A_G,17,43104884,A,G,-0.021443122,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],8.615,0.426,,,0.0,95.0,L,L,p.L95=,0.033779248,-0.192669691
+17_43104881_G_A,17,43104881,G,A,-0.310482961,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,41,4.36342893144e-05,"[""rs146085503""]",9.107,0.815,,,2.39e-05,96.0,D,D,p.D96=,0.009990717,0.223693839
+17_43104879_G_C,17,43104879,G,C,-1.023823585,intermediate,neutral,missense,missense,gray_zone,no,no,Uncertain significance,7,7.4497567122e-06,"[""rs431825393""]",26.2,1.425,0.962,0.0,7.96e-06,97.0,T,R,p.T97R,0.044612084,-0.397436784
+17_43104867_C_T,17,43104867,C,T,-2.043360448,lof,lof,canonical_splice,splice_donor,no,yes,no,Conflicting interpretations of pathogenicity,6,6.3855057533e-06,"[""rs587782173""]",24.9,2.753,,,0.0,,,,,,
+17_43104867_C_G,17,43104867,C,G,-3.592324857,lof,lof,canonical_splice,splice_donor,no,yes,no,Pathogenic/Likely pathogenic,13,1.38352624655e-05,"[""rs587782173""]",24.6,2.753,,,0.0,,,,,,
+17_43104867_C_A,17,43104867,C,A,-2.078573468,lof,lof,canonical_splice,splice_donor,no,yes,no,Likely pathogenic,13,1.38352624655e-05,"[""rs587782173""]",25.0,2.753,,,1.59e-05,,,,,,
+17_43104863_C_T,17,43104863,C,T,-4.459807329,lof,neutral,splice_region,splice_region,yes,no,no,absent,1,1.0642509588e-06,"[""rs80358149""]",13.44,2.753,,,0.0,,,,,,
+17_43104862_A_G,17,43104862,A,G,-1.948921551,lof,neutral,splice_region,splice_region,yes,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs753859240""]",8.881,2.222,,,2.39e-05,,,,,,
+17_43104861_C_T,17,43104861,C,T,-0.200989586,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,10,1.06425095889e-05,"[""rs80358113""]",6.625,-0.61,,,4.78e-05,,,,,,
+17_43104860_A_G,17,43104860,A,G,0.064171517,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,22,2.34135210955e-05,"[""rs80358101""]",5.578,0.451,,,0.000453937,,,,,,
+17_43104858_C_T,17,43104858,C,T,-0.301209709,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,3,3.1927528766e-06,"[""rs80358001""]",2.583,-0.348,,,2.39e-05,,,,,,
+17_43071020_C_T,17,43071020,C,T,-0.439777683,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs770193975""]",0.234,-1.08,0.011,0.23,7.96e-06,1632.0,V,M,p.V1632M,0.027154065,-0.423119072
+17_43071011_C_T,17,43071011,C,T,0.218818423,neutral,neutral,missense,missense,no,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs200432771""]",11.11,0.225,0.006,0.22,1.59e-05,1635.0,E,K,p.E1635K,-0.23554023,-0.192887311
+17_43071004_G_A,17,43071004,G,A,-0.417492856,neutral,neutral,missense,missense,no,no,no,Benign,42,4.46985402733e-05,"[""rs80357048""]",22.1,2.665,0.022,0.04,1.59e-05,1637.0,P,L,p.P1637L,-1.90627918,0.251136754
+17_43071000_T_C,17,43071000,T,C,-0.081573029,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,9,9.57825863e-06,"[""rs786201216""]",1.696,-0.122,,,7.96e-06,1638.0,E,E,p.E1638=,0.327051908,-0.101268776
+17_43070997_C_G,17,43070997,C,G,0.593827847,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],5.752,0.631,0.006,0.14,0.0,1639.0,L,F,p.L1639F,0.290727264,0.229955911
+17_43070984_C_T,17,43070984,C,T,-0.195403393,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],2.043,-0.073,0.006,1.0,0.0,1644.0,E,K,p.E1644K,0.056378094,0.311013613
+17_43070980_C_G,17,43070980,C,G,0.134062079,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,12,1.27710115066e-05,"[""rs70953661""]",8.586,0.01,0.004,0.37,0.000159276,1645.0,R,T,p.R1645T,-0.016709457,-0.34734424
+17_43070979_C_G,17,43070979,C,G,0.418234042,neutral,neutral,missense,missense,no,no,no,Uncertain significance,6,6.3855057533e-06,"[""rs80357373""]",19.77,-0.078,0.112,0.03,7.96e-06,1645.0,R,S,p.R1645S,0.299563532,0.39157153
+17_43070973_G_T,17,43070973,G,T,-0.114103274,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80357302""]",9.38,-0.128,0.023,0.32,0.0,1647.0,N,K,p.N1647K,0.207655962,-0.212834136
+17_43070973_G_C,17,43070973,G,C,-0.325229905,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],8.322,-0.128,0.023,0.32,0.0,1647.0,N,K,p.N1647K,-0.022783228,0.002200887
+17_43070972_T_C,17,43070972,T,C,0.362390956,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,"[""rs747694453""]",15.84,0.051,0.0,0.01,0.0,1648.0,K,E,p.K1648E,0.102942373,-0.355880444
+17_43070969_T_C,17,43070969,T,C,0.522231651,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1312537519""]",12.91,0.383,0.246,0.17,0.0,1649.0,R,G,p.R1649G,0.020798852,-0.056837829
+17_43070969_T_A,17,43070969,T,A,-1.351211021,lof,lof,nonsense,stop_gained,no,yes,no,absent,1,1.0642509588e-06,[],36.0,0.383,,,0.0,1649.0,R,*,p.R1649*,-1.502258805,-3.242317854
+17_43070968_C_T,17,43070968,C,T,0.075178455,neutral,neutral,missense,missense,no,no,no,absent,10,1.06425095889e-05,[],12.01,0.238,0.005,0.43,0.0,1649.0,R,K,p.R1649K,-0.264945025,-0.192899086
+17_43070968_C_A,17,43070968,C,A,0.139303583,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,[],23.0,0.238,0.011,0.01,0.0,1649.0,R,I,p.R1649I,-0.010796141,-0.135858452
+17_43070967_T_A,17,43070967,T,A,-0.142793622,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],22.8,0.046,0.246,0.03,0.0,1649.0,R,S,p.R1649S,-0.898058687,-0.503923301
+17_43070962_G_A,17,43070962,G,A,-0.631796914,neutral,neutral,missense,missense,no,no,no,absent,11,1.17067605477e-05,"[""rs80356938""]",26.6,1.353,0.661,0.0,0.0,1651.0,S,F,p.S1651F,0.325798139,0.124938376
+17_43070959_A_T,17,43070959,A,T,-1.532355463,lof,neutral,missense,missense,yes,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80356968""]",24.0,2.153,0.028,0.0,0.0,1652.0,M,K,p.M1652K,-0.643328923,-1.334236301
+17_43070959_A_G,17,43070959,A,G,-0.353085227,neutral,neutral,missense,missense,no,no,no,Benign,3,3.1927528766e-06,"[""rs80356968""]",23.2,2.153,0.003,0.0,1.59e-05,1652.0,M,T,p.M1652T,0.032307459,-0.274694842
+17_43070958_C_T,17,43070958,C,T,0.143488826,neutral,neutral,missense,missense,no,no,no,Benign,10608,0.0112895741719063,"[""rs1799967""]",21.2,2.665,0.007,0.37,0.00903096,1652.0,M,I,p.M1652I,0.092510443,-1.00742463
+17_43070953_A_G,17,43070953,A,G,0.169871102,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1408104448""]",11.99,1.186,0.076,0.74,0.0,1654.0,V,A,p.V1654A,0.20662551,0.254198182
+17_43070952_C_T,17,43070952,C,T,0.251788009,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,2,2.1285019177e-06,"[""rs549640262""]",15.96,-1.216,,,0.0,1654.0,V,V,p.V1654=,0.603404931,-0.133001715
+17_43070951_A_G,17,43070951,A,G,-1.782506156,lof,neutral,missense,missense,yes,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs1057518639""]",24.8,2.153,0.432,0.0,0.0,1655.0,S,P,p.S1655P,-0.210058416,-0.656052299
+17_43070946_G_C,17,43070946,G,C,-0.421132233,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],8.872,0.754,,,0.0,1656.0,G,G,p.G1656=,0.416420674,-0.086865032
+17_43070939_G_C,17,43070939,G,C,0.28409581,neutral,neutral,missense,missense,no,no,no,absent,3,3.1927528766e-06,[],11.62,0.314,0.035,0.13,0.0,1659.0,P,A,p.P1659A,0.521735712,0.465733218
+17_43070937_T_C,17,43070937,T,C,0.499233424,neutral,neutral,synonymous,synonymous,no,no,no,absent,2,2.1285019177e-06,[],9.786,-0.143,,,0.0,1659.0,P,P,p.P1659=,0.163560087,0.66443796
+17_43070935_T_C,17,43070935,T,C,0.184538892,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.7,0.983,0.067,0.0,0.0,1660.0,E,G,p.E1660G,-0.041066605,-0.07921146
+17_43070933_C_T,17,43070933,C,T,-0.311873629,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80357401""]",25.8,2.665,0.006,0.0,0.0,1661.0,E,K,p.E1661K,-0.155154857,0.257571958
+17_43070929_A_G,17,43070929,A,G,-0.254857538,neutral,neutral,missense,missense,no,no,no,Benign,2,2.1285019177e-06,"[""rs28897695""]",6.961,-0.113,0.051,0.45,1.59e-05,1662.0,F,S,p.F1662S,0.040688175,0.256497988
+17_43070929_A_C,17,43070929,A,C,0.748164167,neutral,neutral,missense,missense,no,no,no,absent,4,4.2570038355e-06,"[""rs28897695""]",6.824,-0.113,0.002,0.1,7.96e-06,1662.0,F,C,p.F1662C,0.164799435,0.20942062
+17_43070922_A_G,17,43070922,A,G,-1.367797885,lof,neutral,splice_region,splice_region,yes,no,no,Pathogenic/Likely pathogenic,2,2.1285019177e-06,"[""rs80358086""]",12.71,2.108,,,0.0,,,,,,
+17_43067694_A_T,17,43067694,A,T,-2.052323801,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,9,9.57825863e-06,"[""rs80357205""]",22.0,0.392,0.032,0.0,7.96e-06,1663.0,M,K,p.M1663K,-1.088115651,-1.242366026
+17_43067691_A_G,17,43067691,A,G,-0.010177224,neutral,neutral,missense,missense,no,no,no,Benign,5,5.3212547944e-06,"[""rs80357314""]",18.33,0.031,0.001,0.04,7.96e-06,1664.0,L,P,p.L1664P,0.205997066,-0.678056703
+17_43067690_G_A,17,43067690,G,A,-1.033689546,intermediate,neutral,synonymous,synonymous,gray_zone,no,no,Benign,53,5.64053008211e-05,"[""rs142459158""]",9.726,-0.998,,,0.00066896,1664.0,L,L,p.L1664=,-0.379121895,-1.354521827
+17_43067689_C_T,17,43067689,C,T,0.024768716,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,5,5.3212547944e-06,"[""rs80357169""]",22.6,0.697,0.005,0.02,1.59e-05,1665.0,V,M,p.V1665M,-1.164145001,-0.853050768
+17_43067689_C_A,17,43067689,C,A,-0.908947433,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,"[""rs80357169""]",22.9,0.697,0.0,0.0,0.0,1665.0,V,L,p.V1665L,-1.245385054,-2.487370478
+17_43067688_A_C,17,43067688,A,C,-0.53527218,neutral,neutral,missense,missense,no,no,no,absent,3,3.1927528766e-06,"[""rs1476854015""]",21.0,2.099,0.081,0.0,0.0,1665.0,V,G,p.V1665G,0.58372083,-1.343193614
+17_43067685_T_C,17,43067685,T,C,0.083456764,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs397509216""]",19.84,0.937,0.238,0.0,0.0,1666.0,Y,C,p.Y1666C,0.802253228,0.403232042
+17_43067683_T_C,17,43067683,T,C,0.270624841,neutral,neutral,missense,missense,no,no,no,absent,11,1.17067605477e-05,"[""rs80357204""]",23.2,2.099,0.185,0.0,0.0,1667.0,K,E,p.K1667E,-1.28666133,0.061397696
+17_43067682_T_C,17,43067682,T,C,-0.714818329,neutral,neutral,missense,missense,no,no,no,Uncertain significance,12,1.27710115066e-05,"[""rs1057519495""]",22.6,0.935,0.228,0.0,0.0,1667.0,K,R,p.K1667R,-2.012827523,-1.603054726
+17_43067680_A_G,17,43067680,A,G,0.254510722,neutral,neutral,missense,missense,no,no,no,absent,3,3.1927528766e-06,"[""rs587781472""]",23.7,2.099,0.007,0.0,0.0,1668.0,F,L,p.F1668L,0.549523869,0.423565351
+17_43067677_C_A,17,43067677,C,A,-0.401850537,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,24,2.55420230133e-05,"[""rs80357087""]",24.1,2.597,0.234,0.0,7.17e-05,1669.0,A,S,p.A1669S,0.768942289,0.198434918
+17_43067670_T_C,17,43067670,T,C,0.298685821,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],2.108,0.065,0.004,0.06,0.0,1671.0,K,R,p.K1671R,0.707146836,0.178933297
+17_43067662_T_C,17,43067662,T,C,0.262136308,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,"[""rs1050371477""]",0.032,-0.214,0.002,0.38,0.0,1674.0,I,V,p.I1674V,-0.134481099,0.051516343
+17_43067658_G_A,17,43067658,G,A,0.036029592,neutral,neutral,missense,missense,no,no,no,Uncertain significance,6,6.3855057533e-06,"[""rs150729791""]",10.83,1.34,0.005,0.05,3.19e-05,1675.0,T,I,p.T1675I,-0.072830922,0.05371334
+17_43067649_T_C,17,43067649,T,C,0.202968897,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],4.587,0.94,0.023,0.17,0.0,1678.0,N,S,p.N1678S,-1.660262026,-0.536457952
+17_43067640_G_A,17,43067640,G,A,-0.786038538,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,"[""rs766784305""]",19.54,0.707,0.001,0.0,0.0,1681.0,T,I,p.T1681I,-1.123030939,-1.072162074
+17_43067630_A_T,17,43067630,A,T,0.052413622,neutral,neutral,synonymous,synonymous,no,no,no,absent,5,5.3212547944e-06,"[""rs760922019""]",7.454,0.051,,,0.0,1684.0,T,T,p.T1684=,-0.003566701,0.250162862
+17_43067628_G_A,17,43067628,G,A,-1.991576216,lof,neutral,missense,missense,yes,no,no,Pathogenic,2,2.1285019177e-06,"[""rs80357043""]",24.7,2.597,0.309,0.0,0.0,1685.0,T,I,p.T1685I,-1.701698829,-1.185624843
+17_43067625_T_C,17,43067625,T,C,-1.336637073,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,4,4.2570038355e-06,"[""rs730882166""]",26.3,2.099,0.727,0.0,0.0,1686.0,H,R,p.H1686R,-0.507171119,-0.350038125
+17_43067618_A_G,17,43067618,A,G,0.200876186,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,"[""rs1567771967""]",10.36,0.059,,,0.0,1688.0,V,V,p.V1688=,0.370687096,0.233723353
+17_43067616_A_G,17,43067616,A,G,0.042316509,neutral,neutral,missense,missense,no,no,no,Uncertain significance,3,3.1927528766e-06,"[""rs80357061""]",24.0,2.099,0.292,0.0,0.0,1689.0,M,T,p.M1689T,0.21404919,0.093139753
+17_43067614_T_G,17,43067614,T,G,-0.112956322,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs397507239""]",23.6,0.926,0.085,0.0,7.96e-06,1690.0,K,Q,p.K1690Q,0.206023818,-0.15926326
+17_43067614_T_A,17,43067614,T,A,-2.053738767,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs397507239""]",41.0,0.926,,,0.0,1690.0,K,*,p.K1690*,-1.594946817,-3.047654049
+17_43067611_T_C,17,43067611,T,C,-1.196233684,intermediate,neutral,missense,missense,gray_zone,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs397509219""]",23.3,2.099,0.004,0.0,0.0,1691.0,T,A,p.T1691A,0.041899857,-0.716056036
+17_43067605_T_C,17,43067605,T,C,-2.154739532,lof,neutral,splice_region,splice_region,yes,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs80358181""]",16.22,2.009,,,0.0,,,,,,
+17_43067603_T_A,17,43067603,T,A,0.10593612,neutral,neutral,splice_region,splice_region,no,no,no,absent,8,8.5140076711e-06,"[""rs431825411""]",14.45,-0.279,,,0.0,,,,,,
+17_43067602_G_C,17,43067602,G,C,-0.356637438,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,24,2.55420230133e-05,"[""rs80358032""]",12.9,0.586,,,4.78e-05,,,,,,
+17_43067599_T_C,17,43067599,T,C,-0.106800329,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,[],14.56,0.288,,,0.0,,,,,,
+17_43067598_C_T,17,43067598,C,T,-0.116775604,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,"[""rs780970459""]",13.55,0.138,,,0.0,,,,,,
+17_43067598_C_G,17,43067598,C,G,-0.134265777,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],13.08,0.138,,,0.0,,,,,,
+17_43063961_G_A,17,43063961,G,A,-0.404398998,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,[],14.75,2.704,,,0.0,,,,,,
+17_43063958_A_C,17,43063958,A,C,-1.954886408,lof,neutral,splice_region,splice_region,yes,no,no,absent,1,1.0642509588e-06,[],7.361,-0.341,,,0.0,,,,,,
+17_43063957_G_T,17,43063957,G,T,-0.404042955,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,29,3.08632778078e-05,"[""rs397507240""]",10.1,0.106,,,3.19e-05,,,,,,
+17_43063947_A_G,17,43063947,A,G,0.103384146,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],10.26,-0.362,,,0.0,1693.0,A,A,p.A1693=,-0.067427161,-0.062710793
+17_43063946_C_A,17,43063946,C,A,-2.094537619,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,2,2.1285019177e-06,"[""rs80356896""]",49.0,2.76,,,0.0,1694.0,E,*,p.E1694*,-3.338768748,-1.915607329
+17_43063943_A_G,17,43063943,A,G,0.383736701,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,[],23.7,0.48,0.505,0.42,0.0,1695.0,F,L,p.F1695L,-0.023792048,0.561916086
+17_43063940_C_G,17,43063940,C,G,-0.405383961,neutral,neutral,missense,missense,no,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs80357125""]",29.6,2.76,0.541,0.0,0.0,1696.0,V,L,p.V1696L,-0.056478351,0.514635617
+17_43063938_C_T,17,43063938,C,T,-0.216494983,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs878854956""]",17.2,1.337,,,0.0,1696.0,V,V,p.V1696=,-0.020671214,0.197511149
+17_43063926_T_C,17,43063926,T,C,0.338185218,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,24,2.55420230133e-05,"[""rs45519437""]",4.07,-0.401,,,2.39e-05,1700.0,T,T,p.T1700=,-0.002541528,0.356035546
+17_43063925_G_C,17,43063925,G,C,-0.118243586,neutral,neutral,missense,missense,no,no,no,absent,4,4.2570038355e-06,[],27.0,2.76,0.726,0.0,0.0,1701.0,L,V,p.L1701V,0.089759242,0.033489999
+17_43063923_C_T,17,43063923,C,T,-0.446391938,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,6,6.3855057533e-06,"[""rs1060504591""]",13.0,2.76,,,0.0,1701.0,L,L,p.L1701=,-0.243210457,-0.212908142
+17_43063920_T_C,17,43063920,T,C,0.472194553,neutral,neutral,synonymous,synonymous,no,no,no,Conflicting interpretations of pathogenicity,5,5.3212547944e-06,"[""rs1060504574""]",6.946,0.48,,,0.0,1702.0,K,K,p.K1702=,0.092658454,-0.176823978
+17_43063917_A_G,17,43063917,A,G,0.240886342,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs80356974""]",0.153,0.477,,,0.0,1703.0,Y,Y,p.Y1703=,0.0,-0.071377912
+17_43063916_A_G,17,43063916,A,G,-1.665280081,lof,neutral,missense,missense,yes,no,no,Uncertain significance,3,3.1927528766e-06,"[""rs1555578599""]",28.2,2.228,0.583,0.0,0.0,1704.0,F,L,p.F1704L,0.169309726,0.065654612
+17_43063913_G_A,17,43063913,G,A,-0.224553799,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs80356858""]",12.32,0.79,,,0.0,1705.0,L,L,p.L1705=,-0.13818617,-0.310937775
+17_43063909_C_G,17,43063909,C,G,-0.05142991,neutral,neutral,missense,missense,no,no,no,Benign,38,4.04415364378e-05,"[""rs80356860""]",27.7,2.76,0.872,0.0,5.57e-05,1706.0,G,A,p.G1706A,0.05063316,-0.426994821
+17_43063907_T_G,17,43063907,T,G,0.078022189,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1597820147""]",29.1,2.228,0.789,0.0,0.0,1707.0,I,L,p.I1707L,0.197868903,0.011722752
+17_43063903_G_T,17,43063903,G,T,-2.008257997,lof,neutral,missense,missense,yes,no,no,Pathogenic,2,2.1285019177e-06,"[""rs28897696""]",33.0,2.76,0.958,0.0,0.0,1708.0,A,E,p.A1708E,-0.519697544,-0.510559746
+17_43063903_G_C,17,43063903,G,C,-2.228883533,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,"[""rs28897696""]",32.0,2.76,0.897,0.0,0.0,1708.0,A,G,p.A1708G,-2.770106653,-3.385854114
+17_43063903_G_A,17,43063903,G,A,-0.222956413,neutral,neutral,missense,missense,no,no,no,Uncertain significance,11,1.17067605477e-05,"[""rs28897696""]",34.0,2.76,0.857,0.0,7.96e-05,1708.0,A,V,p.A1708V,-0.27260624,0.17753171
+17_43063902_C_T,17,43063902,C,T,0.018938745,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,7,7.4497567122e-06,"[""rs1057520432""]",19.29,0.472,,,1.59e-05,1708.0,A,A,p.A1708=,-0.012153306,-0.219184236
+17_43063898_C_T,17,43063898,C,T,-0.014297121,neutral,neutral,missense,missense,no,no,no,absent,4,4.2570038355e-06,"[""rs397509229""]",27.8,2.76,0.994,0.1,0.0,1710.0,G,R,p.G1710R,0.072342189,-0.100715205
+17_43063888_A_C,17,43063888,A,C,-1.88795031,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],31.0,2.314,0.955,0.0,0.0,1713.0,V,G,p.V1713G,-0.075510174,-0.47788585
+17_43063887_T_C,17,43063887,T,C,-0.045735221,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs1555578550""]",10.35,0.549,,,0.0,1713.0,V,V,p.V1713=,0.225716555,0.185240577
+17_43063885_A_C,17,43063885,A,C,-2.079409178,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80357243""]",28.4,2.314,0.989,0.0,0.0,1714.0,V,G,p.V1714G,-4.00018706,-4.537689286
+17_43063882_C_T,17,43063882,C,T,-2.294657307,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs45444999""]",25.6,2.869,0.763,0.1,0.0,1715.0,S,N,p.S1715N,-0.628300552,-0.347362224
+17_43063879_T_C,17,43063879,T,C,-0.344807992,neutral,neutral,missense,missense,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs587782456""]",26.2,2.314,0.526,0.0,0.0,1716.0,Y,C,p.Y1716C,-0.170511092,-0.224368824
+17_43063873_C_A,17,43063873,C,A,-1.991297583,lof,lof,canonical_splice,splice_donor,no,yes,no,Pathogenic,2,2.1285019177e-06,"[""rs80358094""]",26.8,2.869,,,0.0,,,,,,
+17_43063869_C_G,17,43063869,C,G,-1.629165727,lof,neutral,splice_region,splice_region,yes,no,no,Likely pathogenic,1,1.0642509588e-06,"[""rs80358165""]",16.64,2.869,,,0.0,,,,,,
+17_43063867_T_C,17,43063867,T,C,-1.852847706,lof,neutral,splice_region,splice_region,yes,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80358046""]",13.34,2.226,,,0.0,,,,,,
+17_43063402_C_T,17,43063402,C,T,0.04028393,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],5.08,1.404,,,0.0,,,,,,
+17_43063399_T_C,17,43063399,T,C,-0.530451116,neutral,neutral,intron,intron,no,no,no,absent,8,8.5140076711e-06,"[""rs80358109""]",7.399,2.197,,,0.0,,,,,,
+17_43063386_T_C,17,43063386,T,C,-0.24786014,neutral,neutral,intron,intron,no,no,no,Benign,48,5.10840460267e-05,"[""rs45471406""]",9.704,0.014,,,0.0,,,,,,
+17_43063385_A_G,17,43063385,A,G,0.167830653,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],12.04,0.932,,,0.0,,,,,,
+17_43063382_A_C,17,43063382,A,C,-0.42829821,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],13.25,0.99,,,0.0,,,,,,
+17_43063379_G_T,17,43063379,G,T,0.024077949,neutral,neutral,splice_region,splice_region,no,no,no,Benign,39,4.15057873967e-05,"[""rs80358129""]",13.26,1.446,,,3.98e-05,,,,,,
+17_43063379_G_A,17,43063379,G,A,-0.415853637,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,5,5.3212547944e-06,"[""rs80358129""]",14.07,1.446,,,7.96e-06,,,,,,
+17_43063376_A_G,17,43063376,A,G,-0.757082079,intermediate,neutral,splice_region,splice_region,gray_zone,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs375639469""]",12.78,-0.342,,,7.96e-06,,,,,,
+17_43063373_C_T,17,43063373,C,T,-2.041025857,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,6,6.3855057533e-06,"[""rs41293461""]",46.0,2.721,,,0.0,1718.0,W,*,p.W1718*,,
+17_43063371_C_T,17,43063371,C,T,-0.5405589,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs749465132""]",33.0,2.721,0.975,0.0,0.0,1719.0,V,M,p.V1719M,,
+17_43063369_C_T,17,43063369,C,T,-0.018048913,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,12,1.27710115066e-05,"[""rs28897697""]",15.84,0.325,,,0.0,1719.0,V,V,p.V1719=,,
+17_43063369_C_A,17,43063369,C,A,0.096113316,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,80,8.51400767112e-05,"[""rs28897697""]",16.79,0.325,,,4.78e-05,1719.0,V,V,p.V1719=,,
+17_43063368_T_C,17,43063368,T,C,0.132285866,neutral,neutral,missense,missense,no,no,no,Benign,117,0.0001245173621901,"[""rs56195342""]",23.2,0.963,0.419,0.03,7.96e-05,1720.0,T,A,p.T1720A,,
+17_43063363_C_T,17,43063363,C,T,0.283238014,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,17,1.80922663011e-05,"[""rs1403122031""]",15.74,2.721,,,0.0,1721.0,Q,Q,p.Q1721=,,
+17_43063351_T_C,17,43063351,T,C,0.248392835,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,27,2.873477589e-05,"[""rs191373374""]",5.164,0.445,,,3.19e-05,1725.0,E,E,p.E1725=,,
+17_43063350_T_C,17,43063350,T,C,0.139873673,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,14,1.48995134244e-05,"[""rs80357501""]",0.678,-0.36,0.0,1.0,7.96e-06,1726.0,R,G,p.R1726G,,
+17_43063349_C_A,17,43063349,C,A,-0.313708723,neutral,neutral,missense,missense,no,no,no,Uncertain significance,9,9.57825863e-06,"[""rs786203547""]",22.8,0.765,0.126,0.1,0.0,1726.0,R,I,p.R1726I,,
+17_43063341_G_C,17,43063341,G,C,0.196300676,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],27.0,2.721,0.809,0.0,0.0,1729.0,L,V,p.L1729V,,
+17_43063340_A_C,17,43063340,A,C,0.070333078,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],28.9,2.197,0.982,0.0,0.0,1729.0,L,R,p.L1729R,,
+17_43063337_T_C,17,43063337,T,C,0.232421912,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,9,9.57825863e-06,"[""rs80357171""]",14.69,0.967,0.044,0.14,5.57e-05,1730.0,N,S,p.N1730S,,
+17_43063330_T_C,17,43063330,T,C,0.001915341,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,6,6.3855057533e-06,"[""rs1060502326""]",13.02,0.134,,,3.98e-05,,,,,,
+17_43063327_A_G,17,43063327,A,G,-0.149446301,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs1555578283""]",13.82,1.022,,,0.0,,,,,,
+17_43063320_A_G,17,43063320,A,G,-0.307622481,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],10.43,1.85,,,0.0,,,,,,
+17_43063315_G_C,17,43063315,G,C,-0.096749425,neutral,neutral,intron,intron,no,no,no,absent,2,2.1285019177e-06,[],1.656,-0.166,,,0.0,,,,,,
+17_43063314_T_C,17,43063314,T,C,-0.119096044,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,"[""rs1555578276""]",5.5,0.148,,,0.0,,,,,,
+17_43063313_T_C,17,43063313,T,C,0.089574688,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,"[""rs1567768516""]",5.311,0.157,,,0.0,,,,,,
+17_43063311_G_A,17,43063311,G,A,0.15992719,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,28,2.97990268489e-05,"[""rs8176260""]",7.013,1.001,,,0.0,,,,,,
+17_43057135_G_A,17,43057135,G,A,-0.662483092,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.5,1.318,0.246,0.01,0.0,1732.0,H,Y,p.H1732Y,0.478680062,0.21907688
+17_43057134_T_C,17,43057134,T,C,0.333391436,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1597811076""]",13.37,0.062,0.001,0.16,0.0,1732.0,H,R,p.H1732R,0.271359139,0.324104966
+17_43057131_T_C,17,43057131,T,C,0.167600774,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,81,8.620432767e-05,"[""rs80357270""]",24.0,0.931,0.005,0.0,7.17e-05,1733.0,D,G,p.D1733G,0.24723913,0.197393724
+17_43057122_A_G,17,43057122,A,G,-1.603092599,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,10,1.06425095889e-05,"[""rs45553935""]",24.5,2.137,0.094,0.0,0.0,1736.0,V,A,p.V1736A,-0.18357192,-0.066657076
+17_43057118_T_C,17,43057118,T,C,0.017995205,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,"[""rs1555576963""]",6.557,2.137,,,0.0,1737.0,R,R,p.R1737=,-0.382439529,-0.036005405
+17_43057113_T_C,17,43057113,T,C,-2.43103073,lof,neutral,missense,missense,yes,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80357227""]",24.6,2.137,0.181,0.0,0.0,1739.0,D,G,p.D1739G,-0.550404144,-0.571763119
+17_43057104_T_C,17,43057104,T,C,0.067229341,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs864622104""]",22.6,0.941,0.001,0.01,0.0,1742.0,N,S,p.N1742S,0.247519159,0.035105869
+17_43057101_C_G,17,43057101,C,G,-1.213395644,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,"[""rs1346819781""]",23.8,2.644,0.051,0.0,7.96e-06,1743.0,G,A,p.G1743A,0.021176251,-0.035056794
+17_43057093_G_T,17,43057093,G,T,-0.759565562,intermediate,neutral,missense,missense,gray_zone,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80357146""]",24.5,2.644,0.351,0.0,0.0,1746.0,H,N,p.H1746N,0.092166314,-0.058646137
+17_43057084_G_C,17,43057084,G,C,-0.153996475,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs397509244""]",23.1,2.644,0.003,0.0,0.0,1749.0,P,A,p.P1749A,-0.161169486,-0.13183239
+17_43057080_T_C,17,43057080,T,C,0.364944419,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],14.47,0.106,0.0,0.24,0.0,1750.0,K,R,p.K1750R,0.145798616,-0.262835184
+17_43057077_C_T,17,43057077,C,T,-0.149920264,neutral,neutral,missense,missense,no,no,no,Benign,62,6.59835594511e-05,"[""rs80357442""]",27.7,2.644,0.022,0.0,3.19e-05,1751.0,R,Q,p.R1751Q,-0.109000897,-0.179429893
+17_43057070_T_C,17,43057070,T,C,-0.01798569,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs771577266""]",6.028,0.106,,,0.0,1753.0,R,R,p.R1753=,-0.056080967,0.003526879
+17_43057069_C_G,17,43057069,C,G,0.015345887,neutral,neutral,missense,missense,no,no,no,Uncertain significance,3,3.1927528766e-06,"[""rs80357432""]",25.3,2.644,0.606,0.1,0.0,1754.0,E,Q,p.E1754Q,-0.051544505,0.152448058
+17_43057060_C_G,17,43057060,C,G,0.003611736,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs863224764""]",23.4,1.379,0.335,0.01,0.0,1757.0,D,H,p.D1757H,-0.439662742,0.004458442
+17_43057057_T_C,17,43057057,T,C,0.315491624,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs1597810455""]",23.9,2.137,0.602,0.16,0.0,1758.0,R,G,p.R1758G,0.590523683,0.770677031
+17_43057054_T_A,17,43057054,T,A,-1.833546155,lof,lof,nonsense,stop_gained,no,yes,no,absent,1,1.0642509588e-06,[],40.0,0.722,,,0.0,1759.0,K,*,p.K1759*,-2.082841523,-2.063125238
+17_43057053_T_C,17,43057053,T,C,-0.054416045,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,"[""rs431825415""]",23.2,2.137,0.063,0.0,7.96e-06,1759.0,K,R,p.K1759R,-0.10628062,-0.216414027
+17_43057052_C_T,17,43057052,C,T,-0.116965298,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs80356854""]",14.48,2.644,,,0.0,1759.0,K,K,p.K1759=,-0.445668775,-0.650241029
+17_43057052_C_A,17,43057052,C,A,0.036740349,neutral,neutral,missense,missense,no,no,no,Likely pathogenic,1,1.0642509588e-06,"[""rs80356854""]",25.7,2.644,0.199,0.0,0.0,1759.0,K,N,p.K1759N,-0.47029959,-0.69669716
+17_43057051_C_T,17,43057051,C,T,-2.564761373,lof,lof,canonical_splice,splice_donor,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80358150""]",25.5,2.644,,,0.0,,,,,,
+17_43057049_T_C,17,43057049,T,C,0.10466954,neutral,neutral,splice_region,splice_region,no,no,no,absent,8,8.5140076711e-06,"[""rs397509250""]",12.16,0.435,,,0.0,,,,,,
+17_43057043_G_C,17,43057043,G,C,-0.323023135,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,"[""rs1356169081""]",4.321,-0.227,,,7.96e-06,,,,,,
+17_43057043_G_A,17,43057043,G,A,-0.210227789,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],7.589,-0.227,,,0.0,,,,,,
+17_43051139_G_C,17,43051139,G,C,-0.622437529,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,"[""rs185646848""]",11.48,-0.477,,,0.0,,,,,,
+17_43051139_G_A,17,43051139,G,A,-0.026342175,neutral,neutral,intron,intron,no,no,no,absent,9,9.57825863e-06,"[""rs185646848""]",13.29,-0.477,,,0.0,,,,,,
+17_43051137_G_A,17,43051137,G,A,0.293666976,neutral,neutral,intron,intron,no,no,no,Likely benign,2,2.1285019177e-06,"[""rs193149108""]",12.04,0.067,,,8.76e-05,,,,,,
+17_43051131_G_C,17,43051131,G,C,0.067803466,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,70,7.44975671223e-05,"[""rs80358105""]",8.684,0.196,,,8.76e-05,,,,,,
+17_43051115_G_T,17,43051115,G,T,-0.030886286,neutral,neutral,splice_region,splice_region,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs750040616""]",14.31,1.496,,,0.0,1760.0,I,I,p.I1760=,0.827359304,-0.306817378
+17_43051110_C_A,17,43051110,C,A,0.264115311,neutral,neutral,missense,missense,no,no,no,Uncertain significance,4,4.2570038355e-06,"[""rs398122694""]",24.6,-1.298,0.579,0.0,0.0,1762.0,R,M,p.R1762M,-0.283296884,-0.001002918
+17_43051097_G_A,17,43051097,G,A,-0.068118745,neutral,neutral,synonymous,synonymous,no,no,no,absent,2,2.1285019177e-06,[],13.0,0.404,,,0.0,1766.0,I,I,p.I1766=,-0.432883928,0.826192362
+17_43051095_C_G,17,43051095,C,G,-0.966362392,intermediate,neutral,missense,missense,gray_zone,no,no,absent,4,4.2570038355e-06,"[""rs1597804426""]",26.0,0.814,0.737,0.0,0.0,1767.0,C,S,p.C1767S,-0.18474923,-0.757330357
+17_43051091_G_A,17,43051091,G,A,-0.256078321,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,15,1.59637643833e-05,"[""rs138493864""]",9.128,0.114,,,8.76e-05,1768.0,C,C,p.C1768=,-0.773881658,-0.301887923
+17_43051089_T_C,17,43051089,T,C,-0.848123415,intermediate,neutral,missense,missense,gray_zone,no,no,Uncertain significance,20,2.12850191778e-05,"[""rs397509257""]",16.57,0.504,0.059,0.3,0.0,1769.0,Y,C,p.Y1769C,-2.472231381,-1.192262458
+17_43051085_C_T,17,43051085,C,T,0.107836352,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,2,2.1285019177e-06,"[""rs273901761""]",16.23,-0.808,,,3.19e-05,1770.0,G,G,p.G1770=,-0.168094855,-0.563854793
+17_43051078_T_A,17,43051078,T,A,0.394609623,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,16,1.70280153422e-05,"[""rs80357324""]",27.7,2.314,0.552,0.0,1.59e-05,1773.0,T,S,p.T1773S,-1.115264432,0.043813049
+17_43051077_G_A,17,43051077,G,A,0.200455715,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80357428""]",28.6,1.568,0.782,0.0,0.0,1773.0,T,I,p.T1773I,0.763696492,-0.359830531
+17_43051076_G_C,17,43051076,G,C,0.240010504,neutral,neutral,synonymous,synonymous,no,no,no,absent,5,5.3212547944e-06,"[""rs1555575689""]",9.71,1.558,,,0.0,1773.0,T,T,p.T1773=,1.062282805,-0.201031937
+17_43051072_T_C,17,43051072,T,C,-1.522042302,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],23.2,2.314,0.101,0.0,0.0,1775.0,M,V,p.M1775V,0.212366837,0.129945554
+17_43051071_A_C,17,43051071,A,C,-1.392638445,lof,neutral,missense,missense,yes,no,no,Pathogenic,1,1.0642509588e-06,"[""rs41293463""]",29.5,2.314,0.994,0.0,2.39e-05,1775.0,M,R,p.M1775R,-3.70544655,-0.275825452
+17_43051070_C_A,17,43051070,C,A,-0.844174268,intermediate,neutral,missense,missense,gray_zone,no,no,absent,1,1.0642509588e-06,[],32.0,2.869,0.459,0.0,0.0,1775.0,M,I,p.M1775I,-0.46374121,-0.675652506
+17_43051067_G_A,17,43051067,G,A,-0.567752606,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,7,7.4497567122e-06,"[""rs759867616""]",12.52,1.476,,,0.0,1776.0,P,P,p.P1776=,1.419508995,0.0
+17_43051060_T_C,17,43051060,T,C,-0.07087428,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,25,2.66062739722e-05,"[""rs766614917""]",14.85,1.116,,,7.96e-06,,,,,,
+17_43051059_T_C,17,43051059,T,C,-0.463357153,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,18,1.915651726e-05,"[""rs80358166""]",13.72,0.994,,,0.0,,,,,,
+17_43051056_C_A,17,43051056,C,A,0.455682413,neutral,neutral,splice_region,splice_region,no,no,no,absent,5,5.3212547944e-06,"[""rs773655919""]",13.63,0.37,,,0.0,,,,,,
+17_43051054_G_A,17,43051054,G,A,-0.167593713,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,[],6.95,0.078,,,0.0,,,,,,
+17_43051052_C_G,17,43051052,C,G,0.088135459,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],1.669,-0.362,,,0.0,,,,,,
+17_43051049_T_C,17,43051049,T,C,-0.471097938,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],3.682,0.34,,,0.0,,,,,,
+17_43051048_C_G,17,43051048,C,G,0.62954048,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,29,3.08632778078e-05,"[""rs80358148""]",3.527,0.667,,,0.0,,,,,,
+17_43051044_G_C,17,43051044,G,C,-0.086567345,neutral,neutral,intron,intron,no,no,no,Likely benign,5,5.3212547944e-06,"[""rs774813458""]",0.32,0.469,,,0.0,,,,,,
+17_43049203_G_T,17,43049203,G,T,-0.061751669,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],1.007,-0.906,,,0.0,,,,,,
+17_43049202_G_A,17,43049202,G,A,-0.10999819,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,2,2.1285019177e-06,"[""rs80358084""]",4.418,-0.145,,,7.96e-06,,,,,,
+17_43049201_T_C,17,43049201,T,C,-0.074575893,neutral,neutral,splice_region,splice_region,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs538969920""]",0.215,-0.094,,,7.96e-06,,,,,,
+17_43049193_A_G,17,43049193,A,G,-0.260169547,neutral,neutral,splice_region,splice_region,no,no,no,Likely benign,23,2.44777720544e-05,"[""rs754152768""]",5.237,2.314,,,0.0,1778.0,D,D,p.D1778=,0.135658418,-0.456015235
+17_43049192_G_A,17,43049192,G,A,-2.479675275,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs397509267""]",40.0,1.524,,,0.0,1779.0,Q,*,p.Q1779*,-2.284890573,-2.466093659
+17_43049190_T_C,17,43049190,T,C,0.362753047,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,2,2.1285019177e-06,"[""rs876659718""]",0.258,-0.532,,,0.0,1779.0,Q,Q,p.Q1779=,-0.042163869,-0.109270513
+17_43049184_T_G,17,43049184,T,G,0.150240979,neutral,neutral,missense,missense,no,no,no,absent,19,2.02207682189e-05,"[""rs1555575182""]",16.92,-0.823,0.31,0.0,0.0,1781.0,E,D,p.E1781D,-0.022940634,0.068435401
+17_43049182_C_T,17,43049182,C,T,-2.107456216,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,2,2.1285019177e-06,"[""rs80357219""]",47.0,2.87,,,0.0,1782.0,W,*,p.W1782*,-1.83094489,-2.213028627
+17_43049180_T_G,17,43049180,T,G,0.133379333,neutral,neutral,missense,missense,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs80357012""]",23.0,1.113,0.192,0.01,4.78e-05,1783.0,M,L,p.M1783L,0.131318198,-0.169766104
+17_43049179_A_G,17,43049179,A,G,-0.442333511,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,43,4.57627912322e-05,"[""rs55808233""]",25.1,2.314,0.719,0.0,0.000549503,1783.0,M,T,p.M1783T,0.272571223,0.015011374
+17_43049178_C_T,17,43049178,C,T,0.214041727,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs587782019""]",17.2,0.459,0.187,0.11,0.0,1783.0,M,I,p.M1783I,-0.115064982,-0.25891806
+17_43049175_T_C,17,43049175,T,C,-0.026317014,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,4,4.2570038355e-06,"[""rs767459025""]",0.772,0.426,,,0.0,1784.0,V,V,p.V1784=,0.191680065,0.039846083
+17_43049174_G_A,17,43049174,G,A,-1.622907385,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80356969""]",40.0,1.554,,,0.0,1785.0,Q,*,p.Q1785*,-1.76070532,-1.954456034
+17_43049164_C_T,17,43049164,C,T,-0.693108212,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80357069""]",32.0,2.813,0.946,0.0,0.0,1788.0,G,D,p.G1788D,0.196493293,-0.003504719
+17_43049162_C_A,17,43049162,C,A,-0.439408021,neutral,neutral,missense,missense,no,no,no,absent,15,1.59637643833e-05,"[""rs80357078""]",25.4,2.813,0.356,0.0,0.0,1789.0,A,S,p.A1789S,0.323549989,0.245044562
+17_43049152_A_G,17,43049152,A,G,0.290276502,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],27.9,2.27,0.903,0.0,0.0,1792.0,V,A,p.V1792A,-0.002034727,-0.059081993
+17_43049145_C_T,17,43049145,C,T,-0.139960541,neutral,neutral,synonymous,synonymous,no,no,no,absent,8,8.5140076711e-06,"[""rs397509275""]",14.03,-0.311,,,0.0,1794.0,E,E,p.E1794=,-0.249049126,-0.154674241
+17_43049145_C_G,17,43049145,C,G,-0.324753024,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,5,5.3212547944e-06,"[""rs397509275""]",21.8,-0.311,0.002,0.04,0.0,1794.0,E,D,p.E1794D,0.040310675,0.028261237
+17_43049130_G_A,17,43049130,G,A,0.22632278,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs1131692096""]",13.12,0.841,,,0.0,1799.0,T,T,p.T1799=,-0.567638046,0.05226802
+17_43049129_G_A,17,43049129,G,A,-0.054776004,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],12.94,-0.369,0.002,0.2,0.0,1800.0,L,F,p.L1800F,0.133825798,0.191484992
+17_43049125_C_T,17,43049125,C,T,0.042955774,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,6,6.3855057533e-06,"[""rs531210457""]",11.15,0.124,0.003,0.79,0.0,1801.0,G,D,p.G1801D,-0.050729727,-0.233068889
+17_43049125_C_A,17,43049125,C,A,0.265168855,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.1,0.124,0.02,0.02,0.0,1801.0,G,V,p.G1801V,-0.178962764,0.289067755
+17_43049121_T_G,17,43049121,T,G,-0.610873467,neutral,neutral,splice_region,splice_region,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs879255493""]",10.39,0.018,,,0.0,1802.0,T,T,p.T1802=,-1.129536354,-1.134256235
+17_43049120_C_T,17,43049120,C,T,-1.654090988,lof,lof,canonical_splice,splice_donor,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80358028""]",26.6,2.813,,,0.0,,,,,,
+17_43049115_A_T,17,43049115,A,T,-1.578153372,lof,neutral,splice_region,splice_region,yes,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs1555575074""]",7.476,0.124,,,0.0,,,,,,
+17_43049114_T_C,17,43049114,T,C,-0.186822264,neutral,neutral,splice_region,splice_region,no,no,no,Likely benign,3,3.1927528766e-06,"[""rs397509280""]",3.956,-1.177,,,0.0,,,,,,
+17_43049113_A_G,17,43049113,A,G,0.056568901,neutral,neutral,splice_region,splice_region,no,no,no,Benign,294,0.0003128897819136,"[""rs55946644""]",6.546,0.919,,,0.00506498,,,,,,
+17_43049112_A_G,17,43049112,A,G,0.095261911,neutral,neutral,intron,intron,no,no,no,Conflicting interpretations of pathogenicity,1,1.0642509588e-06,"[""rs80358040""]",7.773,0.012,,,7.96e-06,,,,,,
+17_43049111_C_T,17,43049111,C,T,-0.376090055,neutral,neutral,intron,intron,no,no,no,absent,3,3.1927528766e-06,[],0.871,-0.138,,,0.0,,,,,,
+17_43047707_G_C,17,43047707,G,C,0.418894312,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,10,1.06425095889e-05,"[""rs876660347""]",0.404,-2.562,,,0.0,,,,,,
+17_43047704_C_T,17,43047704,C,T,-3.899898748,lof,lof,canonical_splice,splice_acceptor,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80358029""]",23.4,2.582,,,0.0,,,,,,
+17_43047703_C_A,17,43047703,C,A,0.30984265,neutral,neutral,missense,missense,no,no,no,absent,9,9.57825863e-06,"[""rs876659510""]",27.0,1.28,0.93,0.0,0.0,1803.0,G,C,p.G1803C,0.101412407,0.443505319
+17_43047702_C_A,17,43047702,C,A,-0.349508563,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs80357149""]",23.2,-0.485,0.802,0.0,0.0,1803.0,G,V,p.G1803V,0.254219067,-0.229813533
+17_43047699_A_T,17,43047699,A,T,0.429372531,neutral,lof,missense,stop_gained,yes,yes,yes,Benign,47,5.00197950678e-05,"[""rs80356920""]",17.6,0.156,0.009,0.02,0.000215023,1804.0,V,D,p.V1804D,0.480548683,-0.734870413
+17_43047698_G_A,17,43047698,G,A,0.455129914,neutral,neutral,synonymous,missense,no,yes,no,Likely benign,2,2.1285019177e-06,"[""rs730881456""]",4.396,-0.465,,,2.39e-05,1804.0,V,V,p.V1804=,0.121808449,0.626036152
+17_43047697_G_A,17,43047697,G,A,0.198364117,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs587782873""]",16.82,1.325,0.204,0.01,0.0,1805.0,H,Y,p.H1805Y,-0.384642426,0.246314526
+17_43047695_G_A,17,43047695,G,A,0.213177011,neutral,neutral,synonymous,missense,no,yes,no,Likely benign,2,2.1285019177e-06,"[""rs1060504559""]",3.332,-0.205,,,7.96e-06,1805.0,H,H,p.H1805=,0.127805725,0.260853465
+17_43047694_G_C,17,43047694,G,C,0.098106712,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,3,3.1927528766e-06,"[""rs80357241""]",0.024,0.3,0.004,0.46,1.59e-05,1806.0,P,A,p.P1806A,-0.149554363,0.0667477
+17_43047691_T_C,17,43047691,T,C,0.161589837,neutral,neutral,missense,missense,no,no,no,Uncertain significance,3,3.1927528766e-06,"[""rs786202721""]",0.001,-2.184,0.001,1.0,0.0,1807.0,I,V,p.I1807V,-0.144736456,-0.35269911
+17_43047680_C_T,17,43047680,C,T,0.533511114,neutral,neutral,synonymous,missense,no,yes,no,Likely benign,6,6.3855057533e-06,"[""rs786201582""]",15.77,0.298,,,0.0,1810.0,V,V,p.V1810=,-0.170652671,0.321990053
+17_43047678_T_G,17,43047678,T,G,-1.946901508,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,[],28.6,2.087,0.965,0.0,0.0,1811.0,Q,P,p.Q1811P,-1.347599785,-0.302775994
+17_43047673_C_T,17,43047673,C,T,-0.142261664,neutral,neutral,missense,missense,no,no,no,absent,2,2.1285019177e-06,"[""rs1303996018""]",32.0,1.292,0.845,0.0,0.0,1813.0,D,N,p.D1813N,-0.069458887,0.022697609
+17_43047671_A_G,17,43047671,A,G,0.072360982,neutral,neutral,synonymous,missense,no,yes,no,Likely benign,6,6.3855057533e-06,"[""rs760396669""]",10.05,-0.816,,,0.0,1813.0,D,D,p.D1813=,-0.145017075,-0.493917722
+17_43047666_C_T,17,43047666,C,T,-1.584489021,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,1,1.0642509588e-06,"[""rs80356962""]",50.0,2.582,,,7.96e-06,1815.0,W,*,p.W1815*,-0.579696515,-0.720410523
+17_43047666_C_G,17,43047666,C,G,-1.549697531,lof,neutral,missense,missense,yes,no,no,absent,1,1.0642509588e-06,"[""rs80356962""]",33.0,2.582,0.896,0.0,0.0,1815.0,W,S,p.W1815S,-2.682177991,-2.44280476
+17_43047665_C_A,17,43047665,C,A,-1.666820032,lof,neutral,missense,missense,yes,no,no,absent,2,2.1285019177e-06,[],34.0,2.582,0.986,0.0,0.0,1815.0,W,C,p.W1815C,-1.554567617,-0.444556728
+17_43047658_C_T,17,43047658,C,T,-0.059666754,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.8,2.582,0.006,0.2,0.0,1818.0,D,N,p.D1818N,0.144359196,0.222604138
+17_43047654_T_C,17,43047654,T,C,0.408757217,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,106,0.0001128106016423,"[""rs80357286""]",0.118,-0.298,0.0,1.0,3.98e-05,1819.0,N,S,p.N1819S,-0.106249525,-0.126872129
+17_43047653_A_G,17,43047653,A,G,0.449495997,neutral,neutral,synonymous,missense,no,yes,no,absent,1,1.0642509588e-06,"[""rs1597799334""]",6.228,-0.134,,,0.0,1819.0,N,N,p.N1819=,0.042055676,0.256798937
+17_43047651_C_A,17,43047651,C,A,0.262636792,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],29.7,1.292,0.946,0.0,0.0,1820.0,G,V,p.G1820V,0.331703099,0.050648714
+17_43047646_G_T,17,43047646,G,T,0.219049203,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],23.8,2.582,0.763,0.14,0.0,1822.0,H,N,p.H1822N,-0.028176408,-0.598635609
+17_43047645_T_C,17,43047645,T,C,-0.424960818,neutral,neutral,missense,missense,no,no,no,absent,4,4.2570038355e-06,[],0.017,-0.564,0.23,1.0,0.0,1822.0,H,R,p.H1822R,-0.073078254,0.176397325
+17_43047638_C_G,17,43047638,C,G,-1.474198119,lof,neutral,splice_region,splice_region,yes,no,no,absent,1,1.0642509588e-06,"[""rs397509287""]",13.04,1.202,,,0.0,,,,,,
+17_43047637_C_G,17,43047637,C,G,-0.009946567,neutral,neutral,splice_region,splice_region,no,no,no,absent,3,3.1927528766e-06,[],9.202,-0.231,,,0.0,,,,,,
+17_43047635_C_T,17,43047635,C,T,-0.001117943,neutral,neutral,splice_region,splice_region,no,no,no,Conflicting interpretations of pathogenicity,6,6.3855057533e-06,"[""rs80358062""]",10.16,-0.413,,,0.0,,,,,,
+17_43047631_C_T,17,43047631,C,T,-0.174196621,neutral,neutral,intron,intron,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs991060806""]",6.502,0.138,,,7.96e-06,,,,,,
+17_43047629_T_C,17,43047629,T,C,0.040111441,neutral,neutral,intron,intron,no,no,no,Uncertain significance,9,9.57825863e-06,"[""rs886052974""]",2.515,-1.237,,,0.0,,,,,,
+17_43047626_A_G,17,43047626,A,G,-0.367734077,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],4.74,-0.009,,,0.0,,,,,,
+17_43047623_G_A,17,43047623,G,A,-0.43425325,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],4.058,-0.336,,,0.0,,,,,,
+17_43045812_G_T,17,43045812,G,T,-0.68844702,neutral,neutral,intron,intron,no,no,no,Benign,250,0.0002660627397225,"[""rs8176316""]",17.39,0.403,,,0.00425268,,,,,,
+17_43045812_G_C,17,43045812,G,C,-0.664851363,neutral,neutral,intron,intron,no,no,no,absent,1,1.0642509588e-06,[],16.32,0.403,,,0.0,,,,,,
+17_43045806_G_A,17,43045806,G,A,-0.379017271,neutral,neutral,splice_region,splice_region,no,no,no,absent,2,2.1285019177e-06,"[""rs763484977""]",12.62,0.005,,,0.0,,,,,,
+17_43045799_A_G,17,43045799,A,G,-0.52808496,neutral,neutral,missense,missense,no,no,no,absent,6,6.3855057533e-06,"[""rs1301025671""]",25.7,1.033,0.99,0.0,0.0,1824.0,I,T,p.I1824T,0.548012862,-1.180078477
+17_43045796_C_G,17,43045796,C,G,-0.042873856,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],26.0,1.484,0.79,0.01,0.0,1825.0,G,A,p.G1825A,0.579463882,-0.563872562
+17_43045791_T_C,17,43045791,T,C,-0.276791005,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs771606902""]",4.646,-1.35,0.01,0.16,0.0,1827.0,M,V,p.M1827V,-0.334970586,-3.006319185
+17_43045789_C_T,17,43045789,C,T,-0.344383559,neutral,neutral,missense,missense,no,no,no,Uncertain significance,32,3.40560306844e-05,"[""rs587782432""]",24.5,1.411,0.071,0.03,4.78e-05,1827.0,M,I,p.M1827I,-0.91652275,-0.601605644
+17_43045788_A_C,17,43045788,A,C,-0.40753017,neutral,neutral,missense,missense,no,no,no,Uncertain significance,2,2.1285019177e-06,"[""rs1060502342""]",26.0,2.232,0.981,0.01,0.0,1828.0,C,G,p.C1828G,-0.236770066,-1.971459034
+17_43045782_C_T,17,43045782,C,T,0.168084557,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,"[""rs80357393""]",29.4,1.466,0.832,0.01,0.0,1830.0,A,T,p.A1830T,0.072124767,-0.365822832
+17_43045778_G_C,17,43045778,G,C,-0.333529135,neutral,neutral,missense,missense,no,no,no,Uncertain significance,9,9.57825863e-06,"[""rs587782778""]",16.92,1.435,0.064,0.17,0.0,1831.0,P,R,p.P1831R,-0.734371766,1.077016996
+17_43045777_A_G,17,43045777,A,G,-0.038219646,neutral,neutral,synonymous,synonymous,no,no,no,absent,1,1.0642509588e-06,[],4.746,-0.345,,,0.0,1831.0,P,P,p.P1831=,1.085404767,-0.763095737
+17_43045767_G_A,17,43045767,G,A,-2.296250629,lof,lof,nonsense,stop_gained,no,yes,no,Pathogenic,19,2.02207682189e-05,"[""rs41293465""]",42.0,0.154,,,7.96e-06,1835.0,R,*,p.R1835*,-1.30051072,-1.355500238
+17_43045766_C_T,17,43045766,C,T,-0.906347442,intermediate,neutral,missense,missense,gray_zone,no,no,Uncertain significance,9,9.57825863e-06,"[""rs273902776""]",34.0,2.766,0.561,0.01,7.96e-06,1835.0,R,Q,p.R1835Q,0.72282124,0.808629669
+17_43045756_C_A,17,43045756,C,A,-0.054640981,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs786201248""]",20.4,-0.104,,,0.0,1838.0,V,V,p.V1838=,0.159061712,0.353336267
+17_43045749_T_C,17,43045749,T,C,-0.833876806,intermediate,neutral,missense,missense,gray_zone,no,no,absent,3,3.1927528766e-06,"[""rs80357299""]",27.0,2.232,0.836,0.0,0.0,1841.0,S,G,p.S1841G,-0.482852812,0.388882567
+17_43045743_C_A,17,43045743,C,A,0.060352797,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],25.2,1.413,0.949,0.15,0.0,1843.0,A,S,p.A1843S,0.921565393,-0.484559246
+17_43045739_A_T,17,43045739,A,T,-0.312582722,neutral,neutral,missense,missense,no,no,no,absent,1,1.0642509588e-06,[],26.7,1.002,0.986,0.0,0.0,1844.0,L,H,p.L1844H,0.259244854,0.223002684
+17_43045739_A_C,17,43045739,A,C,-0.061581269,neutral,neutral,missense,missense,no,no,no,Conflicting interpretations of pathogenicity,3,3.1927528766e-06,"[""rs80357323""]",26.8,1.002,0.986,0.0,0.0,1844.0,L,R,p.L1844R,-1.529604511,-0.734519062
+17_43045732_C_T,17,43045732,C,T,0.064568067,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,1,1.0642509588e-06,"[""rs80356849""]",14.15,0.112,,,2.39e-05,1846.0,Q,Q,p.Q1846=,-0.914426856,-0.735249336
+17_43045732_C_G,17,43045732,C,G,-0.273650344,neutral,neutral,missense,missense,no,no,no,Uncertain significance,1,1.0642509588e-06,"[""rs80356849""]",26.7,0.112,0.993,0.0,2.39e-05,1846.0,Q,H,p.Q1846H,0.400097259,-0.702726575
+17_43045720_C_G,17,43045720,C,G,0.136910668,neutral,neutral,synonymous,synonymous,no,no,no,Likely benign,33,3.51202816433e-05,"[""rs786201502""]",12.85,2.766,,,0.0,1850.0,L,L,p.L1850=,0.3051719,-1.854833632
