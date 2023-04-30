@@ -377,11 +377,11 @@ app.layout = \
                                                                 'However, variant interpretation is not a perfect process, and each approach has its own strengths and limitations. Therefore, to achieve the best possible understanding of genetic variation, researchers and clinicians must combine different approaches to obtain a more comprehensive view of the potential effects of a variant.'),
                                                             html.P(
                                                                 'By using multiple sources of data, variant interpretation can provide valuable insights into the role of genetics in health and disease. It can help guide medical diagnosis, treatment, and prevention by identifying genetic changes that may increase the risk of disease or influence response to treatment. Overall, variant interpretation is a crucial tool in the field of genetics and is essential for advancing our understanding of the role of genetics in health and disease.'),
-                                                            html.P('Here is ', html.A("a two-minute demo video",
+                                                            html.P(['Here is ', html.A("a two-minute demo video",
                                                                     href="https://youtu.be/t9ady9CxtI0",
                                                                     target="_blank",
                                                                     style={"font-family": "Garamond", "color": yel, "text-decoration": "none"}
-                                                                    ),' showcasing the multiple functionalities of this visualization board. Please note that since the board is deployed as a free version, some updates may take up to 10-15 seconds.')
+                                                                    ),' showcasing the multiple functionalities of this visualization board. Please note that since the board is deployed as a free version, some updates may take up to 10-15 seconds.'])
                                                         ])
                                                     ),
                                                     dcc.Tab(
