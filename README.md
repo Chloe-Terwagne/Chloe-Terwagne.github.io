@@ -3,7 +3,7 @@ VarEffectViz is a visualizer that presents variant effect interpretation for the
 
 Cumulative score is computed as follow:
 
-$$\text{cumulative\_score} = \frac{1}{3} \left(\frac{1}{\text{AC}} + \text{minmax\_neg\_func\_score} + \frac{\text{cadd\_score}}{50}\right)$$
+$cumulative\_score = \frac{1}{3} \left(\frac{1}{AC} + minmax\_neg\_func\_score + \frac{cadd\_score}{50}\right)$
 
 where AC is allele count, minmax_neg_func_score is the normalized negative function score obtained using min-max normalization, and cadd_score is the CADD score divided by the maximum cadd score in this region which is 50.
 
