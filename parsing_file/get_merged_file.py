@@ -2,7 +2,7 @@
     Project :  variants intersection df for BRCA1
     Description: merge raw BRCA1 SGE data from G. Findlay et al., 2018 and the UKB allele table
     Name : Chloé Terwagne
-    date : 19th Jan 2023
+    date : 19th April 2023
     Python version 3.10
 """
 # IMPORT ---------------------------------------------------------------------------------------------------------------

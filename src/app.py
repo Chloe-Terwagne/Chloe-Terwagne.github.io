@@ -1,70 +1,56 @@
+"""
+    Project :  variants intersection visualisaiton platform for BRCA1
+    Description: Show interactively variant present, in both, raw BRCA1 SGE data from G. Findlay et al., 2018 and the UKB allele table
+    Name : Chloé Terwagne
+    date : 25 April 2023
+    Python version 3.10
+"""
+# IMPORT ---------------------------------------------------------------
+
 import numpy as np
 from dash import Dash, dcc, html, Output, Input
-import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
+import dash_bootstrap_components as dbc
 import plotly.express as px
-import pandas as pd  # pip install pandas
+import pandas as pd
 from protein_folding import create_style_3d
 import dash_bio as dashbio
 from dash_bio.utils import PdbParser
+from dash.development.base_component import Component, _explicitize_args
 
+# FONT & COLOR  ---------------------------------------------------------------
+font_list = ["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One",
+             "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
+idx_font = 0  # UCL font
+# Color Model
+light_gray = 'rgb(140, 130, 121)'  # UCL color
+yellow = 'rgb(246, 190, 0)'  # UCL color
+yel = "rgb(214,210,196)"  # UCL color
+mid_red = 'rgb(147,39,44)'  # UCL color
+mid_green = 'rgb(143,153,62)'  # UCL color
+mid_purple = 'rgb(80, 7, 120)'  # UCL color
+yel_exon = "rgba(214,210,196,0.1)"  # UCL color
+dark_gray = 'rgba(41,41,41,1)'  # background
+dark_gray_transp = 'rgba(41,41,41,0.85)'
+transparent = 'rgba(0,0,0,0) '
+exons_color_l1 = ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)",
+                  "rgb(147,208,226)", "rgb(51,58,158)", "rgb(189,155,244)", "rgb(33,74,101)", "rgb(55,141,174)",
+                  "rgb(191,1,42)", "rgb(239,187,162)", "rgb(120,48,25)", "rgb(239,151,45)"]
+exons_color_l2 = ["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rgb(239,106,222)", "rgb(127,238,63)",
+                  "rgb(250,117,107)", "rgb(65,216,244)", "rgb(189,137,221)", "rgb(203,223,81)", "rgb(144,164,121)",
+                  "rgb(246,238,250)", "rgb(200,147,105)", "rgb(254,143,6)", "rgb(243,192,17)"]
 
+# pd display
 templates = 'plotly_dark'
-
 pd.set_option('display.width', 900)
 pd.set_option('display.max_columns', 200)
 pd.set_option("display.max_rows", None)
 
-from dash.development.base_component import Component, _explicitize_args
+
+# FUNCTION  -----------------------------------------------------------------------------------------------------------
 
 
-# class BooleanSwitch2(Component) copy from https://github.com/plotly/dash-daq/blob/master/dash_daq/BooleanSwitch.py
-class BooleanSwitch2(Component):
-    """A BooleanSwitch component.
-A switch component that toggles
-between on and off.
-Keyword arguments:
-- id (string; optional):
-    The ID used to identify this component in Dash callbacks.
-- className (string; optional):
-    Class to apply to the root component element.
-- color (string; optional):
-    Color to highlight active switch background.
-- disabled (boolean; optional):
-    If True, switch cannot be clicked.
-- label (dict; optional):
-    Description to be displayed alongside the control. To control
-    styling, pass an object with label and style properties.
-    `label` is a string | dict with keys:
-    - label (string; optional)
-    - style (dict; optional)
-- labelPosition (a value equal to: 'top', 'bottom'; default 'top'):
-    Where the component label is positioned.
-- on (boolean; default False):
-    Whether or not the switch is on.
-- persisted_props (list of a value equal to: 'on's; default ['on']):
-    Properties whose user interactions will persist after refreshing
-    the component or the page. Since only `on` is allowed this prop
-    can normally be ignored.
-- persistence (boolean | string | number; optional):
-    Used to allow user interactions in this component to be persisted
-    when the component - or the page - is refreshed. If `persisted` is
-    truthy and hasn't changed from its previous value, a `value` that
-    the user has changed while using the app will keep that change, as
-    long as the new `value` also matches what was given originally.
-    Used in conjunction with `persistence_type`.
-- persistence_type (a value equal to: 'local', 'session', 'memory'; default 'local'):
-    Where persisted user changes will be stored: memory: only kept in
-    memory, reset on page refresh. local: window.localStorage, data is
-    kept after the browser quit. session: window.sessionStorage, data
-    is cleared once the browser quit.
-- size (number; optional):
-    size of the switch.
-- style (dict; optional):
-    Style to apply to the root object.
-- theme (dict; default light):
-    Theme configuration to be set by a ThemeProvider.
-- vertical (boolean; default False):
-    If True, switch will be vertical instead of horizontal."""
+# class BooleanSwitch(Component) copied from https://github.com/plotly/dash-daq/blob/master/dash_daq/BooleanSwitch.py
+class BooleanSwitch(Component):
 
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, on=Component.UNDEFINED, color=Component.UNDEFINED,
@@ -89,7 +75,7 @@ Keyword arguments:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
-        super(BooleanSwitch2, self).__init__(**args)
+        super(BooleanSwitch, self).__init__(**args)
 
 
 def adding_cols(df, exons):
@@ -133,13 +119,12 @@ def adding_cols(df, exons):
     return df
 
 
-font_list = ["Arial", "Balto", "Courier New", "Droid Sans", "Droid Serif", "Droid Sans Mono", "Gravitas One",
-             "Old Standard TT", "Open Sans", "Overpass", "PT Sans Narrow", "Raleway", "Times New Roman"]
-idx_font = 0  # UCL font
+# MAIN ---------------------------------------------------------------------------------------------------------------
 
-# incorporate data into app
+# cleaning data
 
-df = pd.read_csv("https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/df/merged_brca1_sge_ukb_2023_04_21.csv?raw=true")
+df = pd.read_csv(
+    "https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/df/merged_brca1_sge_ukb_2023_04_21.csv?raw=true")
 exon_list = [(43125364, 43125271), (43124115, 43124017), (43115779, 43115726), (43106533, 43106456),
              (43104956, 43104868), (43104261, 43104122), (43099880, 43099775), (43097289, 43097244),
              (43095922, 43095846), (43094860, 43091435), (43091032, 43090944), (43082575, 43082404),
@@ -154,19 +139,9 @@ intron_list = [(43124116, 43125270), (43115780, 43124016), (43106534, 43115725),
                (43047704, 43049120), (43045803, 43047642)]
 df = adding_cols(df, exon_list)
 
-# Color Model
-light_gray = 'rgb(140, 130, 121)'  # UCL color
-yellow = 'rgb(246, 190, 0)'  # UCL color
-yel = "rgb(214,210,196)"  # UCL color
-mid_red = 'rgb(147,39,44)'  # UCL color
-mid_green = 'rgb(143,153,62)'  # UCL color
-mid_purple = 'rgb(80, 7, 120)'  # UCL color
-yel_exon = "rgba(214,210,196,0.1)"  # UCL color
-dark_gray = 'rgba(41,41,41,1)'  # background
-
-#glossary padding
-cell_style = {'padding-bottom':'20px' , 'font-weight':'bold', 'color':yel} # more title type
-bottom_style= {'padding-bottom':'15px'} # more cell type
+# glossary padding
+cell_style = {'padding-bottom': '20px', 'font-weight': 'bold', 'color': yel}  # more title type
+bottom_style = {'padding-bottom': '15px'}  # more cell type
 
 # Create abbreviation hover
 sge_abbr = html.Abbr('SGE', title=' Saturation Genome Editing ')
@@ -174,71 +149,47 @@ ukb_abbr = html.Abbr('UKB', title=' UKBiobank ')
 cadd_abbr = html.Abbr('CADD', title=' Combined Annotation Dependent Depletion ')
 ac_abbr = html.Abbr('AC', title=' Allele Count ')
 
-dark_gray_transp = 'rgba(41,41,41,0.85)'
-transparent = 'rgba(0,0,0,0) '
-exons_color_l1 = ["rgb(86,235,211)", "rgb(106,16,166)", "rgb(97,242,45)", "rgb(194,87,211)", "rgb(56,120,54)",
-                  "rgb(147,208,226)", "rgb(51,58,158)", "rgb(189,155,244)", "rgb(33,74,101)", "rgb(55,141,174)",
-                  "rgb(191,1,42)", "rgb(239,187,162)", "rgb(120,48,25)", "rgb(239,151,45)"]
-exons_color_l2 = ["rgb(33,240,182)", "rgb(127,174,234)", "rgb(179,241,187)", "rgb(239,106,222)", "rgb(127,238,63)",
-                  "rgb(250,117,107)", "rgb(65,216,244)", "rgb(189,137,221)", "rgb(203,223,81)", "rgb(144,164,121)",
-                  "rgb(246,238,250)", "rgb(200,147,105)", "rgb(254,143,6)", "rgb(243,192,17)"]
-# Build your components------------------------------------------------------------------------------------------------
+# Launch app------------------------------------------------------------------------------------------------
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], suppress_callback_exceptions=True,
            meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0'}])
 server = app.server
-# app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], assets_folder='path/to/assets')
 
+# Build your components------------------------------------------------------------------------------------------------
 # 3D parsing & styling
 parser = PdbParser('https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/df/AF-P38398-F1-model_v4.pdb?raw=true')
 # from https://alphafold.ebi.ac.uk/entry/P38398
 data = parser.mol3d_data()
 styles = create_style_3d(
     df, 'minmax_neg_func_score', data['atoms'], visualization_type='cartoon', color_element='residue_score')
-
-brca1_3D = dashbio.Molecule3dViewer(
-    id='dashbio-default-molecule3d',
-    modelData=data,
-    styles=styles,
-    backgroundOpacity=0,
-    selectionType='residue',
-    backgroundColor="black",
-    height=500,
-    width=1250, zoom=dict(
-        factor=1.9, animationDuration=30000, fixedPath=False))
-# ------------------------------------------------------------
+brca1_3D = dashbio.Molecule3dViewer(id='dashbio-default-molecule3d',modelData=data,styles=styles,backgroundOpacity=0,
+    selectionType='residue',backgroundColor="black",height=500, width=1250, zoom=dict(factor=1.9,
+                                                                    animationDuration=30000, fixedPath=False))
 overview_title = dcc.Markdown(children='', style=dict(font_family=font_list[idx_font], font_color=yel))
 overview_display = dcc.RadioItems(options=["Variants aggregated by position", "Variants expanded by nucleotide type"],
                                   value='Variants aggregated by position', labelClassName="custom-text p-3")
 items = ['Clinvar', 'Consequence', "SGE", "UKB"]
 overview_dropdown = dcc.Dropdown(options=['Clinvar', 'Consequence', "SGE", "UKB"],
                                  value='Consequence', clearable=False, className='my-custom-dropdown')
-overview_graph = dcc.Graph(figure={}, config={
-    'staticPlot': False,  # True, False
-    'scrollZoom': False,  # True, False
-    'doubleClick': 'reset',  # 'reset', 'autosize' or 'reset+autosize', False
-    'showTips': True,  # True, False
-    'displayModeBar': 'hover',  # True, False, 'hover'
-    'displaylogo': False,
-    'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],}, selectedData=None)
-color_blind_option = BooleanSwitch2(on=False, size=30,
-                                    label=dict(label="color blind friendly", style=dict(font_color=yel)),
-                                    color=mid_purple, labelPosition="left")
-exon_option = BooleanSwitch2(on=False, size=30, label=dict(label="exon highlighting", style=dict(font_color=yel)),
-                             color=yellow, labelPosition="left")
-# select Graph
+overview_graph = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
+                                              'showTips': True,'displayModeBar': 'hover', 'displaylogo': False,
+                                              'modeBarButtonsToRemove': ['lasso2d', 'zoomIn2d', 'zoomOut2d',
+                                                                         'autoScale2d'], }, selectedData=None)
+color_blind_option = BooleanSwitch(on=False, size=30,
+                                   label=dict(label="color blind friendly", style=dict(font_color=yel)),
+                                   color=mid_purple, labelPosition="left")
+exon_option = BooleanSwitch(on=False, size=30, label=dict(label="exon highlighting", style=dict(font_color=yel)),
+                            color=yellow, labelPosition="left")
 three_d_graph = dcc.Graph(figure={},
                           config={'staticPlot': False, 'scrollZoom': True, 'doubleClick': 'reset', 'showTips': True,
                                   'displayModeBar': False, 'watermark': False})
 three_d_title = dcc.Markdown(children='all variant')
-#
 clinvar_hist_graph_sge = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
                                                       'showTips': True, 'displayModeBar': False, 'watermark': False})
 clinvar_hist_graph_ac = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
                                                      'showTips': True, 'displayModeBar': False, 'watermark': False})
 clinvar_hist_graph_cadd = dcc.Graph(figure={}, config={'staticPlot': False, 'scrollZoom': False, 'doubleClick': 'reset',
                                                        'showTips': True, 'displayModeBar': False, 'watermark': False,
-                                                    })
-
+                                                       })
 mol_viewer_colorbar = dcc.Graph(figure={}, config={'staticPlot': True, 'scrollZoom': False, 'showTips': False,
                                                    'displayModeBar': False, 'watermark': False})
 
@@ -247,12 +198,12 @@ github_link = html.Div([
         id='gh-link',
         children=['View on GitHub'],
         href="https://github.com/Chloe-Terwagne/VarEffectViz",
-        style={'color': yel, 'border': yel, "text-decoration":'none'},
+        style={'color': yel, 'border': yel, "text-decoration": 'none'},
         target="_blank"
     ),
     html.Img(src='https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/src/assets/GitHub-Mark-64px.png?raw=true',
-        style={'height': '50px', 'margin-left': '10px'},
-    ),
+             style={'height': '50px', 'margin-left': '10px'},
+             ),
 ], style={
     'background': 'black',
     'color': 'white',
@@ -265,17 +216,18 @@ github_link = html.Div([
     'padding': '20px',
     "margin-top": "180px",
     "margin-bottom": "10px"
-
-# 'margin': '4px',
-
 })
 
 text_abreviation = dbc.Card(
     [
-        dbc.CardImg(src="https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/src/assets/ucl-banner-port-stone-rgb-lg.png?raw=true", top=True),
+        dbc.CardImg(
+            src="https://github.com/Chloe-Terwagne/VarEffectViz/blob/main/src/assets/ucl-banner-port-stone-rgb-lg.png?raw=true",
+            top=True),
         dbc.CardBody(
             [
-                html.H4("Quick Resources", className="app-controls-block", style={"font-family": "Garamond",'margin-top': '10px','margin-bottom': '20px', 'font-size':'18pt'}),
+                html.H4("Quick Resources", className="app-controls-block",
+                        style={"font-family": "Garamond", 'margin-top': '10px', 'margin-bottom': '20px',
+                               'font-size': '18pt'}),
                 html.P(
                     "Hover over the acronym to reveal the full name.",
                     className="card-text", style={'font-size': '9pt'}
@@ -286,30 +238,33 @@ text_abreviation = dbc.Card(
                     ukb_abbr, html.Br()], style={'float': 'left', 'width': '50%'}),
 
                 html.Div([
-                    cadd_abbr,html.Br(),
-                    ac_abbr,html.Br()], style={'float': 'left','width': '50%'}),
+                    cadd_abbr, html.Br(),
+                    ac_abbr, html.Br()], style={'float': 'left', 'width': '50%'}),
 
                 github_link,
-                dbc.CardLink(["G.Findlay", html.Em(" et al."), ', 2018'], href="https://www.nature.com/articles/s41586-018-0461-z",
-                             target="_blank",className='custom-link'),
+                dbc.CardLink(["G.Findlay", html.Em(" et al."), ', 2018'],
+                             href="https://www.nature.com/articles/s41586-018-0461-z",
+                             target="_blank", className='custom-link'),
                 dbc.CardLink("Genome Function Lab", href="https://www.crick.ac.uk/research/labs/greg-findlay/",
-                             target="_blank",className='custom-link'),
+                             target="_blank", className='custom-link'),
                 dbc.CardLink("UKB initiative",
-                             href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank",className='custom-link'),
+                             href="https://www.ukbiobank.ac.uk/learn-more-about-uk-biobank/about-us/", target="_blank",
+                             className='custom-link'),
                 # dbc.CardLink("AlphaFold",
                 #              href="https://alphafold.ebi.ac.uk/entry/P38398", target="_blank",className='custom-link'),#https://www.ncbi.nlm.nih.gov/clinvar/intro/
                 # dbc.CardLink("CADD",
                 #              href="https://cadd.gs.washington.edu/info", target="_blank",className='custom-link'),
                 # dbc.CardLink("Clinvar",
                 #              href="https://www.ncbi.nlm.nih.gov/clinvar/intro/", target="_blank",className='custom-link'),
-            ],className='my-custom-background'
+            ], className='my-custom-background'
         )
     ],
-    style={"height": "500px", 'background-color': 'rgba(41,41,41,0)','border':'solid 2px rgb(214,210,196)', 'border-radius': '20px',
-        'overflow': 'hidden'}
+    style={"height": "500px", 'background-color': 'rgba(41,41,41,0)', 'border': 'solid 2px rgb(214,210,196)',
+           'border-radius': '20px',
+           'overflow': 'hidden'}
 )
 
-# Customize your own Layout--------------------------------------------------------------------------------------------------
+# Customize Layout--------------------------------------------------------------------------------------------
 row_style = {'display': 'flex', 'flex-wrap': 'wrap', 'align-items': 'stretch'}
 app.layout = \
     dbc.Container([
@@ -321,158 +276,176 @@ app.layout = \
                 dbc.Row(color_blind_option, className="my-custom-switch"),
                 dbc.Row(exon_option, className="my-custom-switch")], width={'size': 2}, align='right')
         ], justify='between'),
-        # row buffer
         dbc.Row([html.Br()]),
         dbc.Row([html.Br()]),
-
-        # Overview graph element ---
-        # dbc.Row([
-        #     dbc.Col(overview_title, width=12, className='my-custom-title' )
-        # ]),
         dbc.Row([dbc.Col(overview_display, width={'size': 6}),
                  dbc.Col([overview_dropdown], width={'size': 2}, align='right', className='my-custom-dropdown'),
                  ], justify='between'),
         dbc.Row([
             dbc.Col(overview_graph, width=12)
         ], justify='around'),
-
-        # row buffer
         dbc.Row([html.Br()]),
-
-        # row 2 ----------------------
         dbc.Row([
             dbc.Col([
                 dbc.Card(
                     [
+                        html.Div(
+                            id='body',
+                            className='app-body',
+                            children=[
                                 html.Div(
-                                    id='body',
-                                    className='app-body',
+                                    id='desc-control-tabs',
+                                    className='control-tabs',
                                     children=[
-                                        html.Div(
-                                            id='desc-control-tabs',
-                                            className='control-tabs',
-                                            children=[
-                                                dcc.Tabs(id='about-tabs', value='what-is', children=[
-                                                    dcc.Tab(
-                                                        label='About',
-                                                        value='what-is',
-                                                        children=html.Div(className='control-tab', children=[
-                                                            html.H4(className='app-controls-block', children='What is VarEffectViz?'),
-                                                            html.P('VarEffectViz is a visualizer that presents variant effect interpretation for the BRCA1 gene using multiple sources of data, including allele count in UKBiobank, the CADD computational score, AlphaFold  protein structure prediction and the results of saturation genome editing experiments. '),
-                                                            html.P('By integrating data from these diverse sources, VarEffectViz provides a more comprehensive view of the pathogenicity of each variant. This approach allows researchers and clinicians to better understand the impact of BRCA1 genetic variants, which has important implications for cancer risk and prevention.'),
-                                                            html.P(['The "Glossary" tab explains key concepts related to genetic variants and their effects. ', html.A("A two-minute demo video",
-                                                                    href="https://youtu.be/t9ady9CxtI0",
-                                                                    target="_blank",
-                                                                    style={"font-family": "Garamond", "color": yel, "text-decoration": "none"}
-                                                                    ),' showcasing the multiple functionalities of this visualization board is also available. Please note that since the board is deployed as a free version, some updates may take up to 10-15 seconds.'])
-                                                        ])
-                                                    ),
-                                                    dcc.Tab(
-                                                        label='Variant effect',
-                                                        value='var-effect',
-                                                        children=html.Div(className='control-tab', children=[
-                                                            html.H4(className='app-controls-block',
-                                                                    children='The variant interpretation challenges'),
-                                                            html.P(
-                                                                'Every human being has a unique genetic code that is responsible for many of their physical and biological characteristics. The genetic code is made up of DNA, which is organized into distinct units called genes. When changes occur in the DNA sequence, these changes are known as variants. Some variants have no effect on health or function, while others can lead to disease or altered biological processes.'),
-                                                            html.P(
-                                                                'To better understand the potential effects of a variant, scientists and clinicians use a process called variant interpretation. This involves analyzing the genetic changes to determine whether they are benign or pathogenic. A combination of different approaches is used in this process, including assessing the frequency of the variant in the general population, using computational algorithms to predict the effect of the variant on biological function, and performing experimental studies to validate these predictions.'),
-                                                            html.P(
-                                                                'However, variant interpretation is not a perfect process, and each approach has its own strengths and limitations. Therefore, to achieve the best possible understanding of genetic variation, researchers and clinicians must combine different approaches to obtain a more comprehensive view of the potential effects of a variant.'),
-                                                            html.P(
-                                                                'By using multiple sources of data, variant interpretation can provide valuable insights into the role of genetics in health and disease. It can help guide medical diagnosis, treatment, and prevention by identifying genetic changes that may increase the risk of disease or influence response to treatment. Overall, variant interpretation is a crucial tool in the field of genetics and is essential for advancing our understanding of the role of genetics in health and disease.'),
-                                                        ])
-                                                    ),
-                                                    dcc.Tab(
-                                                        label='Data',
-                                                        value='data-resource',
-                                                        children=html.Div(className='control-tab', children=[
-                                                            html.H4(className='app-controls-block', children='Data sources'),
-                                                            html.P([
-                                                                "The variants featured in this visualisation board have been observed at least once in the UKBiobank cohort and have undergone experimental testing through saturation genome editing, as described in the ",
-                                                                html.Em("Nature"),
-                                                                " publication ",
-                                                                html.A(
-                                                                    "Accurate classification of BRCA1 variants with saturation genome editing",
-                                                                    href="https://www.nature.com/articles/s41586-018-0461-z",
-                                                                    target="_blank",
-                                                                    style={"font-family": "Garamond", "color": yel, "text-decoration": "none"}
-                                                                    ),
-                                                                " by Greg Findlay ",
-                                                                html.Em("et al."),
-                                                                " in 2018. Further information regarding the data's origin and implications can be found below."
-                                                            ]),
-                                                            html.P(
-                                                                "Saturation Genome Editing is a lab technique for testing the effects of genetic variants on protein function in cells. It involves systematically introducing mutations into the DNA sequence of a gene using a genome editing tool such as CRISPR-Cas9, and then assessing the resulting changes in the function of the protein that the gene encodes."),
-                                                            html.P(
-                                                                "Saturation Genome Editing function score is assigned to a genetic variant based on its effect on cell survival rates when the variant is introduced into a cell using the Saturation Genome Editing technique. The score reflects the degree to which the variant disrupts the normal function of the protein encoded by the gene. Saturation Genome Editing function scores are experimental measures of variant pathogenicity."),
-                                                            html.P(
-                                                                "UK Biobank is the biggest human sequencing project to date, containing genetic and health-related data from over 500,000 participants in the United Kingdom. UK Biobank is a valuable resource for researchers studying the genetic basis of diseases, as it provides a large sample size and diverse set of genetic and health-related data."),
-
-                                                            html.P(
-                                                                "A deep learning system developed by Google's DeepMind, AlphaFold, that predicts the 3D structure of a protein based on its amino acid sequence. The predicted structure can provide valuable information for variant interpretation, as variants can disrupt protein folding and binding, potentially affecting the function of the protein."),
-                                                            html.P(
-                                                                "CADD is a tool that predicts the deleteriousness of genetic variants based on their similarity to known pathogenic and benign variants. The score takes into account various genomic annotations, such as conservation, functional genomics, and regulatory information, to provide a single score that reflects the likelihood of a variant being deleterious. The higher the CADD score, the more pathogenic the variant is predicted to be."),
-                                                            html.P(
-                                                                "ClinVar is a public database of genetic variants and their clinical significance. ClinVar is considered a highly trusted, \"gold standard\" resource for variant interpretation, as it collects and curates variant data from multiple sources, including clinical laboratories, research studies, and expert panels. However, it's important to note that the majority of genetic variants have not yet been annotated in ClinVar, meaning that they are classified as \"unknown significance\" or \"absent from ClinVar\"."),
-
-                                                        ])
-                                                    ),
-
-                                                    dcc.Tab(
-                                                        label='Glossary',
-                                                        value='interpe',
-                                                        children=html.Div(className='control-tab', children=[
-                                                            html.Br(),
-                                                            html.Tr([html.Td('Term', style=cell_style), html.Td(
-                                                                'Definition', style=cell_style)]),
-                                                            html.Tr([html.Td('BRCA1'), html.Td(
-                                                                'A gene that encodes a protein involved in DNA repair and maintenance of genomic stability. Mutations in the BRCA1 gene are associated with an increased risk of developing breast and ovarian cancer.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Variant'), html.Td(
-                                                                'A genetic variation that occurs in an individual\'s DNA sequence. Variants can be benign or pathogenic and can affect various biological processes in the body.', style=bottom_style)]),
-                                                            html.Tr([html.Td('DNA'), html.Td(
-                                                                'The molecule that carries genetic information and is present in almost all living organisms.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Nucleotide'), html.Td(
-                                                                'The basic building block of DNA and RNA, consisting of a sugar molecule, a phosphate group, and one of four nitrogenous bases: adenine (A), cytosine (C), guanine (G), or thymine (T) in DNA (or uracil (U) in RNA). The sequence of nucleotides in DNA encodes genetic information, while the sequence of nucleotides in RNA is used to direct protein synthesis.', style=bottom_style)]),
-                                                            html.Tr([html.Td('RNA'), html.Td(
-                                                                'A molecule that plays a critical role in the transfer of genetic information from DNA to proteins. RNA is involved in a variety of biological processes, including protein synthesis and regulation of gene expression.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Amino acid'), html.Td(
-                                                                'The building blocks of proteins. Amino acids are linked together to form long chains that fold into specific three-dimensional shapes to carry out various biological functions.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Reference genome'), html.Td(
-                                                                'A standard DNA sequence used as a reference for comparing genetic variation in different individuals. It provides a basis for identifying genetic differences that may contribute to disease or other traits.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Exon'), html.Td(
-                                                                'A coding region of DNA that contains the instructions for making a protein.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Intron'), html.Td(
-                                                                'A non-coding section of DNA that separates the coding regions (exons) of a gene. Introns are removed during the process of making RNA from DNA and do not encode proteins, but can play important regulatory roles in gene expression.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Allele count'), html.Td(
-                                                                'The number of copies of a particular variant in a given population.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Loss of Function'), html.Td(
-                                                                'A genetic variation that results in a partial or complete loss of the normal function of a protein. Such variants are often associated with pathogenicity and can lead to genetic diseases or an increased risk of disease.', style=bottom_style)]),
-                                                            html.Tr([html.Td('5\' UTR'), html.Td(
-                                                                'The non-coding region at the beginning of an mRNA molecule, upstream of the start codon, that plays a role in the regulation of gene expression.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Missense'), html.Td(
-                                                                'A genetic variation that results in a change in the amino acid sequence of a protein.', style=bottom_style)]),
-                                                            html.Tr([html.Td('Splice acceptor'), html.Td(
-                                                                'A region of DNA that signals the end of an exon and is necessary for proper splicing of the pre-mRNA.', style=bottom_style)]),
-                                                            html.Tr([html.Td("Splice donor"),html.Td("A region of DNA that signals the start of an exon and is necessary for proper splicing of the pre-mRNA.", style=bottom_style)]),
-                                                            html.Tr([html.Td("Splice region"),html.Td(
-                                                                "A region of DNA that is important for the splicing of pre-mRNA.", style=bottom_style)]),
-                                                            html.Tr([html.Td("Start lost"),html.Td(
-                                                                "A genetic variation that causes the loss of the initiation codon in the coding sequence of a gene.", style=bottom_style)]),
-                                                            html.Tr([ html.Td("Stop gained"),html.Td(
-                                                                "A genetic variation that creates a premature stop codon in the coding sequence of a gene.", style=bottom_style)]),
-                                                            html.Tr([ html.Td("Synonymous"),
-                                                                html.Td("A genetic variation that does not change the amino acid sequence of a protein.", style=bottom_style)]),
-                                                        ])
-                                                    ),
+                                        dcc.Tabs(id='about-tabs', value='what-is', children=[
+                                            dcc.Tab(
+                                                label='About',
+                                                value='what-is',
+                                                children=html.Div(className='control-tab', children=[
+                                                    html.H4(className='app-controls-block',
+                                                            children='What is VarEffectViz?'),
+                                                    html.P(
+                                                        'VarEffectViz is a visualizer that presents variant effect interpretation for the BRCA1 gene using multiple sources of data, including allele count in UKBiobank, the CADD computational score, AlphaFold  protein structure prediction and the results of saturation genome editing experiments. '),
+                                                    html.P(
+                                                        'By integrating data from these diverse sources, VarEffectViz provides a more comprehensive view of the pathogenicity of each variant. This approach allows researchers and clinicians to better understand the impact of BRCA1 genetic variants, which has important implications for cancer risk and prevention.'),
+                                                    html.P([
+                                                               'The "Glossary" tab explains key concepts related to genetic variants and their effects. ',
+                                                               html.A("A two-minute demo video",
+                                                                      href="https://youtu.be/t9ady9CxtI0",
+                                                                      target="_blank",
+                                                                      style={"font-family": "Garamond", "color": yel,
+                                                                             "text-decoration": "none"}
+                                                                      ),
+                                                               ' showcasing the multiple functionalities of this visualization board is also available. Please note that since the board is deployed as a free version, some updates may take up to 10-15 seconds.'])
                                                 ])
-                                            ],
-                                            style={'overflow-y': 'auto', 'max-height': '830px'}
-                                        )])])],style={'background-color': 'rgba(41,41,41,0)'}, xs=12, sm=12, md=6, lg=3, xl=3),
+                                            ),
+                                            dcc.Tab(
+                                                label='Variant effect',
+                                                value='var-effect',
+                                                children=html.Div(className='control-tab', children=[
+                                                    html.H4(className='app-controls-block',
+                                                            children='The variant interpretation challenges'),
+                                                    html.P(
+                                                        'Every human being has a unique genetic code that is responsible for many of their physical and biological characteristics. The genetic code is made up of DNA, which is organized into distinct units called genes. When changes occur in the DNA sequence, these changes are known as variants. Some variants have no effect on health or function, while others can lead to disease or altered biological processes.'),
+                                                    html.P(
+                                                        'To better understand the potential effects of a variant, scientists and clinicians use a process called variant interpretation. This involves analyzing the genetic changes to determine whether they are benign or pathogenic. A combination of different approaches is used in this process, including assessing the frequency of the variant in the general population, using computational algorithms to predict the effect of the variant on biological function, and performing experimental studies to validate these predictions.'),
+                                                    html.P(
+                                                        'However, variant interpretation is not a perfect process, and each approach has its own strengths and limitations. Therefore, to achieve the best possible understanding of genetic variation, researchers and clinicians must combine different approaches to obtain a more comprehensive view of the potential effects of a variant.'),
+                                                    html.P(
+                                                        'By using multiple sources of data, variant interpretation can provide valuable insights into the role of genetics in health and disease. It can help guide medical diagnosis, treatment, and prevention by identifying genetic changes that may increase the risk of disease or influence response to treatment. Overall, variant interpretation is a crucial tool in the field of genetics and is essential for advancing our understanding of the role of genetics in health and disease.'),
+                                                ])
+                                            ),
+                                            dcc.Tab(
+                                                label='Data',
+                                                value='data-resource',
+                                                children=html.Div(className='control-tab', children=[
+                                                    html.H4(className='app-controls-block', children='Data sources'),
+                                                    html.P([
+                                                        "The variants featured in this visualisation board have been observed at least once in the UKBiobank cohort and have undergone experimental testing through saturation genome editing, as described in the ",
+                                                        html.Em("Nature"),
+                                                        " publication ",
+                                                        html.A(
+                                                            "Accurate classification of BRCA1 variants with saturation genome editing",
+                                                            href="https://www.nature.com/articles/s41586-018-0461-z",
+                                                            target="_blank",
+                                                            style={"font-family": "Garamond", "color": yel,
+                                                                   "text-decoration": "none"}
+                                                        ),
+                                                        " by Greg Findlay ",
+                                                        html.Em("et al."),
+                                                        " in 2018. Further information regarding the data's origin and implications can be found below."
+                                                    ]),
+                                                    html.P(
+                                                        "Saturation Genome Editing is a lab technique for testing the effects of genetic variants on protein function in cells. It involves systematically introducing mutations into the DNA sequence of a gene using a genome editing tool such as CRISPR-Cas9, and then assessing the resulting changes in the function of the protein that the gene encodes."),
+                                                    html.P(
+                                                        "Saturation Genome Editing function score is assigned to a genetic variant based on its effect on cell survival rates when the variant is introduced into a cell using the Saturation Genome Editing technique. The score reflects the degree to which the variant disrupts the normal function of the protein encoded by the gene. Saturation Genome Editing function scores are experimental measures of variant pathogenicity."),
+                                                    html.P(
+                                                        "UK Biobank is the biggest human sequencing project to date, containing genetic and health-related data from over 500,000 participants in the United Kingdom. UK Biobank is a valuable resource for researchers studying the genetic basis of diseases, as it provides a large sample size and diverse set of genetic and health-related data."),
+
+                                                    html.P(
+                                                        "A deep learning system developed by Google's DeepMind, AlphaFold, that predicts the 3D structure of a protein based on its amino acid sequence. The predicted structure can provide valuable information for variant interpretation, as variants can disrupt protein folding and binding, potentially affecting the function of the protein."),
+                                                    html.P(
+                                                        "CADD is a tool that predicts the deleteriousness of genetic variants based on their similarity to known pathogenic and benign variants. The score takes into account various genomic annotations, such as conservation, functional genomics, and regulatory information, to provide a single score that reflects the likelihood of a variant being deleterious. The higher the CADD score, the more pathogenic the variant is predicted to be."),
+                                                    html.P(
+                                                        "ClinVar is a public database of genetic variants and their clinical significance. ClinVar is considered a highly trusted, \"gold standard\" resource for variant interpretation, as it collects and curates variant data from multiple sources, including clinical laboratories, research studies, and expert panels. However, it's important to note that the majority of genetic variants have not yet been annotated in ClinVar, meaning that they are classified as \"unknown significance\" or \"absent from ClinVar\"."),
+
+                                                ])
+                                            ),
+
+                                            dcc.Tab(
+                                                label='Glossary',
+                                                value='interpe',
+                                                children=html.Div(className='control-tab', children=[
+                                                    html.Br(),
+                                                    html.Tr([html.Td('Term', style=cell_style), html.Td(
+                                                        'Definition', style=cell_style)]),
+                                                    html.Tr([html.Td('BRCA1'), html.Td(
+                                                        'A gene that encodes a protein involved in DNA repair and maintenance of genomic stability. Mutations in the BRCA1 gene are associated with an increased risk of developing breast and ovarian cancer.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Variant'), html.Td(
+                                                        'A genetic variation that occurs in an individual\'s DNA sequence. Variants can be benign or pathogenic and can affect various biological processes in the body.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('DNA'), html.Td(
+                                                        'The molecule that carries genetic information and is present in almost all living organisms.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Nucleotide'), html.Td(
+                                                        'The basic building block of DNA and RNA, consisting of a sugar molecule, a phosphate group, and one of four nitrogenous bases: adenine (A), cytosine (C), guanine (G), or thymine (T) in DNA (or uracil (U) in RNA). The sequence of nucleotides in DNA encodes genetic information, while the sequence of nucleotides in RNA is used to direct protein synthesis.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('RNA'), html.Td(
+                                                        'A molecule that plays a critical role in the transfer of genetic information from DNA to proteins. RNA is involved in a variety of biological processes, including protein synthesis and regulation of gene expression.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Amino acid'), html.Td(
+                                                        'The building blocks of proteins. Amino acids are linked together to form long chains that fold into specific three-dimensional shapes to carry out various biological functions.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Reference genome'), html.Td(
+                                                        'A standard DNA sequence used as a reference for comparing genetic variation in different individuals. It provides a basis for identifying genetic differences that may contribute to disease or other traits.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Exon'), html.Td(
+                                                        'A coding region of DNA that contains the instructions for making a protein.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Intron'), html.Td(
+                                                        'A non-coding section of DNA that separates the coding regions (exons) of a gene. Introns are removed during the process of making RNA from DNA and do not encode proteins, but can play important regulatory roles in gene expression.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Allele count'), html.Td(
+                                                        'The number of copies of a particular variant in a given population.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Loss of Function'), html.Td(
+                                                        'A genetic variation that results in a partial or complete loss of the normal function of a protein. Such variants are often associated with pathogenicity and can lead to genetic diseases or an increased risk of disease.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('5\' UTR'), html.Td(
+                                                        'The non-coding region at the beginning of an mRNA molecule, upstream of the start codon, that plays a role in the regulation of gene expression.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Missense'), html.Td(
+                                                        'A genetic variation that results in a change in the amino acid sequence of a protein.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td('Splice acceptor'), html.Td(
+                                                        'A region of DNA that signals the end of an exon and is necessary for proper splicing of the pre-mRNA.',
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td("Splice donor"), html.Td(
+                                                        "A region of DNA that signals the start of an exon and is necessary for proper splicing of the pre-mRNA.",
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td("Splice region"), html.Td(
+                                                        "A region of DNA that is important for the splicing of pre-mRNA.",
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td("Start lost"), html.Td(
+                                                        "A genetic variation that causes the loss of the initiation codon in the coding sequence of a gene.",
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td("Stop gained"), html.Td(
+                                                        "A genetic variation that creates a premature stop codon in the coding sequence of a gene.",
+                                                        style=bottom_style)]),
+                                                    html.Tr([html.Td("Synonymous"),
+                                                             html.Td(
+                                                                 "A genetic variation that does not change the amino acid sequence of a protein.",
+                                                                 style=bottom_style)]),
+                                                ])
+                                            ),
+                                        ])
+                                    ],
+                                    style={'overflow-y': 'auto', 'max-height': '830px'}
+                                )])])], style={'background-color': 'rgba(41,41,41,0)'}, xs=12, sm=12, md=6, lg=3, xl=3),
 
             dbc.Col([
                 dbc.Card([
-                    # dbc.CardHeader('Clinvar Histograms'),
                     dbc.CardBody([
                         dbc.Row([
                             dbc.Col(clinvar_hist_graph_sge),
@@ -483,13 +456,11 @@ app.layout = \
                         dbc.Row([
                             dbc.Col(clinvar_hist_graph_cadd),
                         ])
-                    ],className='my-custom-background')
+                    ], className='my-custom-background')
                 ])
             ], className='my-custom-background', xs=12, sm=12, md=6, lg=3, xl=3),
             dbc.Col([three_d_graph], xs=12, sm=12, md=12, lg=5, xl=5)
         ], style=row_style, justify='around'),
-
-        # row buffer
         dbc.Row([html.Br()]),
 
         # row 3 ----------------------
@@ -540,7 +511,8 @@ def histogram(x_axis, color_blind):
         yaxis=dict(showgrid=False, visible=True, zeroline=True, title="variant number"),
         font_color=yel)
     if x_axis == '1/AC':
-        fig.update_layout(showlegend=True, legend=dict(title='Clinvar:',orientation='h', yanchor='top', y=-0.3, xanchor='left', x=0),)
+        fig.update_layout(showlegend=True,
+                          legend=dict(title='Clinvar:', orientation='h', yanchor='top', y=-0.3, xanchor='left', x=0), )
     else:
         fig.update_layout(showlegend=False)
     fig.update_yaxes(showgrid=False, row=2, col=1)
@@ -565,8 +537,7 @@ def histogram(x_axis, color_blind):
     Input(overview_display, 'value'),
     Input(color_blind_option, 'on')
 )
-def update_overview_graph(column_name, y_axis_nucleotide,
-                          color_blind):  # function arguments come from the component property of the Input
+def update_overview_graph(column_name, y_axis_nucleotide,color_blind):
     df_temp = df
     c_green_red = [mid_green, '#9bbf85', '#bbd4a6', '#d7dc99', '#fff8c3', '#f8d192', '#f3a66e', '#ec785c', mid_red]
     c_blind_friendly = [mid_green, '#9bbf85', '#bbd4a6', '#e7f7d5', '#fcf2f8', '#f6d3e8', '#d091bb', '#b3589a',
@@ -599,7 +570,7 @@ def update_overview_graph(column_name, y_axis_nucleotide,
 
     if y_axis_nucleotide == "Variants expanded by nucleotide type":
         marker_symb, size_marker, y_axis, height_grph = "square", 8, 'alt_pos', 340
-        yaxis_dict = dict(showgrid=False, zeroline= False, title='Nucleotide', tickvals=[0.5, 0.75, 1, 1.25],
+        yaxis_dict = dict(showgrid=False, zeroline=False, title='Nucleotide', tickvals=[0.5, 0.75, 1, 1.25],
                           ticktext=['T', 'G', 'C', 'A'])
     fig = px.scatter(data_frame=df_temp,
                      x=df_temp['Genomic position'],
@@ -684,15 +655,13 @@ def update_overview_graph(column_name, y_axis_nucleotide,
                     title="<b>" + column_name + ' annotation<b>', font_family=font_list[idx_font]),
         font_color=yel,
         modebar=dict(
-        # "bgcolor": yellow,'activecolor':dark_gray, 'color':yel, 'bordercolor':'blue',
-        bgcolor= transparent,
-        activecolor= yel,
-        color= yellow)
+            # "bgcolor": yellow,'activecolor':dark_gray, 'color':yel, 'bordercolor':'blue',
+            bgcolor=transparent,
+            activecolor=yel,
+            color=yellow)
     )
 
-    return fig.update_layout(
-        uirevision=True
-    )  # returned objects are assigned to the component property of the Output
+    return fig.update_layout(uirevision=True)
 
 
 @app.callback(
@@ -731,19 +700,19 @@ def show_selected_atoms(atom_ids):
         ))
 
     if atom_ids is None or len(atom_ids) == 0:
-        phr1 = 'Click somewhere on the protein \
-        structure to select an amino acid.'
-
+        phr1 = 'Click somewhere on the protein structure to select an amino acid.'
         return phr1, fig
     for atm in atom_ids:
         print('Residue name: {}'.format(data['atoms'][atm]['residue_name']))
 
-    aa_name = 'Amino acid: ' + data['atoms'][atm]['residue_name'] + '\n'
+    aa_name = 'Reference amino acid: ', data['atoms'][atm]['residue_name'], ', position: ',\
+              str(data['atoms'][atm]['residue_index']), ', chain: ', str(data['atoms'][atm]['chain']),'\n'
     subset_df = df.loc[df['aa_pos'] == data['atoms'][atm]['residue_index']]
     print(subset_df)
     if len(list(subset_df['var_name'])) < 1:
         return html.Div(
-            [html.Br(), html.Div(aa_name), html.Div("No variant correspond to this amino acid"), html.Br()]), fig
+            [html.Br(), html.Div(aa_name),
+             html.Div("No variant tested in SGE and present in UKB correspond to this amino acid"), html.Br()]), fig
 
     else:
         if len(list(subset_df['var_name'])) == 1:
@@ -752,8 +721,8 @@ def show_selected_atoms(atom_ids):
             variant_nb = str(len(list(subset_df['var_name']))) + ' variants at this position.' + '\n'
         variant_list = []
         for i in range(len(list(subset_df['var_name']))):
-            variant_list.append(str(list(subset_df['var_name'])[i]) + ' (SGE function score:' + str(
-                list(subset_df['minmax_neg_func_score'])[i]) + ')')
+            variant_list.append(str(list(subset_df['var_name'])[i]) + ', '+' SGE function score: ' + str(
+                round(list(subset_df['minmax_neg_func_score'])[i],3)) + ', variant amino acid: '+ str(list(subset_df['aa_alt'])[i]))
         return html.Div([html.Br(), html.Div(aa_name),
                          html.Div(variant_nb)] +
                         [html.Div(var) for var in variant_list] +
@@ -811,7 +780,7 @@ def update_3d_graph(slct_data, color_blind, exon_option):
             font_family=font_list[idx_font],
             font_color=yel,
             title_font_family=font_list[idx_font],
-            title_text="Allele frequency, CADD and SGE function score for all variants"+subtittle,
+            title_text="Allele frequency, CADD and SGE function score for all variants" + subtittle,
             title_y=0.955,
             title_font_color=yel,
             title_font_size=18,
